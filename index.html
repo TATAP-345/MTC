@@ -19,6 +19,33 @@
     <span>Discord</span>
   </a>
 
+  <!-- Floating Roblox Servers Button -->
+  <button class="server-btn" id="roblox-servers-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;">
+      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+      <line x1="6" y1="6" x2="6.01" y2="6"></line>
+      <line x1="6" y1="18" x2="6.01" y2="18"></line>
+    </svg>
+    <span>Серверы</span>
+  </button>
+
+  <!-- Roblox Servers Modal Overlay -->
+  <div id="servers-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+      <h3 class="modal-title">Доступные приватные серверы</h3>
+      <div class="modal-links-container">
+        <a href="https://www.roblox.com/share?code=7e22e45466d6f549a9640d6acd360832&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-secondary modal-link">
+          1 Ссылка на приватный сервер
+        </a>
+        <a href="https://www.roblox.com/share?code=daa6e8bf946163498d0d10acd191d129&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-secondary modal-link">
+          2 Ссылка на приватный сервер
+        </a>
+      </div>
+    </div>
+  </div>
+
   <main style="max-width: 900px; margin: 0 auto; padding: 8rem 2rem 4rem; text-align: center;">
     <!-- Main Title -->
     <h1 class="hero-title" style="font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 2.5rem; background: linear-gradient(135deg, var(--text-color) 30%, var(--accent-color) 70%, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">

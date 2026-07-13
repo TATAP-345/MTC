@@ -117,4 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  // --- 4. Roblox Servers Modal Open/Close ---
+  const robloxServersBtn = document.getElementById('roblox-servers-btn');
+  const serversModal = document.getElementById('servers-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+
+  if (robloxServersBtn && serversModal) {
+    robloxServersBtn.addEventListener('click', () => {
+      serversModal.classList.add('show');
+    });
+  }
+
+  if (modalCloseBtn && serversModal) {
+    modalCloseBtn.addEventListener('click', () => {
+      serversModal.classList.remove('show');
+    });
+
+    // Close when clicking backdrop
+    serversModal.addEventListener('click', (e) => {
+      if (e.target === serversModal) {
+        serversModal.classList.remove('show');
+      }
+    });
+  }
 });
