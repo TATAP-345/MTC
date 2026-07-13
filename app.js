@@ -38,13 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   unitButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Visual feedback: outline the selected button
+      // Visual feedback: outline and highlight the selected button
       unitButtons.forEach(b => {
         b.style.borderColor = 'var(--border-color)';
         b.style.boxShadow = 'none';
+        b.style.backgroundColor = 'transparent';
       });
       btn.style.borderColor = 'var(--accent-color)';
       btn.style.boxShadow = '0 0 10px var(--accent-glow)';
+      btn.style.backgroundColor = 'rgba(0, 240, 255, 0.08)';
 
       // Render details dynamically with smooth transition
       const data = unitData[btn.id];
