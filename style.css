@@ -645,3 +645,33 @@ footer {
   font-size: 0.85rem;
   color: var(--text-muted);
 }
+
+/* Discord floating button */
+.discord-btn {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: linear-gradient(135deg, #5865f2, #404eed);
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px -8px rgba(88, 101, 242, 0.5);
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1000;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.discord-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px -6px rgba(88, 101, 242, 0.7);
+  background: linear-gradient(135deg, #4752c4, #3542cf);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
