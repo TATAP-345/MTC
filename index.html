@@ -44,25 +44,63 @@
 
   <main style="max-width: 900px; margin: 0 auto; padding: 8rem 2rem 4rem; text-align: center;">
     <!-- Main Title -->
-    <h1 class="hero-title" style="font-size: clamp(2.5rem, 5vw, 4.5rem); margin-bottom: 2.5rem; background: linear-gradient(135deg, var(--text-color) 30%, var(--accent-color) 70%, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+    <h1 class="hero-title scroll-reveal">
       32 Бригада ВДВ Республики Соколов
     </h1>
     
     <!-- Unit Buttons Container -->
-    <div class="units-container" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
-      <button class="btn btn-secondary unit-btn" id="unit-tayfun" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Элитное подразделение Тайфун</button>
-      <button class="btn btn-secondary unit-btn" id="unit-burevestnik" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Авиационная Группа «Буревестник»</button>
-      <button class="btn btn-secondary unit-btn" id="unit-berkut" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Артиллерийский отряд «Беркут»</button>
-      <button class="btn btn-secondary unit-btn" id="unit-sapsan" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Десантно-штурмовой отряд «Сапсан»</button>
+    <div class="units-container scroll-reveal delay-100" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
+      <button class="btn btn-secondary unit-btn" id="unit-tayfun">Элитное подразделение Тайфун</button>
+      <button class="btn btn-secondary unit-btn" id="unit-burevestnik">Авиационная Группа «Буревестник»</button>
+      <button class="btn btn-secondary unit-btn" id="unit-berkut">Артиллерийский отряд «Беркут»</button>
+      <button class="btn btn-secondary unit-btn" id="unit-sapsan">Десантно-штурмовой отряд «Сапсан»</button>
     </div>
     
     <!-- Unit Details Display Card -->
-    <div id="unit-details-card" class="feature-card" style="display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; max-width: 800px; margin: 0 auto;">
+    <div id="unit-details-card" class="feature-card unit-details-card" style="display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
       <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 1.2rem;"></h3>
-      <p style="margin-bottom: 0.85rem; font-size: 1.05rem;"><strong style="color: var(--text-color);">Лозунг:</strong> <span id="unit-details-slogan" style="font-style: italic;"></span></p>
-      <p style="margin-bottom: 0.85rem; font-size: 1.05rem;"><strong style="color: var(--text-color);">Специализация:</strong> <span id="unit-details-specialty"></span></p>
-      <p style="margin-bottom: 0; font-size: 1.05rem; line-height: 1.7;"><strong style="color: var(--text-color);">Задачи в MTC4:</strong> <span id="unit-details-tasks"></span></p>
+      <p style="margin-bottom: 0.85rem; font-size: 1.05rem;"><strong class="label-strong">Лозунг:</strong> <span id="unit-details-slogan" style="font-style: italic;"></span></p>
+      <p style="margin-bottom: 0.85rem; font-size: 1.05rem;"><strong class="label-strong">Специализация:</strong> <span id="unit-details-specialty"></span></p>
+      <p style="margin-bottom: 0; font-size: 1.05rem; line-height: 1.7;"><strong class="label-strong">Задачи в MTC4:</strong> <span id="unit-details-tasks"></span></p>
     </div>
+
+    <!-- Tactical Stats Section (New & Scroll-Animated) -->
+    <section class="stats-section scroll-reveal">
+      <h2 class="section-title">Боевые Показатели Бригады</h2>
+      <div class="stats-grid">
+        <div class="stat-card scroll-reveal delay-100">
+          <div class="stat-num">1200+</div>
+          <div class="stat-label">Личный состав</div>
+        </div>
+        <div class="stat-card scroll-reveal delay-200">
+          <div class="stat-num" style="color: #10b981;">98%</div>
+          <div class="stat-label">Успешных операций</div>
+        </div>
+        <div class="stat-card scroll-reveal delay-300">
+          <div class="stat-num" style="color: #ec4899;">85+</div>
+          <div class="stat-label">Единиц техники</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Advantages Section (New & Scroll-Animated) -->
+    <section class="advantages-section scroll-reveal">
+      <h2 class="section-title">Тактические Преимущества</h2>
+      <div class="advantages-grid">
+        <div class="feature-card scroll-reveal delay-100">
+          <h4 class="advantage-card-title">
+            <span class="advantage-icon">⚡</span> Высокая Мобильность
+          </h4>
+          <p class="advantage-card-desc">Мгновенная переброска сил десантирования в любую точку проведения спецоперации силами авиационной группы «Буревестник».</p>
+        </div>
+        <div class="feature-card scroll-reveal delay-200">
+          <h4 class="advantage-card-title" style="color: #10b981;">
+            <span class="advantage-icon">🛡️</span> Железная Дисциплина
+          </h4>
+          <p class="advantage-card-desc">Профессиональная подготовка личного состава, отточенные тактические маневры в тяжелейших условиях современного боя.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Secret easter egg button -->

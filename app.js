@@ -38,13 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   unitButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Visual feedback: outline the selected button
-      unitButtons.forEach(b => {
-        b.style.borderColor = 'var(--border-color)';
-        b.style.boxShadow = 'none';
-      });
-      btn.style.borderColor = 'var(--accent-color)';
-      btn.style.boxShadow = '0 0 10px var(--accent-glow)';
+      // Visual feedback: toggle active class
+      unitButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
       // Render details dynamically with smooth transition
       const data = unitData[btn.id];
@@ -188,4 +184,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 500);
     });
   });
+
+  // --- 7. Scroll Reveal Animation via Intersection Observer ---
+  const revealElements = document.querySelectorAll('.scroll-reveal');
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  revealElements.forEach(el => revealObserver.observe(el));
 });
