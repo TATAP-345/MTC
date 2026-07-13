@@ -62,4 +62,57 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // --- 3. Secret Worm Easter Egg ---
+  const secretWormBtn = document.getElementById('secret-worm-btn');
+  if (secretWormBtn) {
+    secretWormBtn.addEventListener('click', (e) => {
+      // Spawn 8 floating worms
+      for (let i = 0; i < 8; i++) {
+        const worm = document.createElement('div');
+        worm.textContent = '🐛';
+        worm.style.position = 'fixed';
+        worm.style.left = `${e.clientX || 20}px`;
+        worm.style.top = `${e.clientY || (window.innerHeight - 20)}px`;
+        worm.style.fontSize = `${Math.random() * 20 + 20}px`; // 20px to 40px
+        worm.style.pointerEvents = 'none';
+        worm.style.zIndex = '9999';
+        worm.style.userSelect = 'none';
+        
+        // Trajectory calculation (up and outward)
+        const angle = (Math.random() * Math.PI) / 2 + Math.PI; // angle upward (180 to 270 deg)
+        const speed = Math.random() * 4 + 3;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        
+        let opacity = 1;
+        let x = e.clientX || 20;
+        let y = e.clientY || (window.innerHeight - 20);
+        let rotation = Math.random() * 360;
+        const rotationSpeed = (Math.random() - 0.5) * 8;
+
+        document.body.appendChild(worm);
+
+        const animateWorm = () => {
+          x += vx;
+          y += vy;
+          opacity -= 0.015;
+          rotation += rotationSpeed;
+
+          worm.style.left = `${x}px`;
+          worm.style.top = `${y}px`;
+          worm.style.opacity = opacity;
+          worm.style.transform = `rotate(${rotation}deg)`;
+
+          if (opacity > 0) {
+            requestAnimationFrame(animateWorm);
+          } else {
+            worm.remove();
+          }
+        };
+
+        requestAnimationFrame(animateWorm);
+      }
+    });
+  }
 });

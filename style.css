@@ -675,3 +675,11 @@ footer {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+#secret-worm-btn:hover {
+  opacity: 0.9 !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 8px var(--accent-glow) !important;
+  transform: scale(1.2);
+}
+
+
