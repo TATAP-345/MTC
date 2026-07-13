@@ -115,4 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // --- 4. Modal Overlay Control ---
+  const modal = document.getElementById('servers-modal');
+  const modalBtn = document.getElementById('servers-modal-btn');
+  const closeBtn = document.getElementById('modal-close-btn');
+
+  if (modal && modalBtn && closeBtn) {
+    modalBtn.addEventListener('click', () => {
+      modal.classList.add('show');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('show');
+    });
+
+    // Close modal when clicking outside the content card
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+      }
+    });
+  }
 });

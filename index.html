@@ -11,7 +11,17 @@
 </head>
 <body>
 
-  <!-- Floating Discord Button in the Top Right Corner -->
+  <!-- Floating Buttons in the Top Right Corner -->
+  <button class="server-btn" id="servers-modal-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;">
+      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+      <line x1="6" y1="6" x2="6.01" y2="6"/>
+      <line x1="6" y1="18" x2="6.01" y2="18"/>
+    </svg>
+    <span>Сервера</span>
+  </button>
+
   <a href="https://discord.gg/JbDG2NWwu" target="_blank" rel="noopener noreferrer" class="discord-btn" id="discord-link-btn">
     <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="currentColor" style="display: inline-block; vertical-align: middle;">
       <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.5-5c.87-.64,1.71-1.32,2.51-2a75.46,75.46,0,0,0,76,0c.8,0.7,1.64,1.38,2.51,2a68.43,68.43,0,0,1-10.5,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31.06-18.83C129.83,49,123.63,26.25,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.83,46,53.83,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.07,46,96.07,53,91,65.69,84.69,65.69Z"/>
@@ -44,6 +54,22 @@
 
   <!-- Secret easter egg button -->
   <button id="secret-worm-btn" style="position: fixed; bottom: 1rem; left: 1rem; width: 14px; height: 14px; background: transparent; border: 1px solid var(--border-color); border-radius: 50%; opacity: 0.15; cursor: pointer; z-index: 1000; transition: all 0.3s ease; padding: 0;" aria-label="Secret button"></button>
+
+  <!-- Modal Overlay -->
+  <div id="servers-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+      <h3 class="modal-title">Доступные Сервера</h3>
+      <div class="modal-links-container">
+        <a href="https://www.roblox.com/share?code=7e22e45466d6f549a9640d6acd360832&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-primary modal-link">
+          Приватный сервер #1
+        </a>
+        <a href="https://www.roblox.com/share?code=daa6e8bf946163498d0d10acd191d129&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-primary modal-link">
+          Приватный сервер #2
+        </a>
+      </div>
+    </div>
+  </div>
 
   <!-- JS Logic -->
   <script src="app.js"></script>
