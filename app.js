@@ -82,6 +82,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   };
 
+  // --- 4b. Unit Buttons Click Interactions ---
+  const unitButtons = document.querySelectorAll('.unit-btn');
+  unitButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Visual feedback: outline the selected button
+      unitButtons.forEach(b => {
+        b.style.borderColor = 'var(--border-color)';
+        b.style.boxShadow = 'none';
+      });
+      btn.style.borderColor = 'var(--accent-color)';
+      btn.style.boxShadow = '0 0 10px var(--accent-glow)';
+      
+      showToast(`Выбрано подразделение: ${btn.textContent}`);
+    });
+  });
+
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
