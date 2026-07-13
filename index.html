@@ -43,6 +43,12 @@
   </div>
 
   <main style="max-width: 900px; margin: 0 auto; padding: 8rem 2rem 4rem; text-align: center;">
+    <!-- Glowing Badge -->
+    <div class="tactical-badge scroll-reveal">
+      <span class="badge-dot"></span>
+      <span>ДЕПАРТАМЕНТ ОБОРОНЫ • МТС4</span>
+    </div>
+
     <!-- Main Title -->
     <h1 class="hero-title scroll-reveal">
       32 Бригада ВДВ Республики Соколов
@@ -50,18 +56,56 @@
     
     <!-- Unit Buttons Container -->
     <div class="units-container scroll-reveal delay-100" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem;">
-      <button class="btn btn-secondary unit-btn" id="unit-tayfun">Элитное подразделение Тайфун</button>
-      <button class="btn btn-secondary unit-btn" id="unit-burevestnik">Авиационная Группа «Буревестник»</button>
-      <button class="btn btn-secondary unit-btn" id="unit-berkut">Артиллерийский отряд «Беркут»</button>
-      <button class="btn btn-secondary unit-btn" id="unit-sapsan">Десантно-штурмовой отряд «Сапсан»</button>
+      <button class="btn btn-secondary unit-btn" id="unit-tayfun">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>Элитное подразделение Тайфун</span>
+      </button>
+      <button class="btn btn-secondary unit-btn" id="unit-burevestnik">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span>Авиационная Группа «Буревестник»</span>
+      </button>
+      <button class="btn btn-secondary unit-btn" id="unit-berkut">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+        <span>Артиллерийский отряд «Беркут»</span>
+      </button>
+      <button class="btn btn-secondary unit-btn" id="unit-sapsan">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Десантно-штурмовой отряд «Сапсан»</span>
+      </button>
     </div>
     
     <!-- Unit Details Display Card -->
-    <div id="unit-details-card" class="feature-card unit-details-card" style="display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
-      <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 1.2rem;"></h3>
-      <p style="margin-bottom: 0.85rem; font-size: 1.05rem;"><strong class="label-strong">Лозунг:</strong> <span id="unit-details-slogan" style="font-style: italic;"></span></p>
-      <p style="margin-bottom: 0.85rem; font-size: 1.05rem;"><strong class="label-strong">Специализация:</strong> <span id="unit-details-specialty"></span></p>
-      <p style="margin-bottom: 0; font-size: 1.05rem; line-height: 1.7;"><strong class="label-strong">Задачи в MTC4:</strong> <span id="unit-details-tasks"></span></p>
+    <div id="unit-details-card" class="feature-card unit-details-card" style="display: none;">
+      <!-- Header status bar inside card -->
+      <div class="card-status-bar">
+        <span class="status-indicator">● СИСТЕМА АКТИВНА</span>
+        <span class="card-serial">MTC-SEC-32</span>
+      </div>
+      <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.7rem; margin-bottom: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;"></h3>
+      
+      <div class="card-info-item">
+        <div class="info-icon">💬</div>
+        <div>
+          <strong class="label-strong" style="display: block; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Лозунг</strong> 
+          <span id="unit-details-slogan" style="font-style: italic; color: #e2e8f0; font-size: 1.1rem; font-weight: 500;"></span>
+        </div>
+      </div>
+
+      <div class="card-info-item">
+        <div class="info-icon">🎯</div>
+        <div>
+          <strong class="label-strong" style="display: block; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Специализация</strong> 
+          <span id="unit-details-specialty" style="color: #cbd5e1; font-size: 1.02rem;"></span>
+        </div>
+      </div>
+
+      <div class="card-info-item" style="margin-bottom: 0;">
+        <div class="info-icon">📋</div>
+        <div>
+          <strong class="label-strong" style="display: block; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Задачи в MTC4</strong> 
+          <span id="unit-details-tasks" style="line-height: 1.75; color: #cbd5e1; font-size: 1.02rem;"></span>
+        </div>
+      </div>
     </div>
 
     <!-- Tactical Stats Section (New & Scroll-Animated) -->
