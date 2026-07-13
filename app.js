@@ -159,4 +159,33 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // --- 6. Click Ripple Effect on All Buttons ---
+  const allButtons = document.querySelectorAll('.btn, .server-btn, .dev-btn, .discord-btn, .unit-btn, .modal-close');
+  allButtons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      // Remove any existing ripples to prevent clutter
+      const oldRipples = btn.querySelectorAll('.ripple');
+      oldRipples.forEach(r => r.remove());
+
+      // Create new ripple element
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+      
+      // Calculate coordinates relative to button
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      btn.appendChild(ripple);
+      
+      // Remove ripple after animation completes
+      setTimeout(() => {
+        ripple.remove();
+      }, 500);
+    });
+  });
 });
