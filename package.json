@@ -1,0 +1,26 @@
+{
+  "name": "mtc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TATAP-345/MTC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TATAP-345/MTC/issues"
+  },
+  "homepage": "https://github.com/TATAP-345/MTC#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

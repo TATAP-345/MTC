@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MTC Administration Dashboard - View and manage contact messages.">
+  <title>MTC - Admin Dashboard</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Extra Dashboard Styling -->
+  <style>
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    
+    .stat-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent-color);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .message-list-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .message-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+    
+    .message-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    
+    .message-table th, .message-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .message-table th {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      color: var(--text-color);
+      background-color: rgba(0, 0, 0, 0.05);
+      border-radius: var(--radius-sm);
+    }
+    
+    [data-theme="dark"] .message-table th {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+    
+    .message-table tr:hover td {
+      background-color: rgba(99, 102, 241, 0.02);
+    }
+    
+    .message-date {
+      white-space: nowrap;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    
+    .btn-delete {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition-fast);
+    }
+    
+    .btn-delete:hover {
+      background-color: #ef4444;
+      color: white;
+      border-color: #ef4444;
+      box-shadow: 0 5px 12px rgba(239, 68, 68, 0.2);
+      transform: translateY(-1px);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+    
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border-color);
+      border-left-color: var(--accent-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header id="main-header">
+    <div class="nav-container">
+      <a href="/" class="logo-wrapper" id="nav-logo">
+        <div class="logo-icon">M</div>
+        <span class="logo-text">MTC Admin</span>
+      </a>
+      
+      <nav>
+        <ul class="nav-menu" id="nav-menu-list">
+          <li><a href="/" class="nav-link" id="nav-link-home">Home Site</a></li>
+          <li><a href="/dashboard" class="nav-link" id="nav-link-dashboard">Dashboard</a></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-actions">
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
+          <svg class="moon-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3c.132 0 .263 0 .393.007a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 3Z"/>
+          </svg>
+          <svg class="sun-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V3m0 18v-2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M3 12h2m14 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        
+        <button class="hamburger" id="hamburger-menu-btn" aria-label="Open mobile navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="dashboard-header">
+      <div>
+        <h1 class="hero-title" style="font-size: 2.8rem; margin: 0; text-align: left;">Message Manager</h1>
+        <p style="margin-top: 0.5rem;">Review user submissions from your contact form.</p>
+      </div>
+      <button class="btn btn-secondary" id="refresh-btn">Refresh Data</button>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">0</div>
+        <div class="stat-label">Total Messages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-today">0</div>
+        <div class="stat-label">Submissions Today</div>
+      </div>
+    </div>
+
+    <!-- Messages List Section -->
+    <div class="message-list-section">
+      <div id="loading-view" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 1rem;">Loading submissions...</p>
+      </div>
+
+      <div id="empty-view" class="empty-state" style="display: none;">
+        <div class="empty-icon">✉</div>
+        <h3>No Messages Found</h3>
+        <p style="margin-top: 0.5rem;">Submissions from your contact form will appear here.</p>
+      </div>
+
+      <div id="table-view" class="message-table-wrapper" style="display: none;">
+        <table class="message-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="messages-tbody">
+            <!-- Dynamic Content -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="success-toast" role="alert" aria-live="assertive">
+    <span class="toast-icon">✓</span>
+    <span class="toast-text" id="toast-message-text">Operation completed successfully!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <p class="footer-copy">&copy; 2026 MTC Admin Console. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Admin dashboard logic -->
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MTC - A modern, lightweight, and responsive website starter kit. Featuring glassmorphism design, responsive layouts, and interactive dark/light mode toggle.">
+  <title>MTC - Modern Website Boilerplate</title>
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header id="main-header">
+    <div class="nav-container">
+      <a href="#" class="logo-wrapper" id="nav-logo">
+        <div class="logo-icon">M</div>
+        <span class="logo-text">MTC</span>
+      </a>
+      
+      <nav>
+        <ul class="nav-menu" id="nav-menu-list">
+          <li><a href="#hero" class="nav-link" id="nav-link-home">Home</a></li>
+          <li><a href="#features" class="nav-link" id="nav-link-features">Features</a></li>
+          <li><a href="#contact" class="nav-link" id="nav-link-contact">Contact</a></li>
+          <li><a href="/dashboard" class="nav-link" id="nav-link-dashboard">Dashboard</a></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-actions">
+        <!-- Light/Dark Mode Switcher -->
+        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
+          <!-- Moon Icon (Dark Mode) -->
+          <svg class="moon-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3c.132 0 .263 0 .393.007a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 3Z"/>
+          </svg>
+          <!-- Sun Icon (Light Mode) -->
+          <svg class="sun-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V3m0 18v-2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M3 12h2m14 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        
+        <!-- Hamburger Menu for Mobile -->
+        <button class="hamburger" id="hamburger-menu-btn" aria-label="Open mobile navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="badge" id="badge-version">
+        <span class="badge-dot"></span>
+        v1.0.0 Starter Kit Ready
+      </div>
+      <h1 class="hero-title" id="main-hero-title">MTC Modern Starter Template</h1>
+      <p class="hero-description" id="main-hero-desc">
+        A premium, lightweight, responsive boilerplate. Crafted using vanilla technology with beautiful aesthetics, smooth gradients, built-in dark mode, and subtle hover interactions.
+      </p>
+      <div class="hero-cta">
+        <a href="#features" class="btn btn-primary" id="cta-features-btn">Explore Features</a>
+        <a href="#contact" class="btn btn-secondary" id="cta-contact-btn">Get In Touch</a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="section-header">
+        <h2 class="section-title" id="features-section-title">Core Architecture</h2>
+        <p>Built with efficiency and modern web design principles in mind.</p>
+      </div>
+      
+      <div class="features-grid" id="features-container">
+        <!-- Card 1 -->
+        <div class="feature-card" id="card-theme">
+          <div class="card-icon">🌓</div>
+          <h3 class="card-title">Adaptive Themes</h3>
+          <p class="card-desc">Fully integrated Light & Dark mode support that detects your system preferences and remembers your choice automatically.</p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="feature-card" id="card-glass">
+          <div class="card-icon">💎</div>
+          <h3 class="card-title">Glassmorphism</h3>
+          <p class="card-desc">Modern glassmorphism elements featuring CSS backdrop filters, light borders, and reactive mouse hover glow effects.</p>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="feature-card" id="card-responsive">
+          <div class="card-icon">📱</div>
+          <h3 class="card-title">Responsive Design</h3>
+          <p class="card-desc">Perfectly structured grid layouts adapting smoothly to any mobile, tablet, or desktop viewport dimensions.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card" id="card-performance">
+          <div class="card-icon">⚡</div>
+          <h3 class="card-title">Vanilla Performance</h3>
+          <p class="card-desc">Zero heavy frameworks or package dependencies. Built entirely with pure semantic HTML5, vanilla CSS, and vanilla JS.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="section-header">
+        <h2 class="section-title" id="contact-section-title">Drop A Message</h2>
+        <p>Have any questions? Test the interactive form below.</p>
+      </div>
+      
+      <div class="contact-wrapper">
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="form-name" class="form-label">Name</label>
+            <input type="text" id="form-name" class="form-control" placeholder="John Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="form-email" class="form-label">Email Address</label>
+            <input type="email" id="form-email" class="form-control" placeholder="john@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="form-message" class="form-label">Your Message</label>
+            <textarea id="form-message" class="form-control" placeholder="How can we help you?" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%;" id="form-submit-btn">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Toast Alert -->
+  <div class="toast" id="success-toast" role="alert" aria-live="assertive">
+    <span class="toast-icon">✓</span>
+    <span class="toast-text" id="toast-message-text">Message sent successfully!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="#hero" class="footer-link" id="footer-link-home">Home</a></li>
+        <li><a href="#features" class="footer-link" id="footer-link-features">Features</a></li>
+        <li><a href="#contact" class="footer-link" id="footer-link-contact">Contact</a></li>
+        <li><a href="/dashboard" class="footer-link" id="footer-link-dashboard">Dashboard</a></li>
+      </ul>
+      <p class="footer-copy" id="footer-copyright">&copy; 2026 MTC Project. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JS Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
