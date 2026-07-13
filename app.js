@@ -38,15 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   unitButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Visual feedback: outline and highlight the selected button
+      // Visual feedback: outline the selected button
       unitButtons.forEach(b => {
         b.style.borderColor = 'var(--border-color)';
         b.style.boxShadow = 'none';
-        b.style.backgroundColor = 'transparent';
       });
       btn.style.borderColor = 'var(--accent-color)';
       btn.style.boxShadow = '0 0 10px var(--accent-glow)';
-      btn.style.backgroundColor = 'rgba(0, 240, 255, 0.08)';
 
       // Render details dynamically with smooth transition
       const data = unitData[btn.id];
@@ -114,29 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         requestAnimationFrame(animateWorm);
-      }
-    });
-  }
-  // --- 4. Roblox Servers Modal Open/Close ---
-  const robloxServersBtn = document.getElementById('roblox-servers-btn');
-  const serversModal = document.getElementById('servers-modal');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-
-  if (robloxServersBtn && serversModal) {
-    robloxServersBtn.addEventListener('click', () => {
-      serversModal.classList.add('show');
-    });
-  }
-
-  if (modalCloseBtn && serversModal) {
-    modalCloseBtn.addEventListener('click', () => {
-      serversModal.classList.remove('show');
-    });
-
-    // Close when clicking backdrop
-    serversModal.addEventListener('click', (e) => {
-      if (e.target === serversModal) {
-        serversModal.classList.remove('show');
       }
     });
   }
