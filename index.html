@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MTC - A modern, lightweight, and responsive website starter kit. Featuring glassmorphism design, responsive layouts, and interactive dark/light mode toggle.">
-  <title>MTC - Modern Website Boilerplate</title>
+  <meta name="description" content="32 Бригада ВДВ Республики Соколов">
+  <title>32 Бригада ВДВ Республики Соколов</title>
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -19,15 +19,6 @@
         <span class="logo-text">MTC</span>
       </a>
       
-      <nav>
-        <ul class="nav-menu" id="nav-menu-list">
-          <li><a href="#hero" class="nav-link" id="nav-link-home">Home</a></li>
-          <li><a href="#features" class="nav-link" id="nav-link-features">Features</a></li>
-          <li><a href="#contact" class="nav-link" id="nav-link-contact">Contact</a></li>
-          <li><a href="/dashboard" class="nav-link" id="nav-link-dashboard">Dashboard</a></li>
-        </ul>
-      </nav>
-      
       <div class="nav-actions">
         <!-- Light/Dark Mode Switcher -->
         <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
@@ -40,102 +31,19 @@
             <path d="M12 5V3m0 18v-2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M3 12h2m14 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
-        
-        <!-- Hamburger Menu for Mobile -->
-        <button class="hamburger" id="hamburger-menu-btn" aria-label="Open mobile navigation menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
       </div>
     </div>
   </header>
 
-  <main>
+  <main style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 2rem 0;">
     <!-- Hero Section -->
-    <section class="hero" id="hero">
-      <div class="badge" id="badge-version">
-        <span class="badge-dot"></span>
-        v1.0.0 Starter Kit Ready
-      </div>
-      <h1 class="hero-title" id="main-hero-title">MTC Modern Starter Template</h1>
-      <p style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--accent-color); margin-top: -1rem; margin-bottom: 1.5rem; letter-spacing: -0.01em;">32 Бригада ВДВ Республики Соколов</p>
-      <div class="units-container" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
-        <button class="btn btn-secondary unit-btn" id="unit-tayfun" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Элитное подразделение Тайфун</button>
-        <button class="btn btn-secondary unit-btn" id="unit-burevestnik" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Авиационная Группа «Буревестник»</button>
-        <button class="btn btn-secondary unit-btn" id="unit-berkut" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Артилерийский Отряд «Беркут»</button>
-        <button class="btn btn-secondary unit-btn" id="unit-sapsan" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Десанттно Штурмовой Отряд «Сапсан»</button>
-      </div>
-      <p class="hero-description" id="main-hero-desc">
-        A premium, lightweight, responsive boilerplate. Crafted using vanilla technology with beautiful aesthetics, smooth gradients, built-in dark mode, and subtle hover interactions.
-      </p>
-
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-      <div class="section-header">
-        <h2 class="section-title" id="features-section-title">Core Architecture</h2>
-        <p>Built with efficiency and modern web design principles in mind.</p>
-      </div>
-      
-      <div class="features-grid" id="features-container">
-        <!-- Card 1 -->
-        <div class="feature-card" id="card-theme">
-          <div class="card-icon">🌓</div>
-          <h3 class="card-title">Adaptive Themes</h3>
-          <p class="card-desc">Fully integrated Light & Dark mode support that detects your system preferences and remembers your choice automatically.</p>
-        </div>
-        
-        <!-- Card 2 -->
-        <div class="feature-card" id="card-glass">
-          <div class="card-icon">💎</div>
-          <h3 class="card-title">Glassmorphism</h3>
-          <p class="card-desc">Modern glassmorphism elements featuring CSS backdrop filters, light borders, and reactive mouse hover glow effects.</p>
-        </div>
-        
-        <!-- Card 3 -->
-        <div class="feature-card" id="card-responsive">
-          <div class="card-icon">📱</div>
-          <h3 class="card-title">Responsive Design</h3>
-          <p class="card-desc">Perfectly structured grid layouts adapting smoothly to any mobile, tablet, or desktop viewport dimensions.</p>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="feature-card" id="card-performance">
-          <div class="card-icon">⚡</div>
-          <h3 class="card-title">Vanilla Performance</h3>
-          <p class="card-desc">Zero heavy frameworks or package dependencies. Built entirely with pure semantic HTML5, vanilla CSS, and vanilla JS.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-      <div class="section-header">
-        <h2 class="section-title" id="contact-section-title">Drop A Message</h2>
-        <p>Have any questions? Test the interactive form below.</p>
-      </div>
-      
-      <div class="contact-wrapper">
-        <form id="contact-form" novalidate>
-          <div class="form-group">
-            <label for="form-name" class="form-label">Name</label>
-            <input type="text" id="form-name" class="form-control" placeholder="John Doe" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="form-email" class="form-label">Email Address</label>
-            <input type="email" id="form-email" class="form-control" placeholder="john@example.com" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="form-message" class="form-label">Your Message</label>
-            <textarea id="form-message" class="form-control" placeholder="How can we help you?" required></textarea>
-          </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%;" id="form-submit-btn">Send Message</button>
-        </form>
+    <section class="hero" id="hero" style="width: 100%;">
+      <h1 class="hero-title" id="main-hero-title" style="margin-bottom: 3rem;">32 Бригада ВДВ Республики Соколов</h1>
+      <div class="units-container" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; max-width: 950px; margin-left: auto; margin-right: auto;">
+        <button class="btn btn-secondary unit-btn" id="unit-tayfun" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Элитное подразделение Тайфун</button>
+        <button class="btn btn-secondary unit-btn" id="unit-burevestnik" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Авиационная Группа «Буревестник»</button>
+        <button class="btn btn-secondary unit-btn" id="unit-berkut" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Артилерийский Отряд «Беркут»</button>
+        <button class="btn btn-secondary unit-btn" id="unit-sapsan" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">Десанттно Штурмовой Отряд «Сапсан»</button>
       </div>
     </section>
   </main>
@@ -145,19 +53,6 @@
     <span class="toast-icon">✓</span>
     <span class="toast-text" id="toast-message-text">Message sent successfully!</span>
   </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <ul class="footer-links">
-        <li><a href="#hero" class="footer-link" id="footer-link-home">Home</a></li>
-        <li><a href="#features" class="footer-link" id="footer-link-features">Features</a></li>
-        <li><a href="#contact" class="footer-link" id="footer-link-contact">Contact</a></li>
-        <li><a href="/dashboard" class="footer-link" id="footer-link-dashboard">Dashboard</a></li>
-      </ul>
-      <p class="footer-copy" id="footer-copyright">&copy; 2026 MTC Project. All rights reserved.</p>
-    </div>
-  </footer>
 
   <!-- JS Logic -->
   <script src="app.js"></script>
