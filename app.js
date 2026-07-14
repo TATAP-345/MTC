@@ -313,25 +313,111 @@ document.addEventListener('DOMContentLoaded', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Create 3D Wireframe Plane
-  const geometry = new THREE.PlaneGeometry(120, 120, 45, 45);
-  
+  // Custom materials for wireframe rendering
   let targetColorHex = '#00ffaa';
   let currentHex = '#00ffaa';
 
-  const material = new THREE.MeshBasicMaterial({
+  const tankMaterial = new THREE.MeshBasicMaterial({
     color: new THREE.Color(currentHex),
     wireframe: true,
     transparent: true,
-    opacity: 0.15
+    opacity: 0.26
   });
 
-  const terrain = new THREE.Mesh(geometry, material);
-  terrain.rotation.x = -Math.PI / 2; // lay terrain flat
-  terrain.position.y = -6;
-  scene.add(terrain);
+  const hangarMaterial = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(currentHex),
+    wireframe: true,
+    transparent: true,
+    opacity: 0.08
+  });
 
-  // Create 3D Telemetry Embers points
+  // 1. Procedural 3D T-90 Tank Group (Holographic blueprint style)
+  const tankGroup = new THREE.Group();
+
+  // Tank Hull (Корпус)
+  const hullGeo = new THREE.BoxGeometry(7.2, 1.3, 11.5);
+  const hull = new THREE.Mesh(hullGeo, tankMaterial);
+  hull.position.y = 0.65;
+  tankGroup.add(hull);
+
+  // Tank Turret (Башня Т-90)
+  const turretGeo = new THREE.BoxGeometry(4.2, 1.1, 4.8);
+  const turret = new THREE.Mesh(turretGeo, tankMaterial);
+  turret.position.set(0, 1.85, -0.6);
+  tankGroup.add(turret);
+
+  // Tank Gun Barrel (Пушка)
+  const barrelGeo = new THREE.CylinderGeometry(0.12, 0.12, 7.8, 8);
+  const barrel = new THREE.Mesh(barrelGeo, tankMaterial);
+  barrel.rotation.x = Math.PI / 2; // point forward
+  barrel.position.set(0, 1.85, 3.8); // shift forward
+  tankGroup.add(barrel);
+
+  // Tracks Left & Right (Гусеницы)
+  const trackGeo = new THREE.BoxGeometry(1.3, 1.25, 11);
+  const trackL = new THREE.Mesh(trackGeo, tankMaterial);
+  trackL.position.set(-3.5, 0.6, 0);
+  const trackR = new THREE.Mesh(trackGeo, tankMaterial);
+  trackR.position.set(3.5, 0.6, 0);
+  tankGroup.add(trackL);
+  tankGroup.add(trackR);
+
+  // Road Wheels (Катки) inside tracks
+  const wheelGeo = new THREE.CylinderGeometry(0.5, 0.5, 1.4, 8);
+  for (let zOffset = -4.8; zOffset <= 4.8; zOffset += 1.92) {
+    // Left Track Wheels
+    const wL = new THREE.Mesh(wheelGeo, tankMaterial);
+    wL.rotation.z = Math.PI / 2;
+    wL.position.set(-3.5, 0.5, zOffset);
+    tankGroup.add(wL);
+
+    // Right Track Wheels
+    const wR = new THREE.Mesh(wheelGeo, tankMaterial);
+    wR.rotation.z = Math.PI / 2;
+    wR.position.set(3.5, 0.5, zOffset);
+    tankGroup.add(wR);
+  }
+
+  // Adjust tank position inside hangar
+  tankGroup.position.set(0, -6.5, -4);
+  scene.add(tankGroup);
+
+  // 2. Procedural 3D Hangar Group (Ангар)
+  const hangarGroup = new THREE.Group();
+
+  // Hangar Floor Grid
+  const floorGrid = new THREE.GridHelper(130, 42, new THREE.Color(currentHex), new THREE.Color(currentHex));
+  floorGrid.position.y = -6.5;
+  hangarGroup.add(floorGrid);
+
+  // Arched Roof Support Beams (5 structural arches)
+  const archRadius = 26;
+  const archHeightOffset = -6.5; // floor level align
+  for (let z = -50; z <= 50; z += 20) {
+    const points = [];
+    const segments = 24;
+    for (let i = 0; i <= segments; i++) {
+      const theta = (i / segments) * Math.PI; // semicircle
+      const x = Math.cos(theta) * archRadius;
+      const y = Math.sin(theta) * archRadius + archHeightOffset;
+      points.push(new THREE.Vector3(x, y, z));
+    }
+    const archGeo = new THREE.BufferGeometry().setFromPoints(points);
+    const archLine = new THREE.Line(archGeo, hangarMaterial);
+    hangarGroup.add(archLine);
+
+    // Vertical structural columns
+    const colGeo = new THREE.BoxGeometry(0.8, 22, 0.8);
+    const colL = new THREE.Mesh(colGeo, hangarMaterial);
+    colL.position.set(-archRadius, 4.5, z);
+    const colR = new THREE.Mesh(colGeo, hangarMaterial);
+    colR.position.set(archRadius, 4.5, z);
+    hangarGroup.add(colL);
+    hangarGroup.add(colR);
+  }
+  scene.add(hangarGroup);
+
+  // 3. Create 3D Telemetry Embers (Floating sparks)
   const particlesCount = 120;
   const particlesGeo = new THREE.BufferGeometry();
   const positions = new Float32Array(particlesCount * 3);
@@ -348,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
     color: new THREE.Color(currentHex),
     size: 0.35,
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.45,
     sizeAttenuation: true
   });
 
@@ -364,13 +450,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let mouseX = 0;
   let mouseY = 0;
   let targetCameraX = 0;
-  let targetCameraY = 10;
+  let targetCameraY = 8;
 
   window.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
     mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
     targetCameraX = mouseX * 8;
-    targetCameraY = 10 - mouseY * 4;
+    targetCameraY = 8 - mouseY * 4;
   });
 
   // Handle window resizing
@@ -387,22 +473,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const elapsedTime = clock.getElapsedTime();
 
-    // Displace terrain vertices with custom wave math equations
-    const posAttribute = geometry.attributes.position;
-    for (let i = 0; i < posAttribute.count; i++) {
-      const x = posAttribute.getX(i);
-      const y = posAttribute.getY(i);
-      const z = Math.sin(x * 0.12 + elapsedTime) * Math.cos(y * 0.12 + elapsedTime) * 2.2 
-              + Math.sin(x * 0.04 + elapsedTime * 0.4) * 3.5;
-      posAttribute.setZ(i, z);
-    }
-    geometry.computeVertexNormals();
-    posAttribute.needsUpdate = true;
+    // Slow horizontal scanning rotation for T-90 tank turret / hull
+    tankGroup.rotation.y = Math.sin(elapsedTime * 0.22) * 0.28; // swivels left and right
 
-    // Simulate forward movement
-    terrain.position.z = (elapsedTime * 1.5) % (120 / 45);
-
-    // Float embers upwards
+    // Float embers upwards inside the hangar
     const pPositions = particlesGeo.attributes.position.array;
     for (let i = 1; i < pPositions.length; i += 3) {
       pPositions[i] += 0.035;
@@ -415,15 +489,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mouse camera parallax easing
     camera.position.x += (targetCameraX - camera.position.x) * 0.04;
     camera.position.y += (targetCameraY - camera.position.y) * 0.04;
-    camera.lookAt(0, 2, -10);
+    camera.lookAt(0, 1, -10);
 
     // Color transition interpolation
-    const currCol = material.color;
+    const currCol = tankMaterial.color;
     const targetCol = new THREE.Color(targetColorHex);
-    currCol.r += (targetCol.r - currCol.r) * 0.03;
-    currCol.g += (targetCol.g - currCol.g) * 0.03;
-    currCol.b += (targetCol.b - currCol.b) * 0.03;
+    currCol.r += (targetCol.r - currCol.r) * 0.035;
+    currCol.g += (targetCol.g - currCol.g) * 0.035;
+    currCol.b += (targetCol.b - currCol.b) * 0.035;
+    
+    // Copy color to other materials
     pMaterial.color.copy(currCol);
+    hangarMaterial.color.copy(currCol);
+    
+    if (floorGrid.material) {
+      floorGrid.material.color.copy(currCol);
+      floorGrid.material.opacity = 0.06;
+      floorGrid.material.transparent = true;
+    }
 
     renderer.render(scene, camera);
   }
