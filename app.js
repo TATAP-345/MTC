@@ -253,18 +253,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, observerOptions);
 
-  revealElements.forEach(el => revealObserver.observe(el));  // --- 8. Dynamic 3D Parallax Tilt Effect for Cards ---
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // --- 8. Dynamic 3D Parallax Tilt Effect for Cards ---
   const tiltElements = document.querySelectorAll('.feature-card, .unit-btn, .sidebar-stat');
   tiltElements.forEach(el => {
     el.addEventListener('mousemove', (e) => {
       const rect = el.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      const tiltX = (x - 0.5) * 10; // max 5 degrees
-      const tiltY = (y - 0.5) * -10; // max 5 degrees
+      const tiltX = (x - 0.5) * 12; // rotate max 6 degrees
+      const tiltY = (y - 0.5) * -12; // rotate max 6 degrees
+      
+      el.style.transition = 'transform 0.08s ease-out';
       el.style.transform = `perspective(800px) rotateX(${tiltY}deg) rotateY(${tiltX}deg) translateY(-2px)`;
     });
+    
     el.addEventListener('mouseleave', () => {
+      el.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
       el.style.transform = '';
     });
   });

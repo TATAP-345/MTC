@@ -573,7 +573,6 @@ main {
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
   border-color: var(--border-hover);
   background-color: var(--card-hover);
   box-shadow: var(--shadow-lg);
