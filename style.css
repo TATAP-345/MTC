@@ -1480,3 +1480,38 @@ footer {
   font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
   transition: color 0.5s ease;
 }
+
+/* Sidebar Telemetry Stats panel styling */
+.sidebar-stats-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  border-top: 1px dashed rgba(0, 255, 170, 0.15);
+  padding-top: 1.5rem;
+}
+
+.sidebar-stat {
+  background: rgba(9, 14, 23, 0.4);
+  border: 1px solid rgba(0, 255, 170, 0.1);
+  padding: 1rem 0.75rem;
+  text-align: center;
+}
+
+.sidebar-stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.sidebar-stat-val {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-family: SFMono-Regular, Consolas, monospace;
+  text-shadow: 0 0 10px currentColor;
+}
