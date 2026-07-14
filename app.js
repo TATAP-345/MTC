@@ -331,127 +331,39 @@ document.addEventListener('DOMContentLoaded', () => {
     opacity: 0.08
   });
 
-  // 1. Procedural 3D T-90 Tank Group (Realistic holographic blueprint style)
-  const tankGroup = new THREE.Group();
+  // 1. Loaded 3D T-90 Tank (Realistic holographic blueprint style from OBJ)
+  let tankGroup = new THREE.Group();
 
-  // Tank Hull (Основной корпус)
-  const hullGeo = new THREE.BoxGeometry(6.6, 1.0, 10.8);
-  const hull = new THREE.Mesh(hullGeo, tankMaterial);
-  hull.position.y = 0.9;
-  tankGroup.add(hull);
+  if (window.TANK_OBJ_DATA) {
+    const objLoader = new THREE.OBJLoader();
+    const loadedObj = objLoader.parse(window.TANK_OBJ_DATA);
+    
+    // Apply wireframe material to all children meshes inside loaded object
+    loadedObj.traverse((child) => {
+      if (child.isMesh) {
+        child.material = tankMaterial;
+      }
+    });
 
-  // Sloped Front Glacis Plate (ВЛД - Верхняя лобовая деталь)
-  const glacisGeo = new THREE.BoxGeometry(6.6, 0.25, 2.5);
-  const glacis = new THREE.Mesh(glacisGeo, tankMaterial);
-  glacis.rotation.x = -Math.PI / 6; // sloped at 30 degrees
-  glacis.position.set(0, 1.25, 4.8);
-  tankGroup.add(glacis);
+    // Center and scale the loaded tank model so it fits the scene perfectly
+    const box = new THREE.Box3().setFromObject(loadedObj);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
 
-  // Side Mudguards / Skirts (Боковые экраны гусениц)
-  const skirtLGeo = new THREE.BoxGeometry(0.12, 1.1, 10.8);
-  const skirtL = new THREE.Mesh(skirtLGeo, tankMaterial);
-  skirtL.position.set(-3.36, 0.75, 0);
-  const skirtRGeo = new THREE.BoxGeometry(0.12, 1.1, 10.8);
-  const skirtR = new THREE.Mesh(skirtRGeo, tankMaterial);
-  skirtR.position.set(3.36, 0.75, 0);
-  tankGroup.add(skirtL);
-  tankGroup.add(skirtR);
+    // Center the geometry of the tank
+    loadedObj.position.x = -center.x;
+    loadedObj.position.y = -center.y + (size.y / 2) - 0.2; // place on its baseline
+    loadedObj.position.z = -center.z;
 
-  // Turret Base Dome (Низкая башня Т-90)
-  const turretGeo = new THREE.BoxGeometry(4.0, 0.85, 4.5);
-  const turret = new THREE.Mesh(turretGeo, tankMaterial);
-  turret.position.set(0, 1.75, -0.4);
-  tankGroup.add(turret);
+    // Scale so it fits in our hangar (target length ~11)
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scaleFactor = 11.5 / maxDim;
+    loadedObj.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
-  // Kontakt-5 Dynamic Armor Wedges (Блоки динамической защиты "Контакт-5" на лбу башни)
-  const wedgeLGeo = new THREE.BoxGeometry(1.6, 0.5, 1.6);
-  const wedgeL = new THREE.Mesh(wedgeLGeo, tankMaterial);
-  wedgeL.rotation.y = Math.PI / 7;
-  wedgeL.position.set(-1.0, 1.75, 1.4);
-  const wedgeRGeo = new THREE.BoxGeometry(1.6, 0.5, 1.6);
-  const wedgeR = new THREE.Mesh(wedgeRGeo, tankMaterial);
-  wedgeR.rotation.y = -Math.PI / 7;
-  wedgeR.position.set(1.0, 1.75, 1.4);
-  tankGroup.add(wedgeL);
-  tankGroup.add(wedgeR);
-
-  // Shtora-1 Infrared Active Searchlights (Прожекторы КОЭП "Штора-1" - красные глаза Т-90)
-  const shtoraLGeo = new THREE.BoxGeometry(0.48, 0.48, 0.55);
-  const shtoraL = new THREE.Mesh(shtoraLGeo, tankMaterial);
-  shtoraL.position.set(-1.45, 1.8, 1.85);
-  const shtoraRGeo = new THREE.BoxGeometry(0.48, 0.48, 0.55);
-  const shtoraR = new THREE.Mesh(shtoraRGeo, tankMaterial);
-  shtoraR.position.set(1.45, 1.8, 1.85);
-  tankGroup.add(shtoraL);
-  tankGroup.add(shtoraR);
-
-  // Commander Hatch & Machine Gun (Люк командира и зенитный пулемет НСВТ)
-  const cupolaGeo = new THREE.CylinderGeometry(0.7, 0.7, 0.35, 8);
-  const cupola = new THREE.Mesh(cupolaGeo, tankMaterial);
-  cupola.position.set(-1.0, 2.2, -0.4);
-  tankGroup.add(cupola);
-
-  const gunBarrelGeo = new THREE.CylinderGeometry(0.04, 0.04, 1.4, 6);
-  const gun = new THREE.Mesh(gunBarrelGeo, tankMaterial);
-  gun.rotation.x = -Math.PI / 3; // point forward-up
-  gun.position.set(-1.0, 2.65, 0.1);
-  tankGroup.add(gun);
-
-  // External Fuel Barrels at Rear (Задние топливные бочки)
-  const barrelLGeo = new THREE.CylinderGeometry(0.6, 0.6, 2.0, 8);
-  const extBarrelL = new THREE.Mesh(barrelLGeo, tankMaterial);
-  extBarrelL.rotation.z = Math.PI / 2; // lie horizontal
-  extBarrelL.position.set(-1.6, 0.95, -5.8);
-  const barrelRGeo = new THREE.CylinderGeometry(0.6, 0.6, 2.0, 8);
-  const extBarrelR = new THREE.Mesh(barrelRGeo, tankMaterial);
-  extBarrelR.rotation.z = Math.PI / 2; // lie horizontal
-  extBarrelR.position.set(1.6, 0.95, -5.8);
-  tankGroup.add(extBarrelL);
-  tankGroup.add(extBarrelR);
-
-  // Tank Gun Barrel (Пушка 2А46М-5)
-  const barrelGroup = new THREE.Group();
-  const mainBarrelGeo = new THREE.CylinderGeometry(0.12, 0.12, 8.2, 8);
-  const mainBarrel = new THREE.Mesh(mainBarrelGeo, tankMaterial);
-  mainBarrel.rotation.x = Math.PI / 2;
-  mainBarrel.position.set(0, 1.75, 3.8);
-  barrelGroup.add(mainBarrel);
-
-  // Thermal Sleeve Rings on Barrel (Кольца термокожуха)
-  const ringGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.35, 8);
-  const ring1 = new THREE.Mesh(ringGeo, tankMaterial);
-  ring1.rotation.x = Math.PI / 2;
-  ring1.position.set(0, 1.75, 2.8);
-  const ring2 = new THREE.Mesh(ringGeo, tankMaterial);
-  ring2.rotation.x = Math.PI / 2;
-  ring2.position.set(0, 1.75, 5.2);
-  barrelGroup.add(ring1);
-  barrelGroup.add(ring2);
-  tankGroup.add(barrelGroup);
-
-  // Tracks Left & Right (Гусеницы)
-  const trackGeo = new THREE.BoxGeometry(1.2, 1.15, 10.4);
-  const trackL = new THREE.Mesh(trackGeo, tankMaterial);
-  trackL.position.set(-2.8, 0.58, 0);
-  const trackR = new THREE.Mesh(trackGeo, tankMaterial);
-  trackR.position.set(2.8, 0.58, 0);
-  tankGroup.add(trackL);
-  tankGroup.add(trackR);
-
-  // 6 Road Wheels (Катки) per side inside tracks
-  const wheelGeo = new THREE.CylinderGeometry(0.48, 0.48, 1.3, 8);
-  for (let zOffset = -4.5; zOffset <= 4.5; zOffset += 1.8) {
-    // Left Track Wheels
-    const wL = new THREE.Mesh(wheelGeo, tankMaterial);
-    wL.rotation.z = Math.PI / 2;
-    wL.position.set(-2.8, 0.5, zOffset);
-    tankGroup.add(wL);
-
-    // Right Track Wheels
-    const wR = new THREE.Mesh(wheelGeo, tankMaterial);
-    wR.rotation.z = Math.PI / 2;
-    wR.position.set(2.8, 0.5, zOffset);
-    tankGroup.add(wR);
+    // Add loaded mesh to tankGroup
+    tankGroup.add(loadedObj);
   }
 
   // Adjust tank position inside hangar
