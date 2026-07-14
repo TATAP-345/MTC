@@ -306,38 +306,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  // --- 10. Typewriter Communication Logs ---
-  const logConsole = document.getElementById('hud-terminal-logs');
-  const logLines = [
-    "СВЯЗЬ // КАНАЛ 'СОКОЛ' ЗАШИФРОВАН... ОК",
-    "ШТАБ // ПРИКАЗ №304 ВЫПОЛНЕН",
-    "РАДИО // СИГНАЛ СТАБИЛЬНЫЙ",
-    "АРХИВ // ДОСЬЕ КЛАССИФИЦИРОВАНО",
-    "ОБОРОНА // ПАТРУЛЬ В СЕКТОРЕ 32",
-    "КАРАУЛ // ПОСТ №4 ДОКЛАДЫВАЕТ: БЕЗ ПРОИСШЕСТВИЙ",
-    "РАЗВЕДКА // ДАННЫЕ ОБНОВЛЕНЫ",
-    "СВЯЗЬ // КЛЮЧИ ШИФРОВАНИЯ ЗАМЕНЕНЫ"
-  ];
-
-  if (logConsole) {
-    setInterval(() => {
-      const randomLine = logLines[Math.floor(Math.random() * logLines.length)];
-      const lineEl = document.createElement('div');
-      lineEl.className = 'log-line active-log';
-      lineEl.textContent = `> ${randomLine}`;
-      logConsole.appendChild(lineEl);
-      
-      while (logConsole.children.length > 5) {
-        logConsole.removeChild(logConsole.firstChild);
-      }
-      
-      Array.from(logConsole.children).forEach((child, idx) => {
-        if (child && idx < logConsole.children.length - 1) {
-          child.classList.remove('active-log');
-        }
-      });
-      
-      logConsole.scrollTop = logConsole.scrollHeight;
-    }, 4500);
-  }
 });
