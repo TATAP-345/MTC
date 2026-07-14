@@ -866,40 +866,47 @@ footer {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(11, 15, 25, 0.65);
+  background: rgba(9, 14, 23, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: 50px;
+  border: 1px solid rgba(0, 255, 170, 0.25);
+  border-radius: 0px !important; /* Sharp corners */
   padding: 0.4rem 0.6rem;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 255, 170, 0.05);
   pointer-events: auto;
   max-width: 95vw;
   transition: var(--transition-smooth);
 }
 
 .nav-capsule:hover {
-  border-color: rgba(56, 189, 248, 0.35);
-  box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 20px var(--accent-glow);
 }
 
 .nav-divider {
   width: 1px;
   height: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 255, 170, 0.15);
   margin: 0 0.25rem;
 }
 
 /* Adjust size of buttons inside capsule nav */
 .nav-capsule .dev-btn,
 .nav-capsule .server-btn,
-.nav-capsule .discord-btn {
+.nav-capsule .discord-btn,
+.nav-capsule .fighters-btn {
   padding: 0.5rem 1.1rem !important;
   font-size: 0.85rem !important;
-  border-radius: 50px !important; /* Pill style */
+  border-radius: 0px !important; /* Sharp corners */
   box-shadow: none !important;
   background: transparent !important;
   border: 1px solid transparent !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  transition: var(--transition-fast);
 }
 
 .nav-capsule .dev-btn {
@@ -907,28 +914,39 @@ footer {
 }
 
 .nav-capsule .dev-btn:hover {
-  background: rgba(236, 72, 153, 0.1) !important;
-  border-color: rgba(236, 72, 153, 0.3) !important;
+  background: rgba(236, 72, 153, 0.15) !important;
+  border-color: rgba(236, 72, 153, 0.4) !important;
+  color: #ff80bf !important;
+}
+
+.nav-capsule .fighters-btn {
+  color: #fffbeb !important;
+}
+
+.nav-capsule .fighters-btn:hover {
+  background: rgba(255, 170, 0, 0.15) !important;
+  border-color: rgba(255, 170, 0, 0.4) !important;
+  color: #ffaa00 !important;
 }
 
 .nav-capsule .server-btn {
-  color: #e0f2fe !important;
+  color: #e6fcf4 !important;
 }
 
 .nav-capsule .server-btn:hover {
-  background: rgba(56, 189, 248, 0.1) !important;
-  border-color: rgba(56, 189, 248, 0.3) !important;
+  background: rgba(0, 255, 170, 0.15) !important;
+  border-color: rgba(0, 255, 170, 0.4) !important;
+  color: #00ffaa !important;
 }
 
 .nav-capsule .discord-btn {
   color: #e0e7ff !important;
-  background: rgba(88, 101, 242, 0.1) !important;
-  border-color: rgba(88, 101, 242, 0.2) !important;
 }
 
 .nav-capsule .discord-btn:hover {
-  background: rgba(88, 101, 242, 0.25) !important;
-  border-color: rgba(88, 101, 242, 0.4) !important;
+  background: rgba(88, 101, 242, 0.2) !important;
+  border-color: rgba(88, 101, 242, 0.5) !important;
+  color: #8c9eff !important;
 }
 
 @media (max-width: 600px) {
@@ -941,7 +959,8 @@ footer {
   }
   .nav-capsule .dev-btn,
   .nav-capsule .server-btn,
-  .nav-capsule .discord-btn {
+  .nav-capsule .discord-btn,
+  .nav-capsule .fighters-btn {
     padding: 0.4rem 0.75rem !important;
     font-size: 0.8rem !important;
   }

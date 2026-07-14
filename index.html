@@ -28,6 +28,16 @@
         <span>Разработчики</span>
       </button>
       <div class="nav-divider"></div>
+      <button class="fighters-btn" id="fighters-modal-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>16 Бойцов</span>
+      </button>
+      <div class="nav-divider"></div>
       <button class="server-btn" id="servers-modal-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
           <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
@@ -192,6 +202,64 @@
         <a href="https://www.roblox.com/share?code=daa6e8bf946163498d0d10acd191d129&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-primary modal-link">
           Приватный сервер #2
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fighters Modal Overlay -->
+  <div id="fighters-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+      <button class="modal-close" id="fighters-modal-close-btn" aria-label="Close modal">&times;</button>
+      <h3 class="modal-title">Личный состав (16 Бойцов)</h3>
+      <div style="max-height: 350px; overflow-y: auto; padding-right: 0.5rem; text-align: left; font-family: SFMono-Regular, Consolas, monospace; font-size: 0.9rem; line-height: 1.6; color: var(--text-color);">
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[01] Полковник Соколов И.А.</span><span style="color: #ffaa00;">КОМАНДИР</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[02] Подполковник Морозов Д.В.</span><span style="color: #ffaa00;">НАЧ.ШТАБА</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[03] Майор Громов С.П.</span><span style="color: #00ffcc;">Тайфун</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[04] Капитан Воронов А.Е.</span><span style="color: #00ffcc;">Тайфун</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[05] Ст. лейтенант Серов К.М.</span><span style="color: #00ffcc;">Тайфун</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[06] Лейтенант Белов А.В.</span><span style="color: #00a2ff;">Буревестник</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[07] Капитан Орлов В.Д.</span><span style="color: #00a2ff;">Буревестник</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[08] Сержант Козлов П.С.</span><span style="color: #00a2ff;">Буревестник</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[09] Майор Павлов И.И.</span><span style="color: #ffaa00;">Беркут</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[10] Прапорщик Петров А.А.</span><span style="color: #ffaa00;">Беркут</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[11] Сержант Ivanov Д.К.</span><span style="color: #ffaa00;">Беркут</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[12] Ст. сержант Сидоров В.В.</span><span style="color: #ff0066;">Сапсан</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[13] Ефрейтор Смирнов А.А.</span><span style="color: #ff0066;">Сапсан</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[14] Рядовой Федоров И.В.</span><span style="color: #ff0066;">Сапсан</span>
+        </div>
+        <div style="border-bottom: 1px solid rgba(0, 255, 170, 0.15); padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[15] Рядовой Кузнецов С.А.</span><span style="color: #ff0066;">Сапсан</span>
+        </div>
+        <div style="padding: 0.5rem 0; display: flex; justify-content: space-between;">
+          <span>[16] Рядовой Васильев К.П.</span><span style="color: #ff0066;">Сапсан</span>
+        </div>
       </div>
     </div>
   </div>
