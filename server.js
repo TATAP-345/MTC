@@ -110,6 +110,6 @@ app.get('/dashboard', (req, finalRes) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`\n🚀 MTC Server running at: http://localhost:${PORT}\n`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`\n🚀 MTC Server running on all interfaces at port: ${PORT}\n`);
 });
