@@ -101,45 +101,32 @@
       
       <!-- Right Column: Interactive Dossier Card (Default active state) -->
       <div id="unit-details-card" class="feature-card unit-details-card">
-        <!-- Corner Trim Brackets -->
-        <div class="unit-details-card-bracket-tl"></div>
-        <div class="unit-details-card-bracket-br"></div>
-        <div class="scanline"></div>
-
         <!-- Header status bar inside card -->
         <div class="card-status-bar">
           <span class="status-indicator">● СИСТЕМА АКТИВНА</span>
           <span class="card-serial">MTC-SEC-32</span>
         </div>
-        <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.7rem; margin-bottom: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Штаб 32-й Бригады ВДВ</h3>
         
-        <div class="card-info-item">
-          <div class="info-icon">💬</div>
-          <div>
-            <strong class="label-strong" style="display: block; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Лозунг</strong> 
-            <span id="unit-details-slogan" style="font-style: italic; color: #e2e8f0; font-size: 1.1rem; font-weight: 500;">«Честь и мужество — наша броня»</span>
+        <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Штаб 32-й Бригады ВДВ</h3>
+        
+        <div class="dossier-grid">
+          <div class="dossier-item">
+            <span class="dossier-tag">ЛОЗУНГ</span>
+            <span id="unit-details-slogan" class="dossier-value">«Честь и мужество — наша броня»</span>
           </div>
-        </div>
-
-        <div class="card-info-item">
-          <div class="info-icon">🎯</div>
-          <div>
-            <strong class="label-strong" style="display: block; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Специализация</strong> 
-            <span id="unit-details-specialty" style="color: #cbd5e1; font-size: 1.02rem;">Координация оборонных, штурмовых и авиационных сил Республики Соколов на передовой.</span>
+          <div class="dossier-item">
+            <span class="dossier-tag">СПЕЦИАЛИЗАЦИЯ</span>
+            <span id="unit-details-specialty" class="dossier-value">Координация оборонных, штурмовых и авиационных сил Республики Соколов на передовой.</span>
           </div>
-        </div>
-
-        <div class="card-info-item" style="margin-bottom: 2rem;">
-          <div class="info-icon">📋</div>
-          <div>
-            <strong class="label-strong" style="display: block; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Задачи в MTC4</strong> 
-            <span id="unit-details-tasks" style="line-height: 1.75; color: #cbd5e1; font-size: 1.02rem;">СИСТЕМА ГОТОВА К СКАНИРОВАНИЮ. Выберите тактическое подразделение слева для загрузки подробного оперативного досье, текущих боевых задач и характеристик личного состава.</span>
+          <div class="dossier-item dossier-item-full">
+            <span class="dossier-tag">ОПЕРАТИВНЫЕ ЗАДАЧИ В MTC4</span>
+            <span id="unit-details-tasks" class="dossier-value">СИСТЕМА ГОТОВА К СКАНИРОВАНИЮ. Выберите тактическое подразделение слева для загрузки подробного оперативного досье, текущих боевых задач и характеристик личного состава.</span>
           </div>
         </div>
 
         <!-- Tactical Specs / Attributes Grid -->
         <div class="tactical-specs-section">
-          <h4 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem; font-weight: 700; text-align: left;">Общие показатели бригады</h4>
+          <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem; font-weight: 700; text-align: left;">Общие показатели бригады</h4>
           <div class="spec-bar-row">
             <span class="spec-label">Мобильность</span>
             <div class="spec-bar-bg"><div id="spec-bar-mobility" class="spec-bar-fill" style="width: 75%;"></div></div>
