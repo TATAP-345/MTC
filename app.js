@@ -142,17 +142,27 @@ document.addEventListener('DOMContentLoaded', () => {
         worm.style.zIndex = '9999';
         worm.style.userSelect = 'none';
         
-        // Trajectory calculation (up and outward)
-        const angle = (Math.random() * Math.PI) / 2 + Math.PI; // angle upward (180 to 270 deg)
-        const speed = Math.random() * 4 + 3;
+        const startX = e.clientX || 20;
+        const startY = e.clientY || (window.innerHeight - 20);
+        
+        // Calculate angle towards the center of the screen
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const dx = centerX - startX;
+        const dy = centerY - startY;
+        
+        // Add a slight random dispersion/scatter so the worms spread out nicely
+        const baseAngle = Math.atan2(dy, dx);
+        const angle = baseAngle + (Math.random() - 0.5) * 0.45;
+        const speed = Math.random() * 5 + 4;
         const vx = Math.cos(angle) * speed;
         const vy = Math.sin(angle) * speed;
         
         let opacity = 1;
-        let x = e.clientX || 20;
-        let y = e.clientY || (window.innerHeight - 20);
+        let x = startX;
+        let y = startY;
         let rotation = Math.random() * 360;
-        const rotationSpeed = (Math.random() - 0.5) * 8;
+        const rotationSpeed = (Math.random() - 0.5) * 10;
 
         document.body.appendChild(worm);
 
