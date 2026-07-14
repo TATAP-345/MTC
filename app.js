@@ -94,8 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsCard.classList.remove('hologram-load');
         void detailsCard.offsetHeight;
         detailsCard.classList.add('hologram-load');
+        detailsCard.addEventListener('animationend', () => {
+          detailsCard.classList.remove('hologram-load');
+        }, { once: true });
         detailsCard.style.opacity = '1';
-        detailsCard.style.transform = 'translateY(0)';
+        detailsCard.style.transform = '';
         
         // Stagger visual fill of stats to look extremely high-end
         setTimeout(() => {
@@ -259,14 +262,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const tiltElements = document.querySelectorAll('.feature-card, .unit-btn, .sidebar-stat');
   tiltElements.forEach(el => {
     el.addEventListener('mousemove', (e) => {
+      // Disable 3D tilt interaction on mobile/tablet viewports to prevent jumpy layout and allow scrolling
+      if (window.innerWidth <= 768) return;
+      
       const rect = el.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
       const tiltX = (x - 0.5) * 12; // rotate max 6 degrees
       const tiltY = (y - 0.5) * -12; // rotate max 6 degrees
       
+      // Preserve active/hover sliding translation offsets for unit sidebar buttons to avoid snapping conflicts
+      let translateExtra = '';
+      if (el.classList.contains('unit-btn')) {
+        translateExtra = el.classList.contains('active') ? ' translateX(6px)' : ' translateX(4px)';
+      }
+      
       el.style.transition = 'transform 0.08s ease-out';
-      el.style.transform = `perspective(800px) rotateX(${tiltY}deg) rotateY(${tiltX}deg) translateY(-2px)`;
+      el.style.transform = `perspective(800px) rotateX(${tiltY}deg) rotateY(${tiltX}deg) translateY(-2px)${translateExtra}`;
     });
     
     el.addEventListener('mouseleave', () => {
