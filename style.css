@@ -1460,3 +1460,39 @@ footer {
   font-family: SFMono-Regular, Consolas, monospace;
   text-shadow: 0 0 10px currentColor;
 }
+
+/* Holographic Screen Loading Glitch keyframes */
+@keyframes hologramGlitch {
+  0% {
+    transform: perspective(800px) scale(0.99) skewX(0deg);
+    opacity: 0.8;
+    filter: hue-rotate(0deg) saturate(1.2);
+  }
+  15% {
+    transform: perspective(800px) scale(1.02) skewX(3deg);
+    opacity: 0.95;
+    filter: hue-rotate(45deg) saturate(1.8);
+  }
+  30% {
+    transform: perspective(800px) scale(0.97) skewX(-3deg) translateX(-3px);
+    opacity: 0.85;
+  }
+  45% {
+    transform: perspective(800px) scale(1.01) skewX(1deg) translateX(3px);
+    opacity: 0.98;
+    filter: hue-rotate(-20deg) saturate(1.5);
+  }
+  60% {
+    transform: perspective(800px) scale(0.99) skewX(0deg);
+    opacity: 0.9;
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    transform: perspective(800px) scale(1);
+    opacity: 1;
+  }
+}
+
+.hologram-load {
+  animation: hologramGlitch 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

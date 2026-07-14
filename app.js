@@ -91,7 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
         aVal.textContent = '0%';
         
         detailsCard.style.display = 'block';
+        detailsCard.classList.remove('hologram-load');
         void detailsCard.offsetHeight;
+        detailsCard.classList.add('hologram-load');
         detailsCard.style.opacity = '1';
         detailsCard.style.transform = 'translateY(0)';
         
@@ -357,7 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Mouse tracking for parallax 3D coordinate movement
-  // Mouse tracking for parallax 3D coordinate movement
   let mouseX = width / 2;
   let mouseY = height / 2;
   window.addEventListener('mousemove', (e) => {
@@ -380,6 +381,59 @@ document.addEventListener('DOMContentLoaded', () => {
       speed: 4
     });
   });
+
+  // 3D Floating Dust Particles (Military Telemetry Debris)
+  const dustParticles = [];
+  const dustCount = 45;
+
+  class DustParticle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(init = false) {
+      this.x = (Math.random() - 0.5) * width * 2;
+      this.y = init ? Math.random() * height : height + 50;
+      this.z = Math.random() * 400 + 100; // virtual 3D depth z-axis
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = -Math.random() * 0.5 - 0.25; // slow upward drift
+      this.size = Math.random() * 1.8 + 0.8;
+      this.alpha = Math.random() * 0.4 + 0.2;
+    }
+
+    update() {
+      this.y += this.vy;
+      this.x += this.vx;
+
+      // Recycle when drifts off screen
+      if (this.y < -50 || this.x < -width || this.x > width * 2) {
+        this.reset();
+      }
+    }
+
+    draw(colorRgb) {
+      const fl = 300; // focal length
+      const scale = fl / (fl + this.z);
+      const projX = width / 2 + this.x * scale;
+      const projY = this.y;
+
+      const currentSize = this.size * scale * 2;
+
+      ctx.save();
+      ctx.fillStyle = `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, ${this.alpha * scale})`;
+      ctx.shadowBlur = 6 * scale;
+      ctx.shadowColor = `rgb(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b})`;
+      ctx.beginPath();
+      ctx.arc(projX, projY, currentSize, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Populate dust particles
+  for (let i = 0; i < dustCount; i++) {
+    dustParticles.push(new DustParticle());
+  }
 
   // Reactive color states
   let targetColorHex = '#00ffaa';
@@ -470,6 +524,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.stroke();
       ctx.restore();
     }
+
+    // 2.7 Draw 3D Floating Dust Embers (Drifting particles with perspective sizing)
+    dustParticles.forEach(d => {
+      d.update();
+      d.draw(currentColorRgb);
+    });
 
     // 3. Draw Volumetric Smoke Clouds on top
     particles.forEach(p => {
