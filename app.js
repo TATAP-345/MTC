@@ -510,3 +510,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3500);
   }
 });
+
+// ── Animated Stat Counters ──────────────────────────────────
+// Ticks up each counter from 0 to its data-target value when it enters the viewport
+(function initCounters() {
+  const counters = document.querySelectorAll('.stat-counter-num');
+  if (!counters.length) return;
+
+  const animateCounter = (el) => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1600; // ms
+    const startTime = performance.now();
+
+    const tick = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  counters.forEach(c => observer.observe(c));
+})();
+
