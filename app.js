@@ -251,10 +251,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, observerOptions);
 
-  revealElements.forEach(el => revealObserver.observe(el));
-
-
-
+  revealElements.forEach(el => revealObserver.observe(el));  // --- 8. Dynamic 3D Parallax Tilt Effect for Cards ---
+  const tiltElements = document.querySelectorAll('.feature-card, .unit-btn, .sidebar-stat');
+  tiltElements.forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const tiltX = (x - 0.5) * 10; // max 5 degrees
+      const tiltY = (y - 0.5) * -10; // max 5 degrees
+      el.style.transform = `perspective(800px) rotateX(${tiltY}deg) rotateY(${tiltX}deg) translateY(-2px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  });
   // --- 9. Real-time Reactive 3D Smoke Background ---
   const canvas = document.createElement('canvas');
   canvas.id = 'ambient-smoke-canvas';
@@ -346,11 +357,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Mouse tracking for parallax 3D coordinate movement
+  // Mouse tracking for parallax 3D coordinate movement
   let mouseX = width / 2;
   let mouseY = height / 2;
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+  });
+
+  // Holographic floor-grid click ripples (3D perspective)
+  const clickRipples = [];
+  window.addEventListener('click', (e) => {
+    // Avoid spawning waves when clicking buttons, links, or modals
+    if (e.target.closest('button, a, .modal-content, .unit-btn')) return;
+    
+    clickRipples.push({
+      x: e.clientX,
+      y: e.clientY,
+      radius: 0,
+      maxRadius: Math.max(width, height) * 0.4,
+      alpha: 0.18,
+      speed: 4
+    });
   });
 
   // Reactive color states
@@ -413,12 +441,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Draw Holographic Circular Radar Scans
     const radarTime = Date.now() * 0.0003;
-    ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, 0.02)`;
+    ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, 0.025)`;
     for (let r = 1; r <= 3; r++) {
       const radius = ((radarTime + r / 3) % 1) * Math.max(width, height) * 0.45;
       ctx.beginPath();
       ctx.arc(vanishingX, horizonY, radius, 0, Math.PI * 2);
       ctx.stroke();
+    }
+
+    // 2.5 Draw 3D floor perspective click ripples
+    for (let i = clickRipples.length - 1; i >= 0; i--) {
+      const rip = clickRipples[i];
+      rip.radius += rip.speed;
+      rip.alpha -= 0.003; // fade out
+
+      if (rip.alpha <= 0 || rip.radius >= rip.maxRadius) {
+        clickRipples.splice(i, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.translate(rip.x, rip.y);
+      ctx.scale(1, 0.4); // flat floor perspective scaling
+      ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, ${rip.alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, rip.radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
     }
 
     // 3. Draw Volumetric Smoke Clouds on top
