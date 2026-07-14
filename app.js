@@ -70,38 +70,24 @@ document.addEventListener('DOMContentLoaded', () => {
     links: document.getElementById('sheet-links')
   };
 
-  // Helper: full crumple → content swap → unrumple cycle
+  // Helper: instant sheet swap
   function switchSheet(targetSheetKey, populateFn) {
     if (!detailsCard) return;
 
-    // Phase 1: crumple the card into a ball
-    detailsCard.classList.remove('unrumple-paper-animation', 'crumple-paper-animation', 'slide-out-right', 'slide-in-right', 'hologram-load');
-    void detailsCard.offsetWidth;
-    detailsCard.classList.add('crumple-paper-animation');
-
-    // Phase 2: after crumple finishes swap content, then unrumple
-    setTimeout(() => {
-      // Swap visible sheet
-      Object.keys(sheets).forEach(key => {
-        if (sheets[key]) {
-          sheets[key].style.display = 'none';
-          sheets[key].classList.remove('active-sheet');
-        }
-      });
-      const targetSheet = sheets[targetSheetKey];
-      if (targetSheet) {
-        targetSheet.style.display = 'block';
-        targetSheet.classList.add('active-sheet');
+    Object.keys(sheets).forEach(key => {
+      if (sheets[key]) {
+        sheets[key].style.display = 'none';
+        sheets[key].classList.remove('active-sheet');
       }
+    });
 
-      // Optional content population callback runs before unrumple
-      if (typeof populateFn === 'function') populateFn();
+    const targetSheet = sheets[targetSheetKey];
+    if (targetSheet) {
+      targetSheet.style.display = 'block';
+      targetSheet.classList.add('active-sheet');
+    }
 
-      // Unrumple the card back into a flat sheet
-      detailsCard.classList.remove('crumple-paper-animation', 'unrumple-paper-animation');
-      void detailsCard.offsetWidth;
-      detailsCard.classList.add('unrumple-paper-animation');
-    }, 700); // wait for crumple animation (650ms) + small buffer
+    if (typeof populateFn === 'function') populateFn();
   }
 
   // Clear active tab status from all navigation tabs and unit buttons
@@ -190,20 +176,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = unitData[btn.id];
       if (data) {
         switchSheet('details', () => {
-          // Populate unit details (runs mid-transition when card is a crumpled ball)
           document.getElementById('unit-details-title').textContent = data.title;
           document.getElementById('unit-details-slogan').textContent = data.slogan;
           document.getElementById('unit-details-specialty').textContent = data.specialty;
           document.getElementById('unit-details-tasks').textContent = data.tasks;
 
-          // Apply unit theme color
           document.documentElement.style.setProperty('--accent-color', data.color);
           document.documentElement.style.setProperty('--accent-glow', data.glow);
           detailsCard.style.setProperty('--unit-accent-color', data.color);
           detailsCard.style.setProperty('--unit-accent-glow', data.glow);
           if (window.setSmokeTargetColor) window.setSmokeTargetColor(data.color);
 
-          // Reset spec bars to 0 first
           const mFill = document.getElementById('spec-bar-mobility');
           const fFill = document.getElementById('spec-bar-firepower');
           const aFill = document.getElementById('spec-bar-assault');
@@ -214,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
           mFill.style.width = '0%'; fFill.style.width = '0%'; aFill.style.width = '0%';
           mVal.textContent = '0%';  fVal.textContent = '0%';  aVal.textContent = '0%';
 
-          // Animate bars after unrumple starts (delay ~400ms into unrumple)
           setTimeout(() => {
             mFill.style.width = `${data.stats.mobility}%`;
             fFill.style.width = `${data.stats.firepower}%`;
@@ -222,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mVal.textContent = `${data.stats.mobility}%`;
             fVal.textContent = `${data.stats.firepower}%`;
             aVal.textContent = `${data.stats.assault}%`;
-          }, 400);
+          }, 150);
         });
       }
     });
