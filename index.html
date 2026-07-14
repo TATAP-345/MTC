@@ -89,6 +89,21 @@
             </div>
           </div>
         </section>
+        <!-- Connection and Access Panel (Moved back to Left Sidebar) -->
+        <div class="sidebar-links-panel" style="margin-top: 1.5rem; text-align: left; display: flex; flex-direction: column; gap: 0.75rem;">
+          <h4 style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem; font-weight: 700;">СВЯЗЬ И ДОСТУП</h4>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;">
+            <button class="btn btn-secondary server-btn" id="servers-modal-btn" style="padding: 0.75rem 0.15rem !important; font-size: 0.72rem !important; justify-content: center; width: 100%;">
+              Сервера
+            </button>
+            <a href="https://discord.gg/JbDG2NWwu" target="_blank" rel="noopener noreferrer" class="btn btn-secondary discord-btn" id="discord-link-btn" style="padding: 0.75rem 0.15rem !important; font-size: 0.72rem !important; justify-content: center; text-decoration: none; width: 100%;">
+              Discord
+            </a>
+            <button class="btn btn-secondary dev-btn" id="dev-modal-btn" style="padding: 0.75rem 0.15rem !important; font-size: 0.72rem !important; justify-content: center; width: 100%;">
+              Создатели
+            </button>
+          </div>
+        </div>
       </div>
       
       <!-- Right Column: Interactive Dossier Viewport -->
@@ -225,7 +240,7 @@
         </div>
 
         <!-- ================= SHEET 4: CONNECTIONS & DEVELOPERS ================= -->
-        <div id="sheet-links" class="dossier-sheet" style="display: none; text-align: left;">
+        <div id="sheet-links" class="dossier-sheet" style="display: none; text-align: center; padding: 2rem 1rem;">
           <!-- Archive Header inside card -->
           <div class="card-status-bar" style="border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; text-align: left; justify-content: space-between; font-family: 'Share Tech Mono', monospace; color: var(--text-muted);">
             <div>
@@ -238,38 +253,22 @@
             </div>
           </div>
           
-          <h3 class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace;">Узлы связи и Доступа</h3>
+          <h3 class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace;">Узлы связи и контакты</h3>
           
-          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div style="display: flex; flex-direction: column; gap: 1.5rem; text-align: center; max-width: 420px; margin: 0 auto;">
             <div>
               <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color);">ЦЕНТРАЛЬНЫЙ ШТАБ ДИСПЕТЧЕРИЗАЦИИ (DISCORD)</h4>
-              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">Основной канал связи для координации бойцов, подачи рапортов, проведения наборов и получения срочных боевых сводок штаба.</p>
-              <a href="https://discord.gg/JbDG2NWwu" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem !important; text-decoration: none; font-size: 0.85rem !important; font-weight: 700; border-radius: 0;">
-                <span>ПОДКЛЮЧИТЬСЯ К DISCORD</span>
-              </a>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Основной канал связи для координации бойцов, подачи рапортов, проведения наборов и получения срочных боевых сводок штаба.</p>
             </div>
             
             <div style="border-top: 1px dashed var(--border-color); padding-top: 1.5rem;">
               <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color);">РЕЗЕРВНЫЕ КАНАЛЫ (ПРИВАТНЫЕ СЕРВЕРА ROBLOX)</h4>
-              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">Защищенные тренировочные и боевые серверы для выполнения тренировочных и тактических задач.</p>
-              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                <a href="https://www.roblox.com/share?code=7e22e45466d6f549a9640d6acd360832&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.75rem 1rem !important; text-decoration: none; font-size: 0.8rem !important; font-weight: 700;">
-                  СЕРВЕР №1 (ОСНОВНОЙ)
-                </a>
-                <a href="https://www.roblox.com/share?code=daa6e8bf946163498d0d10acd191d129&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.75rem 1rem !important; text-decoration: none; font-size: 0.8rem !important; font-weight: 700;">
-                  СЕРВЕР №2 (РЕЗЕРВНЫЙ)
-                </a>
-              </div>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">Защищенные тренировочные и боевые серверы для выполнения тренировочных и тактических задач.</p>
             </div>
 
             <div style="border-top: 1px dashed var(--border-color); padding-top: 1.5rem;">
               <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color);">СОСТАВ РАЗРАБОТЧИКОВ И ИНЖЕНЕРОВ</h4>
-              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">Проектирование и техническое обслуживание тактических систем бригады.</p>
-              <ul style="font-size: 0.8rem; line-height: 1.6; list-style-type: square; padding-left: 1.2rem; color: var(--text-muted);">
-                <li><strong>TATAP_345 (Дмитрий)</strong> — Разработка систем, программирование и координация.</li>
-                <li><strong>Egorka5877</strong> — Проектирование тактического интерфейса.</li>
-                <li><strong>Gerasim (Костя)</strong> — Системный дизайн и тестирование.</li>
-              </ul>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">TATAP_345 (Дмитрий) · Egorka5877 · Gerasim (Костя)</p>
             </div>
           </div>
         </div>
