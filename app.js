@@ -199,27 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 5.5. Fighters Modal Overlay Control ---
-  const fightersModal = document.getElementById('fighters-modal');
-  const fightersModalBtn = document.getElementById('fighters-modal-btn');
-  const fightersCloseBtn = document.getElementById('fighters-modal-close-btn');
-
-  if (fightersModal && fightersModalBtn && fightersCloseBtn) {
-    fightersModalBtn.addEventListener('click', () => {
-      fightersModal.classList.add('show');
-    });
-
-    fightersCloseBtn.addEventListener('click', () => {
-      fightersModal.classList.remove('show');
-    });
-
-    fightersModal.addEventListener('click', (e) => {
-      if (e.target === fightersModal) {
-        fightersModal.classList.remove('show');
-      }
-    });
-  }
-
   // --- 6. Click Ripple Effect on All Buttons ---
   const allButtons = document.querySelectorAll('.btn, .server-btn, .dev-btn, .discord-btn, .unit-btn, .modal-close');
   allButtons.forEach(btn => {
