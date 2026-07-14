@@ -537,7 +537,7 @@ main {
   -webkit-backdrop-filter: blur(12px);
   transition: var(--transition-smooth);
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* allow 3D animations to extend outside bounds */
 }
 
 .feature-card::before {
@@ -1073,9 +1073,10 @@ footer {
   border-left: 5px solid var(--unit-accent-color, var(--accent-color)) !important;
   background: var(--card-bg) !important;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* must be visible for 3D to extend outside bounds */
   box-shadow: var(--shadow-lg);
   transition: all 0.4s ease;
+  transform-style: preserve-3d; /* children participate in 3D space */
 }
 
 .unit-details-card::after {
@@ -1478,66 +1479,122 @@ footer {
   animation: slideOutRight 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
-/* Paper crumple INTO a ball (exit animation — reverse of unrumple) */
+/* ─────────────────────────────────────────────
+   TRUE 3D PAPER CRUMPLE → PERSPECTIVE SCENE
+   The parent .card-perspective-scene holds the
+   perspective so transforms on the child card
+   are genuinely 3D-projected by the browser.
+───────────────────────────────────────────── */
+.card-perspective-scene {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+  /* Scene must NOT clip children mid-air */
+  overflow: visible;
+  /* Matches column layout */
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── EXIT: Paper folds itself into a crumpled wad ── */
 @keyframes crumplePaper {
+  /* ① Start: flat sheet lying on the table */
   0% {
-    transform: perspective(1000px) scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
-    border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
-    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%) !important;
-    opacity: 1;
+    transform:
+      scale(1)
+      rotate(0deg)
+      rotateX(0deg)
+      rotateY(0deg)
+      translateZ(0px);
     filter: none;
-    box-shadow: none;
+    opacity: 1;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28), 0 2px 6px rgba(0,0,0,0.18);
   }
-  35% {
-    transform: perspective(1000px) scale(0.96) rotate(6deg) rotateX(-15deg) rotateY(-8deg);
-    border-radius: 15% 10% 12% 8% / 10% 12% 8% 10% !important;
-    clip-path: polygon(5% 2%, 50% 1%, 95% 1%, 99% 10%, 98% 90%, 95% 98%, 50% 99%, 5% 99%, 1% 50%) !important;
-    opacity: 0.96;
-    filter: contrast(130%) brightness(103%);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+
+  /* ② First fold: top half slaps down (like closing a book) */
+  18% {
+    transform:
+      scale(0.98)
+      rotate(-3deg)
+      rotateX(-55deg)
+      rotateY(4deg)
+      translateZ(20px);
+    filter: contrast(1.15) brightness(0.95);
+    opacity: 1;
+    box-shadow: 0 18px 48px rgba(0,0,0,0.38), 0 4px 12px rgba(0,0,0,0.22);
   }
-  70% {
-    transform: perspective(1000px) scale(0.5) rotate(-22deg) rotateX(40deg) rotateY(30deg);
-    border-radius: 40% 30% 40% 30% / 30% 40% 30% 40% !important;
-    clip-path: polygon(15% 5%, 50% 3%, 85% 2%, 98% 20%, 95% 80%, 85% 95%, 50% 97%, 15% 98%, 2% 50%) !important;
-    opacity: 0.7;
-    filter: blur(0.5px) contrast(220%) brightness(110%);
-    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+
+  /* ③ Folded flat – briefly looks like a half-sheet */
+  30% {
+    transform:
+      scale(0.82)
+      rotate(8deg)
+      rotateX(-160deg)
+      rotateY(-12deg)
+      translateZ(10px);
+    filter: contrast(1.3) brightness(0.9) saturate(0.85);
+    opacity: 0.92;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
   }
+
+  /* ④ Second fold + twist: quarter-sheet spinning */
+  52% {
+    transform:
+      scale(0.55)
+      rotate(35deg)
+      rotateX(220deg)
+      rotateY(40deg)
+      translateZ(-30px);
+    filter: contrast(1.6) brightness(0.82) saturate(0.7);
+    opacity: 0.72;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+  }
+
+  /* ⑤ Crumpling: the wad is almost done spinning */
+  74% {
+    transform:
+      scale(0.22)
+      rotate(-60deg)
+      rotateX(340deg)
+      rotateY(80deg)
+      translateZ(-60px);
+    border-radius: 30% 40% 35% 45% / 40% 30% 45% 35% !important;
+    filter: contrast(2.0) brightness(0.7) saturate(0.5);
+    opacity: 0.45;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.65);
+  }
+
+  /* ⑥ End: tiny crumpled ball in center */
   100% {
-    transform: perspective(1000px) scale(0.06) rotate(110deg) rotateX(-90deg) rotateY(-90deg);
+    transform:
+      scale(0.05)
+      rotate(110deg)
+      rotateX(450deg)
+      rotateY(130deg)
+      translateZ(-80px);
     border-radius: 50% !important;
-    clip-path: polygon(30% 10%, 65% 5%, 90% 25%, 95% 60%, 75% 90%, 40% 95%, 10% 80%, 5% 45%, 15% 20%) !important;
+    filter: contrast(2.5) brightness(0.6) saturate(0.3);
     opacity: 0;
-    filter: blur(2px) contrast(350%) brightness(85%);
-    box-shadow: 0 45px 90px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 50px 90px rgba(0,0,0,0.7);
   }
 }
 
 .crumple-paper-animation {
-  animation: crumplePaper 0.55s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  animation: crumplePaper 0.65s cubic-bezier(0.55, 0, 0.85, 0) forwards;
   transform-origin: center center;
+  transform-style: preserve-3d;
   pointer-events: none;
+  will-change: transform, opacity, filter;
 }
 
-/* Hide inner content during crumple */
-.crumple-paper-animation .dossier-sheet {
-  animation: fadeOutSheetContent 0.55s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+/* Text fades out fast so it can't be read while crumpling */
+.crumple-paper-animation .dossier-sheet,
+.crumple-paper-animation .paper-weathering-overlay {
+  animation: fadeOutSheetContent 0.25s ease-out forwards;
 }
 
 @keyframes fadeOutSheetContent {
-  0% {
-    opacity: 1;
-    filter: none;
-  }
-  40% {
-    opacity: 0.3;
-    filter: blur(1px);
-  }
-  100% {
-    opacity: 0;
-    filter: blur(3px);
-  }
+  0%   { opacity: 1; filter: none; }
+  100% { opacity: 0; filter: blur(4px); }
 }
 
 .slide-in-right {
@@ -2418,56 +2475,107 @@ a.footer-link:hover {
   }
 }
 
-/* Tactile Crumpled Paper Unfolding Animation with true 3D Perspective and Clip-Path Morphing */
+/* ── ENTRY: Crumpled wad unfolds back into a flat sheet ── */
 @keyframes unrumplePaper {
+  /* ① Start: tiny crumpled wad */
   0% {
-    transform: perspective(1000px) scale(0.06) rotate(-110deg) rotateX(90deg) rotateY(90deg);
-    border-radius: 50% !important; /* Start as a crumpled ball (sphere) */
-    clip-path: polygon(30% 10%, 65% 5%, 90% 25%, 95% 60%, 75% 90%, 40% 95%, 10% 80%, 5% 45%, 15% 20%) !important; /* Jagged ball shape */
-    opacity: 0.15;
-    filter: blur(2px) contrast(350%) brightness(85%);
-    box-shadow: 0 45px 90px rgba(0, 0, 0, 0.6);
+    transform:
+      scale(0.05)
+      rotate(-110deg)
+      rotateX(-450deg)
+      rotateY(-130deg)
+      translateZ(-80px);
+    border-radius: 50% !important;
+    filter: contrast(2.5) brightness(0.6) saturate(0.3);
+    opacity: 0;
+    box-shadow: 0 50px 90px rgba(0,0,0,0.7);
   }
-  30% {
-    transform: perspective(1000px) scale(0.5) rotate(22deg) rotateX(-40deg) rotateY(-30deg);
-    border-radius: 40% 30% 40% 30% / 30% 40% 30% 40% !important; /* Unfolding, highly warped sphere */
-    clip-path: polygon(15% 5%, 50% 3%, 85% 2%, 98% 20%, 95% 80%, 85% 95%, 50% 97%, 15% 98%, 2% 50%) !important;
-    opacity: 0.85;
-    filter: blur(0.5px) contrast(220%) brightness(110%);
-    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+
+  /* ② Wad is growing and spinning outward */
+  22% {
+    transform:
+      scale(0.22)
+      rotate(60deg)
+      rotateX(-340deg)
+      rotateY(-80deg)
+      translateZ(-60px);
+    border-radius: 30% 40% 35% 45% / 40% 30% 45% 35% !important;
+    filter: contrast(2.0) brightness(0.7) saturate(0.5);
+    opacity: 0.45;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.65);
   }
+
+  /* ③ Half-unfolded: crinkled but recognisably a sheet */
+  45% {
+    transform:
+      scale(0.55)
+      rotate(-30deg)
+      rotateX(-220deg)
+      rotateY(-40deg)
+      translateZ(-30px);
+    filter: contrast(1.6) brightness(0.82) saturate(0.7);
+    opacity: 0.72;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+  }
+
+  /* ④ Three-quarter: almost flat, wobbles */
   65% {
-    transform: perspective(1000px) scale(0.96) rotate(-6deg) rotateX(15deg) rotateY(8deg);
-    border-radius: 15% 10% 12% 8% / 10% 12% 8% 10% !important; /* Almost flat, slightly rounded edges */
-    clip-path: polygon(5% 2%, 50% 1%, 95% 1%, 99% 10%, 98% 90%, 95% 98%, 50% 99%, 5% 99%, 1% 50%) !important;
-    opacity: 0.96;
-    filter: contrast(130%) brightness(103%);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    transform:
+      scale(0.82)
+      rotate(-8deg)
+      rotateX(-20deg)
+      rotateY(10deg)
+      translateZ(10px);
+    filter: contrast(1.3) brightness(0.92) saturate(0.85);
+    opacity: 0.92;
+    border-radius: 8px 4px 6px 5px / 5px 7px 4px 6px !important;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
   }
-  100% {
-    transform: perspective(1000px) scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
-    border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important; /* Completely flat rectangular paper sheet */
-    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%) !important; /* Perfect flat rectangle */
+
+  /* ⑤ Overshoot: sheet bounces slightly past flat */
+  82% {
+    transform:
+      scale(1.03)
+      rotate(2deg)
+      rotateX(6deg)
+      rotateY(-3deg)
+      translateZ(5px);
+    filter: contrast(1.08) brightness(1.02);
     opacity: 1;
+    box-shadow: 0 14px 38px rgba(0,0,0,0.3);
+  }
+
+  /* ⑥ Final: perfectly flat, settling */
+  100% {
+    transform:
+      scale(1)
+      rotate(0deg)
+      rotateX(0deg)
+      rotateY(0deg)
+      translateZ(0px);
+    border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
     filter: none;
-    box-shadow: none;
+    opacity: 1;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28), 0 2px 6px rgba(0,0,0,0.18);
   }
 }
 
 .unrumple-paper-animation {
-  animation: unrumplePaper 0.85s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation: unrumplePaper 1.0s cubic-bezier(0.19, 1, 0.22, 1) forwards;
   transform-origin: center center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
 }
 
-/* Fade in text content ONLY after paper is partially unfolded */
+/* Text appears only after paper is ~60% unfolded */
 @keyframes fadeInSheetContent {
-  0%, 55% {
+  0%, 60% {
     opacity: 0;
-    filter: blur(2.5px);
+    filter: blur(3px);
   }
   80% {
-    opacity: 0.55;
-    filter: blur(0.5px);
+    opacity: 0.6;
+    filter: blur(0.8px);
   }
   100% {
     opacity: 1;
@@ -2476,7 +2584,7 @@ a.footer-link:hover {
 }
 
 .unrumple-paper-animation .dossier-sheet {
-  animation: fadeInSheetContent 0.85s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation: fadeInSheetContent 1.0s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
 

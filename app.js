@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detailsCard.classList.remove('crumple-paper-animation', 'unrumple-paper-animation');
       void detailsCard.offsetWidth;
       detailsCard.classList.add('unrumple-paper-animation');
-    }, 580); // slightly longer than crumple animation (550ms) to ensure it finishes
+    }, 700); // wait for crumple animation (650ms) + small buffer
   }
 
   // Clear active tab status from all navigation tabs and unit buttons
