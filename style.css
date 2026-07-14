@@ -2169,8 +2169,9 @@ a.footer-link:hover {
 }
 
 .dev-btn:hover, .server-btn:hover, .discord-btn:hover {
-  background: rgba(0,0,0,0.08) !important;
-  border-color: var(--border-hover) !important;
+  background: #ffffff !important;
+  color: #121513 !important;
+  border-color: #ffffff !important;
 }
 
 /* Dossier item separator lines looking like carbon copies */
@@ -2220,8 +2221,9 @@ a.footer-link:hover {
 }
 
 .unit-btn:hover {
-  background: var(--card-hover) !important;
-  border-color: var(--border-hover) !important;
+  background: #ffffff !important;
+  color: #121513 !important;
+  border-color: #ffffff !important;
 }
 
 .unit-btn.active {
