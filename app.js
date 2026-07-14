@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const particles = [];
-  const particleCount = 28; // Optimized for rendering performance
+  const particleCount = 75; // Increased density for richer visual volume
 
   class SmokeParticle {
     constructor() {
