@@ -353,6 +353,14 @@ document.addEventListener('DOMContentLoaded', () => {
     } : { r: 0, g: 255, b: 170 };
   }
 
+  // Mouse tracking for parallax 3D coordinate movement
+  let mouseX = width / 2;
+  let mouseY = height / 2;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
   // Reactive color states
   let targetColorHex = '#00ffaa';
   let currentColorRgb = { r: 0, g: 255, b: 170 };
@@ -361,15 +369,67 @@ document.addEventListener('DOMContentLoaded', () => {
     targetColorHex = hex;
   };
 
+  // Smooth interpolation values for mouse coordinates
+  let interpMouseX = width / 2;
+  let interpMouseY = height / 2;
+
   function animateSmoke() {
     ctx.clearRect(0, 0, width, height);
 
-    // Smooth color interpolations towards active unit accent
+    // Interpolate color changes
     const targetRgb = hexToRgb(targetColorHex);
     currentColorRgb.r += (targetRgb.r - currentColorRgb.r) * 0.025;
     currentColorRgb.g += (targetRgb.g - currentColorRgb.g) * 0.025;
     currentColorRgb.b += (targetRgb.b - currentColorRgb.b) * 0.025;
 
+    // Interpolate mouse movements for smooth 3D tilting
+    interpMouseX += (mouseX - interpMouseX) * 0.04;
+    interpMouseY += (mouseY - interpMouseY) * 0.04;
+
+    const horizonY = height * 0.4 + (interpMouseY - height / 2) * 0.06;
+    const vanishingX = width / 2 + (interpMouseX - width / 2) * 0.06;
+
+    // 1. Draw 3D Perspective Grid
+    ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, 0.045)`;
+    ctx.lineWidth = 1;
+
+    // Longitudinal grid lines
+    const gridLinesCount = 18;
+    for (let i = 0; i <= gridLinesCount; i++) {
+      const fraction = i / gridLinesCount;
+      const xEnd = (fraction - 0.5) * width * 3 + width / 2;
+      ctx.beginPath();
+      ctx.moveTo(vanishingX, horizonY);
+      ctx.lineTo(xEnd, height);
+      ctx.stroke();
+    }
+
+    // Lateral grid lines moving forward
+    const gridOffset = (Date.now() * 0.035) % 60;
+    const lateralCount = 9;
+    for (let j = 0; j < lateralCount; j++) {
+      const progress = j / lateralCount;
+      const currentY = horizonY + (height - horizonY) * Math.pow(progress, 2.2);
+      const animatedY = currentY + gridOffset * progress;
+      if (animatedY <= height) {
+        ctx.beginPath();
+        ctx.moveTo(0, animatedY);
+        ctx.lineTo(width, animatedY);
+        ctx.stroke();
+      }
+    }
+
+    // 2. Draw Holographic Circular Radar Scans
+    const radarTime = Date.now() * 0.0003;
+    ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, 0.02)`;
+    for (let r = 1; r <= 3; r++) {
+      const radius = ((radarTime + r / 3) % 1) * Math.max(width, height) * 0.45;
+      ctx.beginPath();
+      ctx.arc(vanishingX, horizonY, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // 3. Draw Volumetric Smoke Clouds on top
     particles.forEach(p => {
       p.update();
       p.draw(currentColorRgb);
