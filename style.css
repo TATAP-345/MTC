@@ -2099,10 +2099,12 @@ a.footer-link:hover {
   position: relative;
   border: 1px solid var(--border-color) !important;
   background: var(--card-bg);
-  box-shadow: 2px 3px 12px rgba(45, 40, 30, 0.18) !important;
+  box-shadow: 2px 4px 15px rgba(45, 40, 30, 0.22) !important;
   padding: 2.2rem 2rem;
-  /* Organic hand-cut paper edges instead of strict sharp ones */
-  border-radius: 4px 6px 3px 5px / 5px 4px 6px 3px !important;
+  /* Organic hand-cut paper edges */
+  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
+  /* Apply visual displacement distortion mapping */
+  filter: url(#torn-paper-edge) !important;
 }
 
 /* Paper weathering overlay: Creases, coffee stains, age dirt and dust */
@@ -2117,22 +2119,28 @@ a.footer-link:hover {
   border-radius: inherit;
   background: 
     /* Crease 1: Vertical soft crease line */
-    linear-gradient(90deg, transparent 49.5%, rgba(0, 0, 0, 0.04) 50%, rgba(255, 255, 255, 0.05) 50.5%, transparent 51%),
+    linear-gradient(90deg, transparent 48.5%, rgba(0, 0, 0, 0.08) 49.5%, rgba(0, 0, 0, 0.12) 50%, rgba(255, 255, 255, 0.15) 50.5%, transparent 51.5%),
     /* Crease 2: Horizontal soft crease line */
-    linear-gradient(0deg, transparent 34.5%, rgba(0, 0, 0, 0.04) 35%, rgba(255, 255, 255, 0.05) 35.5%, transparent 36%),
-    /* Coffee stain top-right */
-    radial-gradient(circle at 88% 22%, rgba(139, 90, 43, 0.09) 0%, rgba(139, 90, 43, 0.03) 30%, transparent 60%),
-    /* Grease stain bottom-left */
-    radial-gradient(circle at 12% 78%, rgba(110, 80, 50, 0.07) 0%, rgba(110, 80, 50, 0.02) 40%, transparent 70%),
+    linear-gradient(0deg, transparent 33.5%, rgba(0, 0, 0, 0.08) 34.5%, rgba(0, 0, 0, 0.12) 35%, rgba(255, 255, 255, 0.15) 35.5%, transparent 36.5%),
+    /* Coffee cup ring stain top-right */
+    radial-gradient(circle at 82% 28%, transparent 50px, rgba(120, 80, 40, 0.22) 51px, rgba(120, 80, 40, 0.25) 53px, rgba(120, 80, 40, 0.08) 55px, transparent 72px),
+    /* Large coffee blob top-right center */
+    radial-gradient(circle at 85% 26%, rgba(139, 90, 43, 0.14) 0%, rgba(139, 90, 43, 0.04) 30%, transparent 60%),
+    /* Grease blob bottom-left */
+    radial-gradient(circle at 18% 72%, rgba(110, 80, 50, 0.12) 0%, rgba(110, 80, 50, 0.03) 40%, transparent 70%),
     /* Age dirt around card edges (vignette) */
-    radial-gradient(circle, transparent 70%, rgba(140, 110, 80, 0.08) 100%),
+    radial-gradient(circle, transparent 65%, rgba(140, 110, 80, 0.12) 100%),
+    /* Large ink splatter bottom-right */
+    radial-gradient(circle at 75% 82%, rgba(0, 0, 0, 0.45) 1.5px, transparent 2px),
+    /* Large mud splatter top-left */
+    radial-gradient(circle at 25% 15%, rgba(139, 90, 43, 0.55) 2.5px, transparent 3px),
     /* Fine dust/dirt speckles pattern 1 */
-    radial-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px),
+    radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
     /* Fine dust/dirt speckles pattern 2 */
-    radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 140px 140px, 210px 210px;
-  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 20px 30px, 80px 120px;
-  opacity: 0.85;
+    radial-gradient(rgba(0, 0, 0, 0.1) 1.5px, transparent 1.5px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 120px 120px, 190px 190px;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 15px 25px, 60px 110px;
+  opacity: 0.95;
 }
 
 /* Metal paper-clip decoration on the dossier card */
