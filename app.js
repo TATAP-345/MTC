@@ -57,59 +57,71 @@ document.addEventListener('DOMContentLoaded', () => {
       // Render details dynamically with smooth transition
       const data = unitData[btn.id];
       if (data && detailsCard) {
-        document.getElementById('unit-details-title').textContent = data.title;
-        document.getElementById('unit-details-slogan').textContent = data.slogan;
-        document.getElementById('unit-details-specialty').textContent = data.specialty;
-        document.getElementById('unit-details-tasks').textContent = data.tasks;
+        // Start sliding out to the right
+        detailsCard.classList.remove('slide-in-right', 'hologram-load');
+        detailsCard.classList.add('slide-out-right');
         
-        // Dynamically apply unit theme color signature globally to the entire document
-        document.documentElement.style.setProperty('--accent-color', data.color);
-        document.documentElement.style.setProperty('--accent-glow', data.glow);
-        detailsCard.style.setProperty('--unit-accent-color', data.color);
-        detailsCard.style.setProperty('--unit-accent-glow', data.glow);
-        
-        // Update background smoke color signature
-        if (window.setSmokeTargetColor) {
-          window.setSmokeTargetColor(data.color);
-        }
-        
-        // Animate tactical spec progress bars
-        const mFill = document.getElementById('spec-bar-mobility');
-        const fFill = document.getElementById('spec-bar-firepower');
-        const aFill = document.getElementById('spec-bar-assault');
-        
-        const mVal = document.getElementById('spec-val-mobility');
-        const fVal = document.getElementById('spec-val-firepower');
-        const aVal = document.getElementById('spec-val-assault');
-        
-        mFill.style.width = '0%';
-        fFill.style.width = '0%';
-        aFill.style.width = '0%';
-        
-        mVal.textContent = '0%';
-        fVal.textContent = '0%';
-        aVal.textContent = '0%';
-        
-        detailsCard.style.display = 'block';
-        detailsCard.classList.remove('hologram-load');
-        void detailsCard.offsetHeight;
-        detailsCard.classList.add('hologram-load');
-        detailsCard.addEventListener('animationend', () => {
-          detailsCard.classList.remove('hologram-load');
-        }, { once: true });
-        detailsCard.style.opacity = '1';
-        detailsCard.style.transform = '';
-        
-        // Stagger visual fill of stats to look extremely high-end
+        // Wait for the slide-out (250ms) to complete before swapping information
         setTimeout(() => {
-          mFill.style.width = `${data.stats.mobility}%`;
-          fFill.style.width = `${data.stats.firepower}%`;
-          aFill.style.width = `${data.stats.assault}%`;
+          document.getElementById('unit-details-title').textContent = data.title;
+          document.getElementById('unit-details-slogan').textContent = data.slogan;
+          document.getElementById('unit-details-specialty').textContent = data.specialty;
+          document.getElementById('unit-details-tasks').textContent = data.tasks;
           
-          mVal.textContent = `${data.stats.mobility}%`;
-          fVal.textContent = `${data.stats.firepower}%`;
-          aVal.textContent = `${data.stats.assault}%`;
-        }, 150);
+          // Dynamically apply unit theme color signature globally to the entire document
+          document.documentElement.style.setProperty('--accent-color', data.color);
+          document.documentElement.style.setProperty('--accent-glow', data.glow);
+          detailsCard.style.setProperty('--unit-accent-color', data.color);
+          detailsCard.style.setProperty('--unit-accent-glow', data.glow);
+          
+          // Update background smoke color signature
+          if (window.setSmokeTargetColor) {
+            window.setSmokeTargetColor(data.color);
+          }
+          
+          // Animate tactical spec progress bars
+          const mFill = document.getElementById('spec-bar-mobility');
+          const fFill = document.getElementById('spec-bar-firepower');
+          const aFill = document.getElementById('spec-bar-assault');
+          
+          const mVal = document.getElementById('spec-val-mobility');
+          const fVal = document.getElementById('spec-val-firepower');
+          const aVal = document.getElementById('spec-val-assault');
+          
+          mFill.style.width = '0%';
+          fFill.style.width = '0%';
+          aFill.style.width = '0%';
+          
+          mVal.textContent = '0%';
+          fVal.textContent = '0%';
+          aVal.textContent = '0%';
+          
+          // Swap classes to slide back in from the right
+          detailsCard.classList.remove('slide-out-right');
+          detailsCard.classList.add('slide-in-right', 'hologram-load');
+          detailsCard.style.opacity = '1';
+          detailsCard.style.transform = '';
+          
+          // Listen to animation end to clean up visual classes so it doesn't conflict with 3D mouse tilts
+          const onAnimationEnd = (e) => {
+            if (e.animationName === 'slideInRight' || e.animationName === 'hologramGlitch') {
+              detailsCard.classList.remove('slide-in-right', 'hologram-load');
+              detailsCard.removeEventListener('animationend', onAnimationEnd);
+            }
+          };
+          detailsCard.addEventListener('animationend', onAnimationEnd);
+          
+          // Stagger visual fill of stats to look extremely high-end
+          setTimeout(() => {
+            mFill.style.width = `${data.stats.mobility}%`;
+            fFill.style.width = `${data.stats.firepower}%`;
+            aFill.style.width = `${data.stats.assault}%`;
+            
+            mVal.textContent = `${data.stats.mobility}%`;
+            fVal.textContent = `${data.stats.firepower}%`;
+            aVal.textContent = `${data.stats.assault}%`;
+          }, 150);
+        }, 250);
       }
     });
   });
