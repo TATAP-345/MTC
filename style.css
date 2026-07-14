@@ -2101,6 +2101,8 @@ a.footer-link:hover {
   background: transparent !important;
   box-shadow: none !important;
   padding: 2.2rem 2rem;
+  /* Base flat paper corner shape */
+  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
 }
 
 /* Paper weathering overlay: Holds the actual paper sheet background, borders, creases, coffee stains, age dirt and dust. Distorted to look frayed while text remains straight. */
@@ -2117,7 +2119,7 @@ a.footer-link:hover {
   background: var(--card-bg);
   border: 1px solid var(--border-color) !important;
   box-shadow: 2px 4px 15px rgba(45, 40, 30, 0.22) !important;
-  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
+  border-radius: inherit !important; /* Dynamically inherits parent's animated morphing border-radius */
   
   /* Apply edge tearing displacement mapping only to background sheet */
   filter: url(#torn-paper-edge) !important;
@@ -2355,25 +2357,29 @@ a.footer-link:hover {
 /* Tactile Crumpled Paper Unfolding Animation */
 @keyframes unrumplePaper {
   0% {
-    transform: scale(0.18) rotate(-40deg) rotateX(85deg) rotateY(45deg);
-    opacity: 0.1;
-    filter: blur(3px) contrast(320%) brightness(130%);
-    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.45);
+    transform: scale(0.06) rotate(-110deg) rotateX(90deg) rotateY(90deg);
+    border-radius: 50% !important; /* Start as a crumpled ball (sphere) */
+    opacity: 0.15;
+    filter: blur(2px) contrast(350%) brightness(85%);
+    box-shadow: 0 45px 90px rgba(0, 0, 0, 0.6);
   }
-  35% {
-    transform: scale(0.6) rotate(18deg) rotateX(-35deg) rotateY(-25deg);
+  30% {
+    transform: scale(0.5) rotate(22deg) rotateX(-40deg) rotateY(-30deg);
+    border-radius: 40% 30% 40% 30% / 30% 40% 30% 40% !important; /* Unfolding, highly warped */
     opacity: 0.85;
-    filter: blur(1px) contrast(210%) brightness(115%);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+    filter: blur(0.5px) contrast(220%) brightness(110%);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
   }
-  70% {
-    transform: scale(0.96) rotate(-5deg) rotateX(18deg) rotateY(10deg);
-    opacity: 0.95;
-    filter: contrast(125%) brightness(105%);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  65% {
+    transform: scale(0.96) rotate(-6deg) rotateX(15deg) rotateY(8deg);
+    border-radius: 15% 10% 12% 8% / 10% 12% 8% 10% !important; /* Almost flat, slightly rounded edges */
+    opacity: 0.96;
+    filter: contrast(130%) brightness(103%);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
   }
   100% {
     transform: scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
+    border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important; /* Completely flat rectangular paper sheet */
     opacity: 1;
     filter: none;
     box-shadow: none;
