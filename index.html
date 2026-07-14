@@ -6,6 +6,11 @@
   <meta name="description" content="32 Бригада ВДВ Республики Соколов - Подразделения.">
   <title>32 Бригада ВДВ Республики Соколов</title>
   
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -193,6 +198,10 @@
   <!-- Modal Overlay -->
   <div id="servers-modal" class="modal-overlay">
     <div class="modal-content">
+      <div class="card-status-bar">
+        <span class="status-indicator">● LINK SECURE</span>
+        <span class="card-serial">MTC-NET-SRV</span>
+      </div>
       <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
       <h3 class="modal-title">Доступные Сервера</h3>
       <div class="modal-links-container">
@@ -209,6 +218,10 @@
   <!-- Fighters Modal Overlay -->
   <div id="fighters-modal" class="modal-overlay">
     <div class="modal-content" style="max-width: 500px;">
+      <div class="card-status-bar">
+        <span class="status-indicator">● PERSONNEL SYSTEM ACTIVE</span>
+        <span class="card-serial">MTC-MIL-DB32</span>
+      </div>
       <button class="modal-close" id="fighters-modal-close-btn" aria-label="Close modal">&times;</button>
       <h3 class="modal-title">Личный состав (16 Бойцов)</h3>
       <div style="max-height: 350px; overflow-y: auto; padding-right: 0.5rem; text-align: left; font-family: SFMono-Regular, Consolas, monospace; font-size: 0.9rem; line-height: 1.6; color: var(--text-color);">
@@ -267,6 +280,10 @@
   <!-- Developers Modal Overlay -->
   <div id="dev-modal" class="modal-overlay">
     <div class="modal-content dev-modal-content">
+      <div class="card-status-bar">
+        <span class="status-indicator">● DEV LINK</span>
+        <span class="card-serial">MTC-CREATORS-SEC</span>
+      </div>
       <button class="modal-close" id="dev-modal-close-btn" aria-label="Close modal">&times;</button>
       <h3 class="modal-title">Разработчики Проекта</h3>
       <div class="modal-links-container">
