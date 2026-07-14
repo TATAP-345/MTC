@@ -1298,47 +1298,16 @@ footer {
   color: var(--text-muted);
 }
 
-/* Animated premium background blobs */
-.bg-blob {
+/* Ambient 3D Smoke Canvas styling */
+#ambient-smoke-canvas {
   position: fixed;
-  border-radius: 50%;
-  filter: blur(140px);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: -2;
   pointer-events: none;
-  opacity: 0.12;
-  animation: float-blobs 25s infinite alternate ease-in-out;
-}
-
-.blob-1 {
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
-  top: -20%;
-  left: -10%;
-}
-
-.blob-2 {
-  width: 40vw;
-  height: 40vw;
-  background: radial-gradient(circle, #ec4899 0%, transparent 70%);
-  bottom: -15%;
-  right: -10%;
-  animation-delay: -5s;
-}
-
-.blob-3 {
-  width: 35vw;
-  height: 35vw;
-  background: radial-gradient(circle, #10b981 0%, transparent 70%);
-  top: 35%;
-  left: 60%;
-  animation-delay: -10s;
-}
-
-@keyframes float-blobs {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(6%, 8%) scale(1.08); }
-  100% { transform: translate(-6%, -6%) scale(0.92); }
+  mix-blend-mode: screen;
 }
 
 /* Button pulsing dots */

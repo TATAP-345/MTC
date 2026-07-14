@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsCard.style.setProperty('--unit-accent-color', data.color);
         detailsCard.style.setProperty('--unit-accent-glow', data.glow);
         
+        // Update background smoke color signature
+        if (window.setSmokeTargetColor) {
+          window.setSmokeTargetColor(data.color);
+        }
+        
         // Animate tactical spec progress bars
         const mFill = document.getElementById('spec-bar-mobility');
         const fFill = document.getElementById('spec-bar-firepower');
@@ -257,4 +262,121 @@ document.addEventListener('DOMContentLoaded', () => {
       card.style.setProperty('--mouse-y', `${y}px`);
     });
   });
+
+  // --- 9. Real-time Reactive 3D Smoke Background ---
+  const canvas = document.createElement('canvas');
+  canvas.id = 'ambient-smoke-canvas';
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  const particles = [];
+  const particleCount = 28; // Optimized for rendering performance
+
+  class SmokeParticle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(init = false) {
+      this.x = Math.random() * width;
+      this.y = init ? Math.random() * height : height + Math.random() * 100;
+      this.size = Math.random() * 200 + 150; // soft volumetric clouds
+      this.vx = (Math.random() - 0.5) * 0.45;
+      this.vy = -Math.random() * 0.4 - 0.15; // slow drift upwards
+      this.alpha = 0;
+      this.maxAlpha = Math.random() * 0.08 + 0.03; // low opacity glow
+      this.fadeSpeed = Math.random() * 0.003 + 0.001;
+      this.rotation = Math.random() * Math.PI * 2;
+      this.rotationSpeed = (Math.random() - 0.5) * 0.0015;
+      this.growing = true;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.rotation += this.rotationSpeed;
+
+      if (this.growing) {
+        this.alpha += this.fadeSpeed;
+        if (this.alpha >= this.maxAlpha) {
+          this.alpha = this.maxAlpha;
+          this.growing = false;
+        }
+      }
+
+      // Recycle when drifts off screen or goes transparent
+      if (this.y < -this.size || this.x < -this.size || this.x > width + this.size) {
+        this.reset();
+      }
+    }
+
+    draw(colorRgb) {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation);
+      
+      const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+      grad.addColorStop(0, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, ${this.alpha})`);
+      grad.addColorStop(0.5, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, ${this.alpha * 0.35})`);
+      grad.addColorStop(1, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, 0)`);
+      
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Populate particles
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new SmokeParticle());
+  }
+
+  // Hex to RGB parser
+  function hexToRgb(hex) {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    const fullHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 0, g: 255, b: 170 };
+  }
+
+  // Reactive color states
+  let targetColorHex = '#00ffaa';
+  let currentColorRgb = { r: 0, g: 255, b: 170 };
+
+  window.setSmokeTargetColor = (hex) => {
+    targetColorHex = hex;
+  };
+
+  function animateSmoke() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Smooth color interpolations towards active unit accent
+    const targetRgb = hexToRgb(targetColorHex);
+    currentColorRgb.r += (targetRgb.r - currentColorRgb.r) * 0.025;
+    currentColorRgb.g += (targetRgb.g - currentColorRgb.g) * 0.025;
+    currentColorRgb.b += (targetRgb.b - currentColorRgb.b) * 0.025;
+
+    particles.forEach(p => {
+      p.update();
+      p.draw(currentColorRgb);
+    });
+
+    requestAnimationFrame(animateSmoke);
+  }
+
+  animateSmoke();
 });
