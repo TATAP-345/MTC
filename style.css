@@ -2356,32 +2356,36 @@ a.footer-link:hover {
   }
 }
 
-/* Tactile Crumpled Paper Unfolding Animation */
+/* Tactile Crumpled Paper Unfolding Animation with true 3D Perspective and Clip-Path Morphing */
 @keyframes unrumplePaper {
   0% {
-    transform: scale(0.06) rotate(-110deg) rotateX(90deg) rotateY(90deg);
+    transform: perspective(1000px) scale(0.06) rotate(-110deg) rotateX(90deg) rotateY(90deg);
     border-radius: 50% !important; /* Start as a crumpled ball (sphere) */
+    clip-path: polygon(30% 10%, 65% 5%, 90% 25%, 95% 60%, 75% 90%, 40% 95%, 10% 80%, 5% 45%, 15% 20%) !important; /* Jagged ball shape */
     opacity: 0.15;
     filter: blur(2px) contrast(350%) brightness(85%);
     box-shadow: 0 45px 90px rgba(0, 0, 0, 0.6);
   }
   30% {
-    transform: scale(0.5) rotate(22deg) rotateX(-40deg) rotateY(-30deg);
-    border-radius: 40% 30% 40% 30% / 30% 40% 30% 40% !important; /* Unfolding, highly warped */
+    transform: perspective(1000px) scale(0.5) rotate(22deg) rotateX(-40deg) rotateY(-30deg);
+    border-radius: 40% 30% 40% 30% / 30% 40% 30% 40% !important; /* Unfolding, highly warped sphere */
+    clip-path: polygon(15% 5%, 50% 3%, 85% 2%, 98% 20%, 95% 80%, 85% 95%, 50% 97%, 15% 98%, 2% 50%) !important;
     opacity: 0.85;
     filter: blur(0.5px) contrast(220%) brightness(110%);
     box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
   }
   65% {
-    transform: scale(0.96) rotate(-6deg) rotateX(15deg) rotateY(8deg);
+    transform: perspective(1000px) scale(0.96) rotate(-6deg) rotateX(15deg) rotateY(8deg);
     border-radius: 15% 10% 12% 8% / 10% 12% 8% 10% !important; /* Almost flat, slightly rounded edges */
+    clip-path: polygon(5% 2%, 50% 1%, 95% 1%, 99% 10%, 98% 90%, 95% 98%, 50% 99%, 5% 99%, 1% 50%) !important;
     opacity: 0.96;
     filter: contrast(130%) brightness(103%);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
   }
   100% {
-    transform: scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
+    transform: perspective(1000px) scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
     border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important; /* Completely flat rectangular paper sheet */
+    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%) !important; /* Perfect flat rectangle */
     opacity: 1;
     filter: none;
     box-shadow: none;
@@ -2391,6 +2395,26 @@ a.footer-link:hover {
 .unrumple-paper-animation {
   animation: unrumplePaper 0.85s cubic-bezier(0.19, 1, 0.22, 1) forwards;
   transform-origin: center center;
+}
+
+/* Fade in text content ONLY after paper is partially unfolded to simulate real physical legibility progression */
+@keyframes fadeInSheetContent {
+  0%, 55% {
+    opacity: 0;
+    filter: blur(2.5px);
+  }
+  80% {
+    opacity: 0.55;
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.unrumple-paper-animation .dossier-sheet {
+  animation: fadeInSheetContent 0.85s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
 
