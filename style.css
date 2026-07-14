@@ -2228,6 +2228,42 @@ a.footer-link:hover {
   background: #ffffff !important;
 }
 
+/* Sidebar Navigation Tabs styled as folders */
+.sidebar-tab {
+  width: 100% !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  padding: 1.15rem 1.4rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 700;
+  border-radius: 0px !important;
+  border: 1px solid rgba(0, 255, 170, 0.12) !important;
+  border-left: 3px solid rgba(0, 255, 170, 0.3) !important;
+  background: rgba(9, 14, 23, 0.4) !important;
+  color: #729b8c !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: none !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-tab:hover {
+  background: #ffffff !important;
+  color: #121513 !important;
+  border-color: #ffffff !important;
+}
+
+.sidebar-tab.active-tab {
+  background: var(--accent-color) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-color) !important;
+}
+
 
 
 

@@ -53,37 +53,164 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set theme to dark
   document.documentElement.setAttribute('data-theme', 'dark');
 
-  // --- 2. Unit Buttons Click Interactions & Details Display ---
+  // --- 2. Interactive Navigation (Tabs & Sheets) ---
+  const tabAbout = document.getElementById('tab-about');
+  const tabUnits = document.getElementById('tab-units');
+  const tabLinks = document.getElementById('tab-links');
+  
+  const nestedContainer = document.getElementById('nested-units-container');
+  const unitsChevron = document.getElementById('tab-units-chevron');
   const unitButtons = document.querySelectorAll('.unit-btn');
   const detailsCard = document.getElementById('unit-details-card');
+  
+  const sheets = {
+    welcome: document.getElementById('sheet-welcome'),
+    about: document.getElementById('sheet-about'),
+    details: document.getElementById('sheet-details'),
+    links: document.getElementById('sheet-links')
+  };
 
+  // Helper to switch active sheets with a smooth fade
+  function switchSheet(targetSheetKey) {
+    if (!detailsCard) return;
+
+    // Apply animation effect
+    detailsCard.classList.remove('slide-in-right', 'hologram-load');
+    detailsCard.classList.add('slide-out-right');
+
+    setTimeout(() => {
+      // Hide all sheets
+      Object.keys(sheets).forEach(key => {
+        if (sheets[key]) {
+          sheets[key].style.display = 'none';
+          sheets[key].classList.remove('active-sheet');
+        }
+      });
+
+      // Show the selected sheet
+      const targetSheet = sheets[targetSheetKey];
+      if (targetSheet) {
+        targetSheet.style.display = 'block';
+        targetSheet.classList.add('active-sheet');
+      }
+
+      // Slide back in
+      detailsCard.classList.remove('slide-out-right');
+      detailsCard.classList.add('slide-in-right');
+    }, 200);
+  }
+
+  // Clear active tab status from all navigation tabs and unit buttons
+  function clearAllActiveNavs() {
+    tabAbout.classList.remove('active-tab');
+    tabUnits.classList.remove('active-tab');
+    tabLinks.classList.remove('active-tab');
+    unitButtons.forEach(btn => btn.classList.remove('active'));
+  }
+
+  // Tab: About Us
+  if (tabAbout) {
+    tabAbout.addEventListener('click', () => {
+      clearAllActiveNavs();
+      tabAbout.classList.add('active-tab');
+      
+      // Collapse unit buttons list
+      if (nestedContainer) {
+        nestedContainer.style.display = 'none';
+        if (unitsChevron) unitsChevron.style.transform = 'rotate(0deg)';
+      }
+
+      // Reset default theme color
+      document.documentElement.style.setProperty('--accent-color', '#b22222');
+      document.documentElement.style.setProperty('--accent-glow', 'rgba(178, 34, 34, 0.25)');
+      if (window.setSmokeTargetColor) {
+        window.setSmokeTargetColor('#b22222');
+      }
+
+      switchSheet('about');
+    });
+  }
+
+  // Tab: Units (Accordion Toggle)
+  if (tabUnits) {
+    tabUnits.addEventListener('click', () => {
+      const isOpen = nestedContainer.style.display === 'flex';
+      
+      clearAllActiveNavs();
+      tabUnits.classList.add('active-tab');
+
+      if (nestedContainer) {
+        if (isOpen) {
+          nestedContainer.style.display = 'none';
+          if (unitsChevron) unitsChevron.style.transform = 'rotate(0deg)';
+        } else {
+          nestedContainer.style.display = 'flex';
+          if (unitsChevron) unitsChevron.style.transform = 'rotate(180deg)';
+        }
+      }
+    });
+  }
+
+  // Tab: Connection & Links
+  if (tabLinks) {
+    tabLinks.addEventListener('click', () => {
+      clearAllActiveNavs();
+      tabLinks.classList.add('active-tab');
+
+      // Collapse unit buttons list
+      if (nestedContainer) {
+        nestedContainer.style.display = 'none';
+        if (unitsChevron) unitsChevron.style.transform = 'rotate(0deg)';
+      }
+
+      // Set connections tab theme color (blue-grey / steel blue)
+      document.documentElement.style.setProperty('--accent-color', '#4fa5e2');
+      document.documentElement.style.setProperty('--accent-glow', 'rgba(79, 165, 226, 0.25)');
+      if (window.setSmokeTargetColor) {
+        window.setSmokeTargetColor('#4fa5e2');
+      }
+
+      switchSheet('links');
+    });
+  }
+
+  // Unit Buttons click handler inside accordion
   unitButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Visual feedback: toggle active class
-      unitButtons.forEach(b => b.classList.remove('active'));
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Avoid triggering parent tabUnits accordion
+      
+      clearAllActiveNavs();
+      tabUnits.classList.add('active-tab');
       btn.classList.add('active');
 
-      // Render details dynamically with smooth transition
       const data = unitData[btn.id];
-      if (data && detailsCard) {
+      if (data) {
         // Start sliding out to the right
         detailsCard.classList.remove('slide-in-right', 'hologram-load');
         detailsCard.classList.add('slide-out-right');
         
-        // Wait for the slide-out (250ms) to complete before swapping information
         setTimeout(() => {
+          // Hide all sheets, show details sheet
+          Object.keys(sheets).forEach(key => {
+            if (sheets[key]) sheets[key].style.display = 'none';
+          });
+          if (sheets.details) {
+            sheets.details.style.display = 'block';
+            sheets.details.classList.add('active-sheet');
+          }
+
+          // Populate unit details
           document.getElementById('unit-details-title').textContent = data.title;
           document.getElementById('unit-details-slogan').textContent = data.slogan;
           document.getElementById('unit-details-specialty').textContent = data.specialty;
           document.getElementById('unit-details-tasks').textContent = data.tasks;
           
-          // Dynamically apply unit theme color signature globally to the entire document
+          // Dynamically apply unit theme color signature
           document.documentElement.style.setProperty('--accent-color', data.color);
           document.documentElement.style.setProperty('--accent-glow', data.glow);
           detailsCard.style.setProperty('--unit-accent-color', data.color);
           detailsCard.style.setProperty('--unit-accent-glow', data.glow);
           
-          // Update background smoke color signature
           if (window.setSmokeTargetColor) {
             window.setSmokeTargetColor(data.color);
           }
@@ -105,22 +232,11 @@ document.addEventListener('DOMContentLoaded', () => {
           fVal.textContent = '0%';
           aVal.textContent = '0%';
           
-          // Swap classes to slide back in from the right
+          // Slide back in from the right
           detailsCard.classList.remove('slide-out-right');
-          detailsCard.classList.add('slide-in-right', 'hologram-load');
-          detailsCard.style.opacity = '1';
-          detailsCard.style.transform = '';
+          detailsCard.classList.add('slide-in-right');
           
-          // Listen to animation end to clean up visual classes so it doesn't conflict with 3D mouse tilts
-          const onAnimationEnd = (e) => {
-            if (e.animationName === 'slideInRight' || e.animationName === 'hologramGlitch') {
-              detailsCard.classList.remove('slide-in-right', 'hologram-load');
-              detailsCard.removeEventListener('animationend', onAnimationEnd);
-            }
-          };
-          detailsCard.addEventListener('animationend', onAnimationEnd);
-          
-          // Stagger visual fill of stats to look extremely high-end
+          // Stagger fill visual
           setTimeout(() => {
             mFill.style.width = `${data.stats.mobility}%`;
             fFill.style.width = `${data.stats.firepower}%`;
@@ -130,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fVal.textContent = `${data.stats.firepower}%`;
             aVal.textContent = `${data.stats.assault}%`;
           }, 150);
-        }, 250);
+        }, 200);
       }
     });
   });

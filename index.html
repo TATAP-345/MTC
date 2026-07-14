@@ -30,37 +30,48 @@
     
     <!-- Tactical Split Workspace (Sidebar layout) -->
     <div class="tactical-workspace scroll-reveal delay-100">
-      <!-- Left Column: Operations & Telemetry -->
+      <!-- Left Column: Operations & Telemetry (Sidebar navigation) -->
       <div class="units-container">
-        <!-- New About Us tab -->
-        <button class="btn btn-secondary unit-btn active" id="unit-about">
+        <!-- Tab 1: About Us -->
+        <button class="sidebar-tab" id="tab-about">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span>О нас (О бригаде)</span>
-          <span class="btn-dot dot-about" style="background: #ffffff;"></span>
+          <span>О нас</span>
         </button>
 
-        <button class="btn btn-secondary unit-btn" id="unit-tayfun">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span>Элитное подразделение Тайфун</span>
-          <span class="btn-dot dot-tayfun"></span>
-        </button>
-        <button class="btn btn-secondary unit-btn" id="unit-burevestnik">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          <span>Авиационная Группа «Буревестник»</span>
-          <span class="btn-dot dot-burevestnik"></span>
-        </button>
-        <button class="btn btn-secondary unit-btn" id="unit-berkut">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
-          <span>Артиллерийский отряд «Беркут»</span>
-          <span class="btn-dot dot-berkut"></span>
-        </button>
-        <button class="btn btn-secondary unit-btn" id="unit-sapsan">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>Десантно-штурмовой отряд «Сапсан»</span>
-          <span class="btn-dot dot-sapsan"></span>
+        <!-- Tab 2: Units (Accordion) -->
+        <button class="sidebar-tab" id="tab-units">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Подразделения</span>
+          <span id="tab-units-chevron" style="margin-left: auto; font-size: 0.7rem; transition: transform 0.25s ease;">▼</span>
         </button>
 
-        <!-- Key Advantages Section (Relocated into Sidebar) -->
+        <!-- Collapsible nested unit buttons -->
+        <div id="nested-units-container" style="display: none; flex-direction: column; gap: 0.5rem; padding-left: 1.25rem; border-left: 1px dashed var(--border-color); margin: 0.2rem 0 0.5rem 0.75rem;">
+          <button class="btn btn-secondary unit-btn" id="unit-tayfun" style="padding: 0.85rem 1rem !important; font-size: 0.82rem !important;">
+            <span>Тайфун (Штурм)</span>
+            <span class="btn-dot dot-tayfun"></span>
+          </button>
+          <button class="btn btn-secondary unit-btn" id="unit-burevestnik" style="padding: 0.85rem 1rem !important; font-size: 0.82rem !important;">
+            <span>Буревестник (Авиация)</span>
+            <span class="btn-dot dot-burevestnik"></span>
+          </button>
+          <button class="btn btn-secondary unit-btn" id="unit-berkut" style="padding: 0.85rem 1rem !important; font-size: 0.82rem !important;">
+            <span>Беркут (Артиллерия)</span>
+            <span class="btn-dot dot-berkut"></span>
+          </button>
+          <button class="btn btn-secondary unit-btn" id="unit-sapsan" style="padding: 0.85rem 1rem !important; font-size: 0.82rem !important;">
+            <span>Сапсан (Десант)</span>
+            <span class="btn-dot dot-sapsan"></span>
+          </button>
+        </div>
+
+        <!-- Tab 3: Connection & Links -->
+        <button class="sidebar-tab" id="tab-links">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>Наши связи</span>
+        </button>
+
+        <!-- Key Advantages Section (Still in sidebar under tabs for decoration) -->
         <section class="advantages-section scroll-reveal" style="margin-top: 1.5rem; text-align: left;">
           <h4 style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.85rem; font-weight: 700;">Тактические Преимущества</h4>
           <div class="advantages-grid" style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -68,7 +79,7 @@
               <h4 class="advantage-card-title" style="font-size: 0.85rem; margin-bottom: 0.4rem;">
                 <span class="advantage-icon">⚡</span> Высокая Мобильность
               </h4>
-              <p class="advantage-card-desc" style="font-size: 0.78rem; line-height: 1.5;">Мгновенная переброска сил десантирования в любую точку проведения спецоперации силами авиационной группы «Буревестник».</p>
+              <p class="advantage-card-desc" style="font-size: 0.78rem; line-height: 1.5;">Мгновенная переброска сил десантирования в любую точку проведения спецоперации авиационной группой «Буревестник».</p>
             </div>
             <div class="feature-card scroll-reveal delay-200" style="padding: 1.25rem 1.5rem !important;">
               <h4 class="advantage-card-title" style="font-size: 0.85rem; margin-bottom: 0.4rem;">
@@ -78,79 +89,189 @@
             </div>
           </div>
         </section>
-
-        <!-- Connection and Access Panel (Moved from Top Bar) -->
-        <div class="sidebar-links-panel" style="margin-top: 1.5rem; text-align: left; display: flex; flex-direction: column; gap: 0.75rem;">
-          <h4 style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.2rem; font-weight: 700;">СВЯЗЬ И ДОСТУП</h4>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem;">
-            <button class="btn btn-secondary server-btn" id="servers-modal-btn" style="padding: 0.75rem 0.15rem !important; font-size: 0.72rem !important; justify-content: center; width: 100%;">
-              Сервера
-            </button>
-            <a href="https://discord.gg/JbDG2NWwu" target="_blank" rel="noopener noreferrer" class="btn btn-secondary discord-btn" id="discord-link-btn" style="padding: 0.75rem 0.15rem !important; font-size: 0.72rem !important; justify-content: center; text-decoration: none; width: 100%;">
-              Discord
-            </a>
-            <button class="btn btn-secondary dev-btn" id="dev-modal-btn" style="padding: 0.75rem 0.15rem !important; font-size: 0.72rem !important; justify-content: center; width: 100%;">
-              Создатели
-            </button>
-          </div>
-        </div>
       </div>
       
-      <!-- Right Column: Interactive Dossier Card (Default active state) -->
+      <!-- Right Column: Interactive Dossier Viewport -->
       <div id="unit-details-card" class="feature-card unit-details-card">
-        <!-- Archive Header inside card -->
-        <div class="card-status-bar" style="border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem; text-align: left;">
-          <div>
-            <div style="font-size: 0.68rem; letter-spacing: 0.5px;">АРХИВ МИНИСТЕРСТВА ОБОРОНЫ РС</div>
-            <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-color);">ДЕЛО № ВДВ-1974-MTC // ТОМ IV</div>
-          </div>
-          <div style="margin-left: auto; text-align: right; font-size: 0.68rem;">
-            <div>ЭКЗЕМПЛЯР ЕДИНСТВЕННЫЙ</div>
-            <div style="color: var(--accent-color); font-weight: 700; letter-spacing: 0.5px;">ГРИФ: СОВ. СЕКРЕТНО</div>
-          </div>
-        </div>
         
-        <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Штаб 32-й Бригады ВДВ</h3>
-        
-        <div class="dossier-grid">
-          <div class="dossier-item">
-            <span class="dossier-tag">ЛОЗУНГ</span>
-            <span id="unit-details-slogan" class="dossier-value">«Никто, кроме нас!»</span>
+        <!-- ================= SHEET 1: WELCOME / DEFAULT LANDING (Active by default) ================= -->
+        <div id="sheet-welcome" class="dossier-sheet active-sheet" style="text-align: center; padding: 5rem 1rem;">
+          <h2 style="font-size: 2.2rem; font-weight: 800; letter-spacing: 1.5px; color: var(--text-color); margin-bottom: 0.5rem; font-family: 'Share Tech Mono', monospace; text-transform: uppercase;">32 БРИГАДА ВДВ</h2>
+          <div style="font-size: 0.9rem; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3.5rem;">Республика Соколов</div>
+          
+          <div class="classified-stamp-big" style="display: inline-block; border: 4px double var(--accent-color); color: var(--accent-color); padding: 0.8rem 1.8rem; font-weight: 800; font-size: 1.15rem; letter-spacing: 4px; transform: rotate(-5deg); margin-bottom: 3.5rem; font-family: 'Share Tech Mono', monospace; border-radius: 4px; text-transform: uppercase; opacity: 0.85;">
+            СОВ. СЕКРЕТНО
           </div>
-          <div class="dossier-item">
-            <span class="dossier-tag">СПЕЦИАЛИЗАЦИЯ</span>
-            <span id="unit-details-specialty" class="dossier-value">Воздушно-десантные войска Республики Соколов. Защита суверенитета и рубежей.</span>
-          </div>
-          <div class="dossier-item dossier-item-full">
-            <span class="dossier-tag">ОПЕРАТИВНЫЕ ЗАДАЧИ В MTC4</span>
-            <span id="unit-details-tasks" class="dossier-value">Сформированы во второй половине ХХ века. Личный состав прошел суровую школу боевой подготовки, принимая участие во многих оборонных операциях. Включает подразделение "Тайфун", авиагруппу "Буревестник", артиллерию "Беркут" и штурмовиков "Сапсан". Выберите тактические вкладки слева для загрузки отдельных досье подразделений.</span>
+          
+          <div style="font-size: 0.82rem; color: var(--text-muted); font-family: 'Share Tech Mono', monospace; border-top: 1px dashed var(--border-color); padding-top: 1.5rem; max-width: 380px; margin: 0 auto; line-height: 1.6;">
+            ДЛЯ ДЕШИФРОВАНИЯ И ВЫВОДА АРХИВНЫХ ДАННЫХ ВЫБЕРИТЕ ТАКТИЧЕСКИЙ РАЗДЕЛ В МЕНЮ СЛЕВА.
           </div>
         </div>
 
-        <!-- Tactical Specs / Attributes Grid -->
-        <div class="tactical-specs-section">
-          <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem; font-weight: 700; text-align: left;">Общие показатели бригады</h4>
-          <div class="spec-bar-row">
-            <span class="spec-label">Мобильность</span>
-            <div class="spec-bar-bg"><div id="spec-bar-mobility" class="spec-bar-fill" style="width: 75%;"></div></div>
-            <span id="spec-val-mobility" class="spec-value">75%</span>
+        <!-- ================= SHEET 2: ABOUT BRIGADE ================= -->
+        <div id="sheet-about" class="dossier-sheet" style="display: none;">
+          <!-- Archive Header inside card -->
+          <div class="card-status-bar" style="border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; text-align: left; justify-content: space-between; font-family: 'Share Tech Mono', monospace; color: var(--text-muted);">
+            <div>
+              <div style="font-size: 0.68rem; letter-spacing: 0.5px;">АРХИВ МИНИСТЕРСТВА ОБОРОНЫ РС</div>
+              <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-color);">ДЕЛО № ВДВ-1974-MTC // ТОМ IV</div>
+            </div>
+            <div style="text-align: right; font-size: 0.68rem;">
+              <div>ЭКЗЕМПЛЯР ЕДИНСТВЕННЫЙ</div>
+              <div style="color: var(--accent-color); font-weight: 700; letter-spacing: 0.5px;">ГРИФ: СОВ. СЕКРЕТНО</div>
+            </div>
           </div>
-          <div class="spec-bar-row">
-            <span class="spec-label">Огневая мощь</span>
-            <div class="spec-bar-bg"><div id="spec-bar-firepower" class="spec-bar-fill" style="width: 80%;"></div></div>
-            <span id="spec-val-firepower" class="spec-value">80%</span>
+          
+          <h3 class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace;">Штаб 32-й Бригады ВДВ</h3>
+          
+          <div class="dossier-grid">
+            <div class="dossier-item">
+              <span class="dossier-tag">ЛОЗУНГ</span>
+              <span class="dossier-value">«Никто, кроме нас!»</span>
+            </div>
+            <div class="dossier-item">
+              <span class="dossier-tag">СПЕЦИАЛИЗАЦИЯ</span>
+              <span class="dossier-value">Воздушно-десантные войска Республики Соколов. Защита суверенитета и рубежей.</span>
+            </div>
+            <div class="dossier-item dossier-item-full">
+              <span class="dossier-tag">ОПЕРАТИВНЫЕ ЗАДАЧИ В MTC4</span>
+              <span class="dossier-value">Сформированы во второй половине ХХ века. Личный состав прошел суровую школу боевой подготовки, принимая участие во многих оборонных операциях. Включает подразделение "Тайфун", авиагруппу "Буревестник", артиллерию "Беркут" и штурмовиков "Сапсан".</span>
+            </div>
           </div>
-          <div class="spec-bar-row" style="margin-bottom: 0;">
-            <span class="spec-label">Штурм / Натиск</span>
-            <div class="spec-bar-bg"><div id="spec-bar-assault" class="spec-bar-fill" style="width: 85%;"></div></div>
-            <span id="spec-val-assault" class="spec-value">85%</span>
+
+          <!-- Tactical Specs / Attributes Grid -->
+          <div class="tactical-specs-section" style="margin-top: 2rem;">
+            <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem; font-weight: 700; text-align: left;">Общие показатели бригады</h4>
+            <div class="spec-bar-row">
+              <span class="spec-label">Мобильность</span>
+              <div class="spec-bar-bg"><div class="spec-bar-fill" style="width: 75%;"></div></div>
+              <span class="spec-value">75%</span>
+            </div>
+            <div class="spec-bar-row">
+              <span class="spec-label">Огневая мощь</span>
+              <div class="spec-bar-bg"><div class="spec-bar-fill" style="width: 80%;"></div></div>
+              <span class="spec-value">80%</span>
+            </div>
+            <div class="spec-bar-row" style="margin-bottom: 0;">
+              <span class="spec-label">Штурм / Натиск</span>
+              <div class="spec-bar-bg"><div class="spec-bar-fill" style="width: 85%;"></div></div>
+              <span class="spec-value">85%</span>
+            </div>
+          </div>
+
+          <!-- Archival Sign-off Signature -->
+          <div class="dossier-signature" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; font-size: 0.72rem; font-family: 'Share Tech Mono', monospace; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
+            <span>СВЕДЕНИЯ ДОСТОВЕРНЫ. ДОКУМЕНТ ВЫДАН ДЛЯ ОЗНАКОМЛЕНИЯ.</span>
+            <span>ПОДПИСЬ: <u>Ген.-майор Соколов В.И.</u></span>
           </div>
         </div>
 
-        <!-- Archival Sign-off Signature -->
-        <div class="dossier-signature" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; font-size: 0.72rem; font-family: 'Share Tech Mono', monospace; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
-          <span>СВЕДЕНИЯ ДОСТОВЕРНЫ. ДОКУМЕНТ ВЫДАН ДЛЯ ОЗНАКОМЛЕНИЯ.</span>
-          <span>ПОДПИСЬ: <u>Ген.-майор Соколов В.И.</u></span>
+        <!-- ================= SHEET 3: DYNAMIC UNIT DETAILS ================= -->
+        <div id="sheet-details" class="dossier-sheet" style="display: none;">
+          <!-- Archive Header inside card -->
+          <div class="card-status-bar" style="border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; text-align: left; justify-content: space-between; font-family: 'Share Tech Mono', monospace; color: var(--text-muted);">
+            <div>
+              <div style="font-size: 0.68rem; letter-spacing: 0.5px;">АРХИВ МИНИСТЕРСТВА ОБОРОНЫ РС</div>
+              <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-color);">ДЕЛО № ВДВ-1974-MTC // ТОМ IV</div>
+            </div>
+            <div style="text-align: right; font-size: 0.68rem;">
+              <div>ЭКЗЕМПЛЯР ЕДИНСТВЕННЫЙ</div>
+              <div style="color: var(--accent-color); font-weight: 700; letter-spacing: 0.5px;">ГРИФ: СОВ. СЕКРЕТНО</div>
+            </div>
+          </div>
+          
+          <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace;"></h3>
+          
+          <div class="dossier-grid">
+            <div class="dossier-item">
+              <span class="dossier-tag">ЛОЗУНГ</span>
+              <span id="unit-details-slogan" class="dossier-value"></span>
+            </div>
+            <div class="dossier-item">
+              <span class="dossier-tag">СПЕЦИАЛИЗАЦИЯ</span>
+              <span id="unit-details-specialty" class="dossier-value"></span>
+            </div>
+            <div class="dossier-item dossier-item-full">
+              <span class="dossier-tag">ОПЕРАТИВНЫЕ ЗАДАЧИ В MTC4</span>
+              <span id="unit-details-tasks" class="dossier-value"></span>
+            </div>
+          </div>
+
+          <!-- Tactical Specs / Attributes Grid -->
+          <div class="tactical-specs-section" style="margin-top: 2rem;">
+            <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.25rem; font-weight: 700; text-align: left;">Характеристики подразделения</h4>
+            <div class="spec-bar-row">
+              <span class="spec-label">Мобильность</span>
+              <div class="spec-bar-bg"><div id="spec-bar-mobility" class="spec-bar-fill"></div></div>
+              <span id="spec-val-mobility" class="spec-value"></span>
+            </div>
+            <div class="spec-bar-row">
+              <span class="spec-label">Огневая мощь</span>
+              <div class="spec-bar-bg"><div id="spec-bar-firepower" class="spec-bar-fill"></div></div>
+              <span id="spec-val-firepower" class="spec-value"></span>
+            </div>
+            <div class="spec-bar-row" style="margin-bottom: 0;">
+              <span class="spec-label">Штурм / Натиск</span>
+              <div class="spec-bar-bg"><div id="spec-bar-assault" class="spec-bar-fill"></div></div>
+              <span id="spec-val-assault" class="spec-value"></span>
+            </div>
+          </div>
+
+          <!-- Archival Sign-off Signature -->
+          <div class="dossier-signature" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; font-size: 0.72rem; font-family: 'Share Tech Mono', monospace; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
+            <span>СВЕДЕНИЯ ДОСТОВЕРНЫ. ДОКУМЕНТ ВЫДАН ДЛЯ ОЗНАКОМЛЕНИЯ.</span>
+            <span>ПОДПИСЬ: <u>Ген.-майор Соколов В.И.</u></span>
+          </div>
+        </div>
+
+        <!-- ================= SHEET 4: CONNECTIONS & DEVELOPERS ================= -->
+        <div id="sheet-links" class="dossier-sheet" style="display: none; text-align: left;">
+          <!-- Archive Header inside card -->
+          <div class="card-status-bar" style="border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; text-align: left; justify-content: space-between; font-family: 'Share Tech Mono', monospace; color: var(--text-muted);">
+            <div>
+              <div style="font-size: 0.68rem; letter-spacing: 0.5px;">АРХИВ МИНИСТЕРСТВА ОБОРОНЫ РС</div>
+              <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-color);">УЗЛЫ СВЯЗИ // ТОМ IV</div>
+            </div>
+            <div style="text-align: right; font-size: 0.68rem;">
+              <div>ЭКЗЕМПЛЯР ЕДИНСТВЕННЫЙ</div>
+              <div style="color: var(--accent-color); font-weight: 700; letter-spacing: 0.5px;">СВЯЗЬ: АКТИВНА</div>
+            </div>
+          </div>
+          
+          <h3 class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace;">Узлы связи и Доступа</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+              <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color);">ЦЕНТРАЛЬНЫЙ ШТАБ ДИСПЕТЧЕРИЗАЦИИ (DISCORD)</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">Основной канал связи для координации бойцов, подачи рапортов, проведения наборов и получения срочных боевых сводок штаба.</p>
+              <a href="https://discord.gg/JbDG2NWwu" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem !important; text-decoration: none; font-size: 0.85rem !important; font-weight: 700; border-radius: 0;">
+                <span>ПОДКЛЮЧИТЬСЯ К DISCORD</span>
+              </a>
+            </div>
+            
+            <div style="border-top: 1px dashed var(--border-color); padding-top: 1.5rem;">
+              <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color);">РЕЗЕРВНЫЕ КАНАЛЫ (ПРИВАТНЫЕ СЕРВЕРА ROBLOX)</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">Защищенные тренировочные и боевые серверы для выполнения тренировочных и тактических задач.</p>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <a href="https://www.roblox.com/share?code=7e22e45466d6f549a9640d6acd360832&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.75rem 1rem !important; text-decoration: none; font-size: 0.8rem !important; font-weight: 700;">
+                  СЕРВЕР №1 (ОСНОВНОЙ)
+                </a>
+                <a href="https://www.roblox.com/share?code=daa6e8bf946163498d0d10acd191d129&type=Server" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.75rem 1rem !important; text-decoration: none; font-size: 0.8rem !important; font-weight: 700;">
+                  СЕРВЕР №2 (РЕЗЕРВНЫЙ)
+                </a>
+              </div>
+            </div>
+
+            <div style="border-top: 1px dashed var(--border-color); padding-top: 1.5rem;">
+              <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color);">СОСТАВ РАЗРАБОТЧИКОВ И ИНЖЕНЕРОВ</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">Проектирование и техническое обслуживание тактических систем бригады.</p>
+              <ul style="font-size: 0.8rem; line-height: 1.6; list-style-type: square; padding-left: 1.2rem; color: var(--text-muted);">
+                <li><strong>TATAP_345 (Дмитрий)</strong> — Разработка систем, программирование и координация.</li>
+                <li><strong>Egorka5877</strong> — Проектирование тактического интерфейса.</li>
+                <li><strong>Gerasim (Костя)</strong> — Системный дизайн и тестирование.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
