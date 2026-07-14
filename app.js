@@ -571,4 +571,60 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   animateSmoke();
+
+  // --- 10. Live HUD Coordinates & Micro Terminal Logs ---
+  const hudX = document.getElementById('hud-coord-x');
+  const hudY = document.getElementById('hud-coord-y');
+  
+  if (hudX && hudY) {
+    window.addEventListener('mousemove', (e) => {
+      // Normalize coordinate reading relative to screen size
+      const normX = (e.clientX / window.innerWidth * 100).toFixed(3);
+      const normY = (e.clientY / window.innerHeight * 100).toFixed(3);
+      hudX.textContent = normX;
+      hudY.textContent = normY;
+    });
+  }
+
+  const logConsole = document.getElementById('hud-terminal-logs');
+  const logLines = [
+    "SYS // CORPS SYNCING SECTOR 32... OK",
+    "COMMS // LINK STATE ENCRYPTED",
+    "RADAR // RADAR SWEEP COMPLETE",
+    "TELEMETRY // COORDINATES NOMINAL",
+    "BATTERY // CORE DISSIPATION STATUS STABLE",
+    "NETWORK // CLIENT PROTOCOLS LOADED",
+    "DATABASE // PULLING INTEL DOSSIERS... 100%",
+    "SYSTEM // VENTILATION SUBSYSTEM RUNNING",
+    "STATUS // ALL UNITS NOMINAL",
+    "SYS // ENCRYPTION KEYS ROTATED",
+    "COMMS // ANTENNA ALIGNMENT 100%",
+    "RADAR // 0 UNKNOWN CONTACTS DETECTED"
+  ];
+
+  if (logConsole) {
+    setInterval(() => {
+      // Add random tactical line
+      const randomLine = logLines[Math.floor(Math.random() * logLines.length)];
+      const lineEl = document.createElement('div');
+      lineEl.className = 'log-line active-log';
+      lineEl.textContent = `> ${randomLine}`;
+      logConsole.appendChild(lineEl);
+      
+      // Remove older lines to keep it bounded
+      while (logConsole.children.length > 5) {
+        logConsole.removeChild(logConsole.firstChild);
+      }
+      
+      // Remove active highlight from earlier log lines
+      Array.from(logConsole.children).forEach((child, idx) => {
+        if (child && idx < logConsole.children.length - 1) {
+          child.classList.remove('active-log');
+        }
+      });
+      
+      // Auto scroll
+      logConsole.scrollTop = logConsole.scrollHeight;
+    }, 3500);
+  }
 });

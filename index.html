@@ -97,6 +97,17 @@
             <span class="sidebar-stat-val" style="color: #ffaa00;">85+</span>
           </div>
         </div>
+        
+        <!-- Live Micro Terminal Logs -->
+        <div class="hud-terminal">
+          <div class="hud-terminal-header">
+            <span class="hud-terminal-blink">●</span> TELEMETRY STREAM
+          </div>
+          <div class="hud-terminal-body" id="hud-terminal-logs">
+            <div class="log-line">> CONNECTING SECURE SENSOR LINK...</div>
+            <div class="log-line">> LOCAL COORDINATE MATRIX LOADED.</div>
+          </div>
+        </div>
       </div>
       
       <!-- Right Column: Interactive Dossier Card (Default active state) -->
@@ -212,6 +223,18 @@
           <span>Разработчик #3</span>
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- Live Mouse HUD Coordinates -->
+  <div class="hud-coordinates-widget">
+    <div class="hud-row">
+      <span class="hud-label">COORDS:</span>
+      <span class="hud-val"><span id="hud-coord-x">0.000</span>, <span id="hud-coord-y">0.000</span></span>
+    </div>
+    <div class="hud-row">
+      <span class="hud-label">SYS_STATE:</span>
+      <span class="hud-val blink-fast">ONLINE</span>
     </div>
   </div>
 
