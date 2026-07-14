@@ -62,7 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('unit-details-specialty').textContent = data.specialty;
         document.getElementById('unit-details-tasks').textContent = data.tasks;
         
-        // Dynamically apply unit theme color signature to the card container
+        // Dynamically apply unit theme color signature globally to the entire document
+        document.documentElement.style.setProperty('--accent-color', data.color);
+        document.documentElement.style.setProperty('--accent-glow', data.glow);
         detailsCard.style.setProperty('--unit-accent-color', data.color);
         detailsCard.style.setProperty('--unit-accent-glow', data.glow);
         
