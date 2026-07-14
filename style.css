@@ -2097,17 +2097,13 @@ a.footer-link:hover {
 ════════════════════════════════════════════ */
 .feature-card, .unit-details-card {
   position: relative;
-  border: 1px solid var(--border-color) !important;
-  background: var(--card-bg);
-  box-shadow: 2px 4px 15px rgba(45, 40, 30, 0.22) !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
   padding: 2.2rem 2rem;
-  /* Organic hand-cut paper edges */
-  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
-  /* Apply visual displacement distortion mapping */
-  filter: url(#torn-paper-edge) !important;
 }
 
-/* Paper weathering overlay: Creases, coffee stains, age dirt and dust */
+/* Paper weathering overlay: Holds the actual paper sheet background, borders, creases, coffee stains, age dirt and dust. Distorted to look frayed while text remains straight. */
 .paper-weathering-overlay {
   position: absolute;
   top: 0;
@@ -2115,9 +2111,18 @@ a.footer-link:hover {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 5;
-  border-radius: inherit;
-  background: 
+  z-index: -1; /* Placed behind text content */
+  
+  /* Physical paper look */
+  background: var(--card-bg);
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 2px 4px 15px rgba(45, 40, 30, 0.22) !important;
+  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
+  
+  /* Apply edge tearing displacement mapping only to background sheet */
+  filter: url(#torn-paper-edge) !important;
+  
+  background-image: 
     /* Crease 1: Vertical soft crease line */
     linear-gradient(90deg, transparent 48.5%, rgba(0, 0, 0, 0.08) 49.5%, rgba(0, 0, 0, 0.12) 50%, rgba(255, 255, 255, 0.15) 50.5%, transparent 51.5%),
     /* Crease 2: Horizontal soft crease line */
