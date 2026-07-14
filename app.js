@@ -70,35 +70,38 @@ document.addEventListener('DOMContentLoaded', () => {
     links: document.getElementById('sheet-links')
   };
 
-  // Helper to switch active sheets with a smooth fade and crumpled paper unfolding animation
-  function switchSheet(targetSheetKey) {
+  // Helper: full crumple → content swap → unrumple cycle
+  function switchSheet(targetSheetKey, populateFn) {
     if (!detailsCard) return;
 
-    // Apply fade out effect
-    detailsCard.classList.remove('slide-in-right', 'hologram-load', 'unrumple-paper-animation');
-    detailsCard.classList.add('slide-out-right');
+    // Phase 1: crumple the card into a ball
+    detailsCard.classList.remove('unrumple-paper-animation', 'crumple-paper-animation', 'slide-out-right', 'slide-in-right', 'hologram-load');
+    void detailsCard.offsetWidth;
+    detailsCard.classList.add('crumple-paper-animation');
 
+    // Phase 2: after crumple finishes swap content, then unrumple
     setTimeout(() => {
-      // Hide all sheets
+      // Swap visible sheet
       Object.keys(sheets).forEach(key => {
         if (sheets[key]) {
           sheets[key].style.display = 'none';
           sheets[key].classList.remove('active-sheet');
         }
       });
-
-      // Show the selected sheet
       const targetSheet = sheets[targetSheetKey];
       if (targetSheet) {
         targetSheet.style.display = 'block';
         targetSheet.classList.add('active-sheet');
       }
 
-      // Slide back in and trigger tactile crumpled paper unfold animation
-      detailsCard.classList.remove('slide-out-right', 'unrumple-paper-animation');
-      void detailsCard.offsetWidth; // Force CSS reflow to replay animation
+      // Optional content population callback runs before unrumple
+      if (typeof populateFn === 'function') populateFn();
+
+      // Unrumple the card back into a flat sheet
+      detailsCard.classList.remove('crumple-paper-animation', 'unrumple-paper-animation');
+      void detailsCard.offsetWidth;
       detailsCard.classList.add('unrumple-paper-animation');
-    }, 200);
+    }, 580); // slightly longer than crumple animation (550ms) to ensure it finishes
   }
 
   // Clear active tab status from all navigation tabs and unit buttons
@@ -178,77 +181,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // Unit Buttons click handler inside accordion
   unitButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Avoid triggering parent tabUnits accordion
-      
+      e.stopPropagation();
+
       clearAllActiveNavs();
       tabUnits.classList.add('active-tab');
       btn.classList.add('active');
 
       const data = unitData[btn.id];
       if (data) {
-        // Start sliding out to the right
-        detailsCard.classList.remove('slide-in-right', 'hologram-load', 'unrumple-paper-animation');
-        detailsCard.classList.add('slide-out-right');
-        
-        setTimeout(() => {
-          // Hide all sheets, show details sheet
-          Object.keys(sheets).forEach(key => {
-            if (sheets[key]) sheets[key].style.display = 'none';
-          });
-          if (sheets.details) {
-            sheets.details.style.display = 'block';
-            sheets.details.classList.add('active-sheet');
-          }
-
-          // Populate unit details
+        switchSheet('details', () => {
+          // Populate unit details (runs mid-transition when card is a crumpled ball)
           document.getElementById('unit-details-title').textContent = data.title;
           document.getElementById('unit-details-slogan').textContent = data.slogan;
           document.getElementById('unit-details-specialty').textContent = data.specialty;
           document.getElementById('unit-details-tasks').textContent = data.tasks;
-          
-          // Dynamically apply unit theme color signature
+
+          // Apply unit theme color
           document.documentElement.style.setProperty('--accent-color', data.color);
           document.documentElement.style.setProperty('--accent-glow', data.glow);
           detailsCard.style.setProperty('--unit-accent-color', data.color);
           detailsCard.style.setProperty('--unit-accent-glow', data.glow);
-          
-          if (window.setSmokeTargetColor) {
-            window.setSmokeTargetColor(data.color);
-          }
-          
-          // Animate tactical spec progress bars
+          if (window.setSmokeTargetColor) window.setSmokeTargetColor(data.color);
+
+          // Reset spec bars to 0 first
           const mFill = document.getElementById('spec-bar-mobility');
           const fFill = document.getElementById('spec-bar-firepower');
           const aFill = document.getElementById('spec-bar-assault');
-          
-          const mVal = document.getElementById('spec-val-mobility');
-          const fVal = document.getElementById('spec-val-firepower');
-          const aVal = document.getElementById('spec-val-assault');
-          
-          mFill.style.width = '0%';
-          fFill.style.width = '0%';
-          aFill.style.width = '0%';
-          
-          mVal.textContent = '0%';
-          fVal.textContent = '0%';
-          aVal.textContent = '0%';
-          
-          // Slide back in and play unrumple/unfold animation
-          detailsCard.classList.remove('slide-out-right', 'unrumple-paper-animation');
-          void detailsCard.offsetWidth; // Force CSS reflow to replay animation
-          detailsCard.classList.add('unrumple-paper-animation');
-          
-          // Stagger fill visual
+          const mVal  = document.getElementById('spec-val-mobility');
+          const fVal  = document.getElementById('spec-val-firepower');
+          const aVal  = document.getElementById('spec-val-assault');
+
+          mFill.style.width = '0%'; fFill.style.width = '0%'; aFill.style.width = '0%';
+          mVal.textContent = '0%';  fVal.textContent = '0%';  aVal.textContent = '0%';
+
+          // Animate bars after unrumple starts (delay ~400ms into unrumple)
           setTimeout(() => {
             mFill.style.width = `${data.stats.mobility}%`;
             fFill.style.width = `${data.stats.firepower}%`;
             aFill.style.width = `${data.stats.assault}%`;
-            
             mVal.textContent = `${data.stats.mobility}%`;
             fVal.textContent = `${data.stats.firepower}%`;
             aVal.textContent = `${data.stats.assault}%`;
-          }, 150);
-        }, 200);
+          }, 400);
+        });
       }
     });
   });

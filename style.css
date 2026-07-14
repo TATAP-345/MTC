@@ -1478,6 +1478,68 @@ footer {
   animation: slideOutRight 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
+/* Paper crumple INTO a ball (exit animation — reverse of unrumple) */
+@keyframes crumplePaper {
+  0% {
+    transform: perspective(1000px) scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
+    border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
+    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%) !important;
+    opacity: 1;
+    filter: none;
+    box-shadow: none;
+  }
+  35% {
+    transform: perspective(1000px) scale(0.96) rotate(6deg) rotateX(-15deg) rotateY(-8deg);
+    border-radius: 15% 10% 12% 8% / 10% 12% 8% 10% !important;
+    clip-path: polygon(5% 2%, 50% 1%, 95% 1%, 99% 10%, 98% 90%, 95% 98%, 50% 99%, 5% 99%, 1% 50%) !important;
+    opacity: 0.96;
+    filter: contrast(130%) brightness(103%);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  }
+  70% {
+    transform: perspective(1000px) scale(0.5) rotate(-22deg) rotateX(40deg) rotateY(30deg);
+    border-radius: 40% 30% 40% 30% / 30% 40% 30% 40% !important;
+    clip-path: polygon(15% 5%, 50% 3%, 85% 2%, 98% 20%, 95% 80%, 85% 95%, 50% 97%, 15% 98%, 2% 50%) !important;
+    opacity: 0.7;
+    filter: blur(0.5px) contrast(220%) brightness(110%);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+  }
+  100% {
+    transform: perspective(1000px) scale(0.06) rotate(110deg) rotateX(-90deg) rotateY(-90deg);
+    border-radius: 50% !important;
+    clip-path: polygon(30% 10%, 65% 5%, 90% 25%, 95% 60%, 75% 90%, 40% 95%, 10% 80%, 5% 45%, 15% 20%) !important;
+    opacity: 0;
+    filter: blur(2px) contrast(350%) brightness(85%);
+    box-shadow: 0 45px 90px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.crumple-paper-animation {
+  animation: crumplePaper 0.55s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+/* Hide inner content during crumple */
+.crumple-paper-animation .dossier-sheet {
+  animation: fadeOutSheetContent 0.55s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+@keyframes fadeOutSheetContent {
+  0% {
+    opacity: 1;
+    filter: none;
+  }
+  40% {
+    opacity: 0.3;
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+
 .slide-in-right {
   animation: slideInRight 0.3s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
@@ -2397,7 +2459,7 @@ a.footer-link:hover {
   transform-origin: center center;
 }
 
-/* Fade in text content ONLY after paper is partially unfolded to simulate real physical legibility progression */
+/* Fade in text content ONLY after paper is partially unfolded */
 @keyframes fadeInSheetContent {
   0%, 55% {
     opacity: 0;
