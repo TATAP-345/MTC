@@ -70,12 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
     links: document.getElementById('sheet-links')
   };
 
-  // Helper to switch active sheets with a smooth fade
+  // Helper to switch active sheets with a smooth fade and crumpled paper unfolding animation
   function switchSheet(targetSheetKey) {
     if (!detailsCard) return;
 
-    // Apply animation effect
-    detailsCard.classList.remove('slide-in-right', 'hologram-load');
+    // Apply fade out effect
+    detailsCard.classList.remove('slide-in-right', 'hologram-load', 'unrumple-paper-animation');
     detailsCard.classList.add('slide-out-right');
 
     setTimeout(() => {
@@ -94,9 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
         targetSheet.classList.add('active-sheet');
       }
 
-      // Slide back in
-      detailsCard.classList.remove('slide-out-right');
-      detailsCard.classList.add('slide-in-right');
+      // Slide back in and trigger tactile crumpled paper unfold animation
+      detailsCard.classList.remove('slide-out-right', 'unrumple-paper-animation');
+      void detailsCard.offsetWidth; // Force CSS reflow to replay animation
+      detailsCard.classList.add('unrumple-paper-animation');
     }, 200);
   }
 

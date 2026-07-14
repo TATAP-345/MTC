@@ -2352,6 +2352,39 @@ a.footer-link:hover {
   }
 }
 
+/* Tactile Crumpled Paper Unfolding Animation */
+@keyframes unrumplePaper {
+  0% {
+    transform: scale(0.18) rotate(-40deg) rotateX(85deg) rotateY(45deg);
+    opacity: 0.1;
+    filter: blur(3px) contrast(320%) brightness(130%);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.45);
+  }
+  35% {
+    transform: scale(0.6) rotate(18deg) rotateX(-35deg) rotateY(-25deg);
+    opacity: 0.85;
+    filter: blur(1px) contrast(210%) brightness(115%);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+  }
+  70% {
+    transform: scale(0.96) rotate(-5deg) rotateX(18deg) rotateY(10deg);
+    opacity: 0.95;
+    filter: contrast(125%) brightness(105%);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  }
+  100% {
+    transform: scale(1) rotate(0deg) rotateX(0deg) rotateY(0deg);
+    opacity: 1;
+    filter: none;
+    box-shadow: none;
+  }
+}
+
+.unrumple-paper-animation {
+  animation: unrumplePaper 0.85s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  transform-origin: center center;
+}
+
 
 
 
