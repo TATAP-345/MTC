@@ -298,279 +298,138 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.transform = '';
     });
   });
-  // --- 9. Real-time Reactive 3D Smoke Background ---
+  // --- 9. WebGL 3D Tactical Wireframe Terrain Background ---
   const canvas = document.createElement('canvas');
   canvas.id = 'ambient-smoke-canvas';
   document.body.insertBefore(canvas, document.body.firstChild);
 
-  const ctx = canvas.getContext('2d');
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
+  // Set up Three.js WebGL components
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 10, 32);
+  camera.lookAt(0, 4, 0);
 
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  const particles = [];
-  const particleCount = 75; // Increased density for richer visual volume
-
-  class SmokeParticle {
-    constructor() {
-      this.reset(true);
-    }
-
-    reset(init = false) {
-      this.x = Math.random() * width;
-      this.y = init ? Math.random() * height : height + Math.random() * 100;
-      this.size = Math.random() * 200 + 150; // soft volumetric clouds
-      this.vx = (Math.random() - 0.5) * 0.45;
-      this.vy = -Math.random() * 0.4 - 0.15; // slow drift upwards
-      this.alpha = 0;
-      this.maxAlpha = Math.random() * 0.08 + 0.03; // low opacity glow
-      this.fadeSpeed = Math.random() * 0.003 + 0.001;
-      this.rotation = Math.random() * Math.PI * 2;
-      this.rotationSpeed = (Math.random() - 0.5) * 0.0015;
-      this.growing = true;
-    }
-
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      this.rotation += this.rotationSpeed;
-
-      if (this.growing) {
-        this.alpha += this.fadeSpeed;
-        if (this.alpha >= this.maxAlpha) {
-          this.alpha = this.maxAlpha;
-          this.growing = false;
-        }
-      }
-
-      // Recycle when drifts off screen or goes transparent
-      if (this.y < -this.size || this.x < -this.size || this.x > width + this.size) {
-        this.reset();
-      }
-    }
-
-    draw(colorRgb) {
-      ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.rotation);
-      
-      const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
-      grad.addColorStop(0, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, ${this.alpha})`);
-      grad.addColorStop(0.5, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, ${this.alpha * 0.35})`);
-      grad.addColorStop(1, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, 0)`);
-      
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  // Populate particles
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new SmokeParticle());
-  }
-
-  // Hex to RGB parser
-  function hexToRgb(hex) {
-    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    const fullHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : { r: 0, g: 255, b: 170 };
-  }
-
-  // Mouse tracking for parallax 3D coordinate movement
-  let mouseX = width / 2;
-  let mouseY = height / 2;
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  // Holographic floor-grid click ripples (3D perspective)
-  const clickRipples = [];
-  window.addEventListener('click', (e) => {
-    // Avoid spawning waves when clicking buttons, links, or modals
-    if (e.target.closest('button, a, .modal-content, .unit-btn')) return;
-    
-    clickRipples.push({
-      x: e.clientX,
-      y: e.clientY,
-      radius: 0,
-      maxRadius: Math.max(width, height) * 0.4,
-      alpha: 0.18,
-      speed: 4
-    });
-  });
-
-  // 3D Floating Dust Particles (Military Telemetry Debris)
-  const dustParticles = [];
-  const dustCount = 45;
-
-  class DustParticle {
-    constructor() {
-      this.reset(true);
-    }
-
-    reset(init = false) {
-      this.x = (Math.random() - 0.5) * width * 2;
-      this.y = init ? Math.random() * height : height + 50;
-      this.z = Math.random() * 400 + 100; // virtual 3D depth z-axis
-      this.vx = (Math.random() - 0.5) * 0.35;
-      this.vy = -Math.random() * 0.5 - 0.25; // slow upward drift
-      this.size = Math.random() * 1.8 + 0.8;
-      this.alpha = Math.random() * 0.4 + 0.2;
-    }
-
-    update() {
-      this.y += this.vy;
-      this.x += this.vx;
-
-      // Recycle when drifts off screen
-      if (this.y < -50 || this.x < -width || this.x > width * 2) {
-        this.reset();
-      }
-    }
-
-    draw(colorRgb) {
-      const fl = 300; // focal length
-      const scale = fl / (fl + this.z);
-      const projX = width / 2 + this.x * scale;
-      const projY = this.y;
-
-      const currentSize = this.size * scale * 2;
-
-      ctx.save();
-      ctx.fillStyle = `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, ${this.alpha * scale})`;
-      ctx.shadowBlur = 6 * scale;
-      ctx.shadowColor = `rgb(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b})`;
-      ctx.beginPath();
-      ctx.arc(projX, projY, currentSize, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-  }
-
-  // Populate dust particles
-  for (let i = 0; i < dustCount; i++) {
-    dustParticles.push(new DustParticle());
-  }
-
-  // Reactive color states
+  // Create 3D Wireframe Plane
+  const geometry = new THREE.PlaneGeometry(120, 120, 45, 45);
+  
   let targetColorHex = '#00ffaa';
-  let currentColorRgb = { r: 0, g: 255, b: 170 };
+  let currentHex = '#00ffaa';
 
+  const material = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(currentHex),
+    wireframe: true,
+    transparent: true,
+    opacity: 0.15
+  });
+
+  const terrain = new THREE.Mesh(geometry, material);
+  terrain.rotation.x = -Math.PI / 2; // lay terrain flat
+  terrain.position.y = -6;
+  scene.add(terrain);
+
+  // Create 3D Telemetry Embers points
+  const particlesCount = 120;
+  const particlesGeo = new THREE.BufferGeometry();
+  const positions = new Float32Array(particlesCount * 3);
+
+  for (let i = 0; i < particlesCount * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 80;
+    positions[i + 1] = Math.random() * 40 - 15;
+    positions[i + 2] = (Math.random() - 0.5) * 80;
+  }
+
+  particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const pMaterial = new THREE.PointsMaterial({
+    color: new THREE.Color(currentHex),
+    size: 0.35,
+    transparent: true,
+    opacity: 0.5,
+    sizeAttenuation: true
+  });
+
+  const particleSystem = new THREE.Points(particlesGeo, pMaterial);
+  scene.add(particleSystem);
+
+  // Global callback to change colors
   window.setSmokeTargetColor = (hex) => {
     targetColorHex = hex;
   };
 
-  // Smooth interpolation values for mouse coordinates
-  let interpMouseX = width / 2;
-  let interpMouseY = height / 2;
+  // Mouse camera tilt parameters
+  let mouseX = 0;
+  let mouseY = 0;
+  let targetCameraX = 0;
+  let targetCameraY = 10;
 
-  function animateSmoke() {
-    ctx.clearRect(0, 0, width, height);
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    targetCameraX = mouseX * 8;
+    targetCameraY = 10 - mouseY * 4;
+  });
 
-    // Interpolate color changes
-    const targetRgb = hexToRgb(targetColorHex);
-    currentColorRgb.r += (targetRgb.r - currentColorRgb.r) * 0.025;
-    currentColorRgb.g += (targetRgb.g - currentColorRgb.g) * 0.025;
-    currentColorRgb.b += (targetRgb.b - currentColorRgb.b) * 0.025;
+  // Handle window resizing
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
 
-    // Interpolate mouse movements for smooth 3D tilting
-    interpMouseX += (mouseX - interpMouseX) * 0.04;
-    interpMouseY += (mouseY - interpMouseY) * 0.04;
+  const clock = new THREE.Clock();
 
-    const horizonY = height * 0.4 + (interpMouseY - height / 2) * 0.06;
-    const vanishingX = width / 2 + (interpMouseX - width / 2) * 0.06;
+  function animate3D() {
+    requestAnimationFrame(animate3D);
 
-    // 1. Draw 3D Perspective Grid
-    ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, 0.045)`;
-    ctx.lineWidth = 1;
+    const elapsedTime = clock.getElapsedTime();
 
-    // Longitudinal grid lines
-    const gridLinesCount = 18;
-    for (let i = 0; i <= gridLinesCount; i++) {
-      const fraction = i / gridLinesCount;
-      const xEnd = (fraction - 0.5) * width * 3 + width / 2;
-      ctx.beginPath();
-      ctx.moveTo(vanishingX, horizonY);
-      ctx.lineTo(xEnd, height);
-      ctx.stroke();
+    // Displace terrain vertices with custom wave math equations
+    const posAttribute = geometry.attributes.position;
+    for (let i = 0; i < posAttribute.count; i++) {
+      const x = posAttribute.getX(i);
+      const y = posAttribute.getY(i);
+      const z = Math.sin(x * 0.12 + elapsedTime) * Math.cos(y * 0.12 + elapsedTime) * 2.2 
+              + Math.sin(x * 0.04 + elapsedTime * 0.4) * 3.5;
+      posAttribute.setZ(i, z);
     }
+    geometry.computeVertexNormals();
+    posAttribute.needsUpdate = true;
 
-    // Lateral grid lines moving forward
-    const gridOffset = (Date.now() * 0.035) % 60;
-    const lateralCount = 9;
-    for (let j = 0; j < lateralCount; j++) {
-      const progress = j / lateralCount;
-      const currentY = horizonY + (height - horizonY) * Math.pow(progress, 2.2);
-      const animatedY = currentY + gridOffset * progress;
-      if (animatedY <= height) {
-        ctx.beginPath();
-        ctx.moveTo(0, animatedY);
-        ctx.lineTo(width, animatedY);
-        ctx.stroke();
+    // Simulate forward movement
+    terrain.position.z = (elapsedTime * 1.5) % (120 / 45);
+
+    // Float embers upwards
+    const pPositions = particlesGeo.attributes.position.array;
+    for (let i = 1; i < pPositions.length; i += 3) {
+      pPositions[i] += 0.035;
+      if (pPositions[i] > 25) {
+        pPositions[i] = -15;
       }
     }
+    particlesGeo.attributes.position.needsUpdate = true;
 
-    // 2. Draw Holographic Circular Radar Scans
-    const radarTime = Date.now() * 0.0003;
-    ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, 0.025)`;
-    for (let r = 1; r <= 3; r++) {
-      const radius = ((radarTime + r / 3) % 1) * Math.max(width, height) * 0.45;
-      ctx.beginPath();
-      ctx.arc(vanishingX, horizonY, radius, 0, Math.PI * 2);
-      ctx.stroke();
-    }
+    // Mouse camera parallax easing
+    camera.position.x += (targetCameraX - camera.position.x) * 0.04;
+    camera.position.y += (targetCameraY - camera.position.y) * 0.04;
+    camera.lookAt(0, 2, -10);
 
-    // 2.5 Draw 3D floor perspective click ripples
-    for (let i = clickRipples.length - 1; i >= 0; i--) {
-      const rip = clickRipples[i];
-      rip.radius += rip.speed;
-      rip.alpha -= 0.003; // fade out
+    // Color transition interpolation
+    const currCol = material.color;
+    const targetCol = new THREE.Color(targetColorHex);
+    currCol.r += (targetCol.r - currCol.r) * 0.03;
+    currCol.g += (targetCol.g - currCol.g) * 0.03;
+    currCol.b += (targetCol.b - currCol.b) * 0.03;
+    pMaterial.color.copy(currCol);
 
-      if (rip.alpha <= 0 || rip.radius >= rip.maxRadius) {
-        clickRipples.splice(i, 1);
-        continue;
-      }
-
-      ctx.save();
-      ctx.translate(rip.x, rip.y);
-      ctx.scale(1, 0.4); // flat floor perspective scaling
-      ctx.strokeStyle = `rgba(${currentColorRgb.r}, ${currentColorRgb.g}, ${currentColorRgb.b}, ${rip.alpha})`;
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(0, 0, rip.radius, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // 2.7 Draw 3D Floating Dust Embers (Drifting particles with perspective sizing)
-    dustParticles.forEach(d => {
-      d.update();
-      d.draw(currentColorRgb);
-    });
-
-    // 3. Draw Volumetric Smoke Clouds on top
-    particles.forEach(p => {
-      p.update();
-      p.draw(currentColorRgb);
-    });
-
-    requestAnimationFrame(animateSmoke);
+    renderer.render(scene, camera);
   }
 
-  animateSmoke();
+  animate3D();
+
 
   // --- 10. Live HUD Coordinates & Micro Terminal Logs ---
   const hudX = document.getElementById('hud-coord-x');
