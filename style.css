@@ -1217,3 +1217,131 @@ footer {
   line-height: 1.65;
   color: var(--text-muted);
 }
+
+/* Animated premium background blobs */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.12;
+  animation: float-blobs 25s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+  top: -20%;
+  left: -10%;
+}
+
+.blob-2 {
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+  bottom: -15%;
+  right: -10%;
+  animation-delay: -5s;
+}
+
+.blob-3 {
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle, #10b981 0%, transparent 70%);
+  top: 35%;
+  left: 60%;
+  animation-delay: -10s;
+}
+
+@keyframes float-blobs {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6%, 8%) scale(1.08); }
+  100% { transform: translate(-6%, -6%) scale(0.92); }
+}
+
+/* Button pulsing dots */
+.btn-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: 0.75rem;
+  display: inline-block;
+  box-shadow: 0 0 8px currentColor;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
+}
+
+.dot-tayfun { color: #38bdf8; background-color: #38bdf8; }
+.dot-burevestnik { color: #3b82f6; background-color: #3b82f6; }
+.dot-berkut { color: #f59e0b; background-color: #f59e0b; }
+.dot-sapsan { color: #f43f5e; background-color: #f43f5e; }
+
+/* Pulse animation on hover */
+.unit-btn:hover .btn-dot,
+.unit-btn.active .btn-dot {
+  animation: pulse-dot 1s infinite alternate;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(1); box-shadow: 0 0 6px currentColor; }
+  100% { transform: scale(1.5); box-shadow: 0 0 12px currentColor; }
+}
+
+/* Tech corners / brackets for card */
+.unit-details-card-bracket-tl {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid var(--accent-color);
+  border-left: 2px solid var(--accent-color);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.unit-details-card-bracket-br {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-bottom: 2px solid var(--accent-color);
+  border-right: 2px solid var(--accent-color);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Laser scanline vertical movement effect */
+.unit-details-card .scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
+  animation: scan-vertical 5s infinite linear;
+}
+
+@keyframes scan-vertical {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+
+/* Monospace fonts for high-tech HUD feel */
+.card-serial,
+.status-indicator,
+.stat-num {
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace !important;
+}
+
+/* Add custom glow to stats numbers */
+.stat-num {
+  text-shadow: 0 0 15px currentColor;
+}
