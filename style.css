@@ -6,27 +6,27 @@
   /* Theme-independent variables */
   --font-heading: 'Share Tech Mono', monospace;
   --font-body: 'Share Tech Mono', monospace;
-  --radius-lg: 0px; /* Cyber HUD sharp corners */
+  --radius-lg: 0px; /* Sharp paper corners */
   --radius-md: 0px;
   --radius-sm: 0px;
-  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   
-  /* Default Dark Theme variables (Military NVG CRT style) */
-  --bg-color: #080c09;
-  --bg-grid: rgba(62, 240, 100, 0.01);
-  --text-color: #c4eccb;
-  --text-muted: #57775f;
-  --card-bg: rgba(12, 18, 14, 0.88);
-  --card-hover: rgba(18, 28, 22, 0.95);
-  --border-color: rgba(62, 240, 100, 0.15);
-  --border-hover: rgba(62, 240, 100, 0.45);
-  --accent-color: #3ef064; /* NVG Phosphor Green */
-  --accent-hover: #2ee053;
-  --accent-glow: rgba(62, 240, 100, 0.16);
-  --navbar-bg: rgba(8, 12, 9, 0.94);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.9);
-  --glow-color: rgba(62, 240, 100, 0.02);
+  /* Cold War Classified Manila Folder Theme */
+  --bg-color: #d1c5a9; /* Manila folder cardboard outer color */
+  --bg-grid: rgba(100, 90, 70, 0.12); /* Retro mapping grids */
+  --text-color: #262420; /* Dark charcoal typewriter ink */
+  --text-muted: #665f52; /* Faded carbon copy print */
+  --card-bg: #faf7eb; /* Crisp white-cream document sheet paper */
+  --card-hover: #fcf9ee;
+  --border-color: #8c8169; /* Pencil/ink borders */
+  --border-hover: #4d4638;
+  --accent-color: #b22222; /* Red "SECRETO / CLASSIFIED" ink stamp */
+  --accent-hover: #911616;
+  --accent-glow: rgba(178, 34, 34, 0.08);
+  --navbar-bg: #c3b79b; /* Cardboard folder tab color */
+  --shadow-lg: 0 8px 24px rgba(45, 40, 30, 0.22);
+  --glow-color: transparent;
 }
 
 [data-theme="light"] {
@@ -362,16 +362,15 @@ main {
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
   margin-bottom: 2rem;
-  background: linear-gradient(135deg, var(--text-color) 25%, var(--accent-color) 80%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-color);
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   transition: all 0.5s ease;
 }
 
@@ -1096,27 +1095,30 @@ footer {
   max-width: 800px;
   margin: 0 auto 4rem;
   padding: 3rem 2.5rem;
-  border-left: 4px solid var(--unit-accent-color, var(--accent-color)) !important;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.45)) !important;
+  border-left: 5px solid var(--unit-accent-color, var(--accent-color)) !important;
+  background: var(--card-bg) !important;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-lg), 0 0 30px var(--unit-accent-glow, rgba(56, 189, 248, 0.05));
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s ease;
 }
 
 .unit-details-card::after {
-  content: '';
+  content: 'ГРИФ: СЕКРЕТНО';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(rgba(56, 189, 248, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.015) 1px, transparent 1px);
-  background-size: 24px 24px;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--accent-color);
+  border: 3px double var(--accent-color);
+  padding: 3px 8px;
+  transform: rotate(8deg);
+  opacity: 0.75;
+  letter-spacing: 2px;
   pointer-events: none;
-  z-index: 0;
+  border-radius: 2px;
 }
 
 .label-strong {
@@ -1128,30 +1130,21 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.5rem 1.25rem;
-  background: rgba(56, 189, 248, 0.06);
-  border: 1px solid rgba(56, 189, 248, 0.15);
-  border-radius: 50px;
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: 2px solid var(--accent-color);
+  border-radius: 0px;
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--accent-color);
   letter-spacing: 2px;
   margin-bottom: 1.5rem;
   text-transform: uppercase;
+  transform: rotate(-2deg);
 }
 
 .badge-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--accent-color);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent-color);
-  animation: pulse-badge 1.8s infinite alternate ease-in-out;
-}
-
-@keyframes pulse-badge {
-  0% { transform: scale(0.85); opacity: 0.5; }
-  100% { transform: scale(1.15); opacity: 1; }
+  display: none;
 }
 
 /* Card details inner layout */
@@ -2124,36 +2117,123 @@ a.footer-link:hover {
   }
 }
 
-/* Tactical HUD border decoration on cards for command post feel */
+/* ════════════════════════════════════════════
+   COLD WAR DOSSIER DOS / PAPER STYLING
+════════════════════════════════════════════ */
 .feature-card, .unit-details-card {
   position: relative;
   border: 1px solid var(--border-color) !important;
   background: var(--card-bg);
+  box-shadow: 2px 3px 10px rgba(45, 40, 30, 0.15) !important;
+  padding: 2.2rem 2rem;
 }
 
-/* Add military corner brackets to the main cards */
-.feature-card::before, .feature-card::after,
-.unit-details-card::before, .unit-details-card::after {
-  content: '';
+/* Red ink "СЕКРЕТНО" stamp decoration */
+.unit-details-card::after {
+  content: 'СЕКРЕТНО';
   position: absolute;
-  width: 8px;
-  height: 8px;
-  border-color: var(--accent-color);
-  border-style: solid;
-  opacity: 0.8;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--accent-color);
+  border: 3px double var(--accent-color);
+  padding: 3px 8px;
+  transform: rotate(8deg);
+  opacity: 0.75;
+  letter-spacing: 2px;
   pointer-events: none;
+  border-radius: 2px;
 }
 
-/* Left top and bottom */
-.feature-card::before, .unit-details-card::before {
-  top: -1px; left: -1px;
-  border-width: 2px 0 0 2px;
+.top-bar {
+  background: var(--navbar-bg);
+  border-bottom: 2px solid var(--border-color);
 }
-/* Right top and bottom */
-.feature-card::after, .unit-details-card::after {
-  bottom: -1px; right: -1px;
-  border-width: 0 2px 2px 0;
+
+.nav-capsule {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
+
+.dev-btn, .server-btn, .discord-btn {
+  background: rgba(0,0,0,0.04) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+  border-radius: 0px !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dev-btn:hover, .server-btn:hover, .discord-btn:hover {
+  background: rgba(0,0,0,0.08) !important;
+  border-color: var(--border-hover) !important;
+}
+
+/* Dossier item separator lines looking like carbon copies */
+.dossier-item {
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.dossier-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent-color);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.dossier-value {
+  font-size: 0.88rem;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text-color);
+}
+
+/* Progress spec bars styled as vintage typewriter bar plots e.g. [=======>   ] */
+.spec-bar-bg {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid var(--border-color) !important;
+  height: 12px !important;
+  border-radius: 0 !important;
+}
+
+.spec-bar-fill {
+  background: var(--accent-color) !important;
+  border-radius: 0 !important;
+  height: 100% !important;
+}
+
+.unit-btn {
+  border-radius: 0px !important;
+  border: 1px solid var(--border-color) !important;
+  background: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.unit-btn:hover {
+  background: var(--card-hover) !important;
+  border-color: var(--border-hover) !important;
+}
+
+.unit-btn.active {
+  background: var(--accent-color) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-color) !important;
+}
+
+.unit-btn.active .btn-dot {
+  background: #ffffff !important;
+}
+
 
 
 
