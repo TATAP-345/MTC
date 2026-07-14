@@ -317,48 +317,130 @@ document.addEventListener('DOMContentLoaded', () => {
   let targetColorHex = '#00ffaa';
   let currentHex = '#00ffaa';
 
-  const hangarMaterial = new THREE.MeshBasicMaterial({
+  const battlefieldMaterial = new THREE.MeshBasicMaterial({
     color: new THREE.Color(currentHex),
     wireframe: true,
     transparent: true,
-    opacity: 0.08
+    opacity: 0.12
   });
 
+  // 2. Procedural 3D Battlefield Terrain & Obstacles Group
+  const battlefieldGroup = new THREE.Group();
 
-  // 2. Procedural 3D Hangar Group (Ангар)
-  const hangarGroup = new THREE.Group();
-
-  // Hangar Floor Grid
-  const floorGrid = new THREE.GridHelper(130, 42, new THREE.Color(currentHex), new THREE.Color(currentHex));
-  floorGrid.position.y = -6.5;
-  hangarGroup.add(floorGrid);
-
-  // Arched Roof Support Beams (5 structural arches)
-  const archRadius = 26;
-  const archHeightOffset = -6.5; // floor level align
-  for (let z = -50; z <= 50; z += 20) {
-    const points = [];
-    const segments = 24;
-    for (let i = 0; i <= segments; i++) {
-      const theta = (i / segments) * Math.PI; // semicircle
-      const x = Math.cos(theta) * archRadius;
-      const y = Math.sin(theta) * archRadius + archHeightOffset;
-      points.push(new THREE.Vector3(x, y, z));
+  // Create rolling terrain with craters using PlaneGeometry
+  const terrainGeo = new THREE.PlaneGeometry(160, 160, 32, 32);
+  const pos = terrainGeo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    
+    // Generate elevations (hills, valleys, trenches)
+    let zVal = Math.sin(x * 0.05) * Math.cos(y * 0.05) * 6; // base hills
+    zVal += Math.sin(x * 0.12) * 1.5; // details
+    
+    // Crater 1 near the center-left
+    const dx1 = x - (-10);
+    const dy1 = y - (-15);
+    const dist1 = Math.sqrt(dx1*dx1 + dy1*dy1);
+    if (dist1 < 25) {
+      zVal -= (25 - dist1) * 0.35;
     }
-    const archGeo = new THREE.BufferGeometry().setFromPoints(points);
-    const archLine = new THREE.Line(archGeo, hangarMaterial);
-    hangarGroup.add(archLine);
 
-    // Vertical structural columns
-    const colGeo = new THREE.BoxGeometry(0.8, 22, 0.8);
-    const colL = new THREE.Mesh(colGeo, hangarMaterial);
-    colL.position.set(-archRadius, 4.5, z);
-    const colR = new THREE.Mesh(colGeo, hangarMaterial);
-    colR.position.set(archRadius, 4.5, z);
-    hangarGroup.add(colL);
-    hangarGroup.add(colR);
+    // Crater 2 center-right
+    const dx2 = x - 20;
+    const dy2 = y - 10;
+    const dist2 = Math.sqrt(dx2*dx2 + dy2*dy2);
+    if (dist2 < 20) {
+      zVal -= (20 - dist2) * 0.3;
+    }
+
+    pos.setZ(i, zVal);
   }
-  scene.add(hangarGroup);
+  terrainGeo.computeVertexNormals();
+  terrainGeo.rotateX(-Math.PI / 2); // Lay flat
+
+  const terrainMesh = new THREE.Mesh(terrainGeo, battlefieldMaterial);
+  terrainMesh.position.y = -8;
+  battlefieldGroup.add(terrainMesh);
+
+  // Helper function to create a wireframe Czech Hedgehog (противотанковый еж)
+  function createHedgehog(size = 3.0) {
+    const hhGroup = new THREE.Group();
+    const beamGeo = new THREE.BoxGeometry(size, size * 0.12, size * 0.12);
+    
+    const b1 = new THREE.Mesh(beamGeo, battlefieldMaterial);
+    
+    const b2 = new THREE.Mesh(beamGeo, battlefieldMaterial);
+    b2.rotation.y = Math.PI / 2;
+    b2.rotation.z = Math.PI / 4;
+    
+    const b3 = new THREE.Mesh(beamGeo, battlefieldMaterial);
+    b3.rotation.z = -Math.PI / 4;
+    b3.rotation.x = Math.PI / 4;
+    
+    hhGroup.add(b1, b2, b3);
+    return hhGroup;
+  }
+
+  // Scattered hedgehogs
+  const hedgehogs = [
+    { x: -15, y: -7.5, z: -15, scale: 0.9 },
+    { x: 12, y: -7.2, z: -25, scale: 1.1 },
+    { x: -5, y: -7.8, z: -8, scale: 0.8 },
+    { x: 22, y: -7.6, z: -12, scale: 1.0 },
+    { x: -28, y: -7.0, z: -35, scale: 1.2 }
+  ];
+
+  hedgehogs.forEach(cfg => {
+    const hh = createHedgehog(3.0 * cfg.scale);
+    hh.position.set(cfg.x, cfg.y, cfg.z);
+    hh.rotation.set(Math.random() * 0.2, Math.random() * 6.28, Math.random() * 0.2);
+    battlefieldGroup.add(hh);
+  });
+
+  // Simple wireframe tactical defense watchtower/antenna
+  const towerGeo = new THREE.ConeGeometry(2, 12, 4);
+  const towerMesh = new THREE.Mesh(towerGeo, battlefieldMaterial);
+  towerMesh.position.set(-25, -2, -30);
+  battlefieldGroup.add(towerMesh);
+
+  const towerGeo2 = new THREE.ConeGeometry(1.5, 9, 4);
+  const towerMesh2 = new THREE.Mesh(towerGeo2, battlefieldMaterial);
+  towerMesh2.position.set(28, -3.5, -28);
+  battlefieldGroup.add(towerMesh2);
+
+  scene.add(battlefieldGroup);
+
+  // 3. Battlefield Tracer Rounds (Dynamic glowing lines shooting across the scene)
+  const tracerCount = 8;
+  const tracers = [];
+  const tracerMaterial = new THREE.LineBasicMaterial({
+    color: new THREE.Color(currentHex),
+    transparent: true,
+    opacity: 0.8
+  });
+
+  for (let i = 0; i < tracerCount; i++) {
+    const tracerGeo = new THREE.BufferGeometry();
+    const points = [
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, 0)
+    ];
+    tracerGeo.setFromPoints(points);
+    const tracerLine = new THREE.Line(tracerGeo, tracerMaterial);
+    
+    // Custom properties
+    const item = {
+      line: tracerLine,
+      start: new THREE.Vector3(),
+      end: new THREE.Vector3(),
+      progress: 1.0, // start finished to trigger reset
+      speed: 0.03 + Math.random() * 0.04
+    };
+    
+    scene.add(tracerLine);
+    tracers.push(item);
+  }
 
   // 3. Create 3D Telemetry Embers (Floating sparks)
   const particlesCount = 120;
@@ -416,7 +498,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const elapsedTime = clock.getElapsedTime();
 
+    // Update tracer rounds
+    tracers.forEach(t => {
+      t.progress += t.speed;
+      if (t.progress >= 1.0) {
+        // Reset tracer to a new random trajectory
+        t.progress = 0;
+        t.speed = 0.015 + Math.random() * 0.025;
+        
+        // Spawn tracer flying across the battlefield
+        const startX = (Math.random() - 0.5) * 80;
+        const startY = -6 + Math.random() * 12;
+        const startZ = -60 - Math.random() * 20;
+        t.start.set(startX, startY, startZ);
+        
+        // Flight vector: goes forward (towards screen) and slightly sideways/up
+        const endX = startX + (Math.random() - 0.5) * 50;
+        const endY = startY + 5 + Math.random() * 15;
+        const endZ = 10 + Math.random() * 20;
+        t.end.set(endX, endY, endZ);
+      }
+      
+      // Interpolate current position and draw a segment trail
+      const currentPos = new THREE.Vector3().lerpVectors(t.start, t.end, t.progress);
+      // The trail goes backwards from current position
+      const trailBack = Math.max(0, t.progress - 0.08);
+      const trailPos = new THREE.Vector3().lerpVectors(t.start, t.end, trailBack);
+      
+      const pts = [trailPos, currentPos];
+      t.line.geometry.setFromPoints(pts);
+      t.line.geometry.attributes.position.needsUpdate = true;
+    });
 
+    // Slow battlefield scene drone-like scanning animation (slight rotation/pan)
+    battlefieldGroup.rotation.y = Math.sin(elapsedTime * 0.1) * 0.08;
+
+    // Float embers upwards inside the scene
     const pPositions = particlesGeo.attributes.position.array;
     for (let i = 1; i < pPositions.length; i += 3) {
       pPositions[i] += 0.035;
@@ -432,7 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
     camera.lookAt(0, 1, -10);
 
     // Color transition interpolation
-    const currCol = hangarMaterial.color;
+    const currCol = battlefieldMaterial.color;
     const targetCol = new THREE.Color(targetColorHex);
     currCol.r += (targetCol.r - currCol.r) * 0.035;
     currCol.g += (targetCol.g - currCol.g) * 0.035;
@@ -440,13 +557,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Copy color to other materials
     pMaterial.color.copy(currCol);
-    hangarMaterial.color.copy(currCol);
-    
-    if (floorGrid.material) {
-      floorGrid.material.color.copy(currCol);
-      floorGrid.material.opacity = 0.06;
-      floorGrid.material.transparent = true;
-    }
+    battlefieldMaterial.color.copy(currCol);
+    tracerMaterial.color.copy(currCol);
 
     renderer.render(scene, camera);
   }
