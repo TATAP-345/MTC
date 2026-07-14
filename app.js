@@ -438,7 +438,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Stub to prevent click crashes after background removal
   };
 
-
-
-
+  // --- 10. Scroll Down Arrow click logic ---
+  const scrollArrow = document.getElementById('scroll-down-arrow');
+  if (scrollArrow) {
+    scrollArrow.addEventListener('click', () => {
+      const anchor = document.getElementById('tactical-workspace-anchor');
+      if (anchor) {
+        anchor.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
 });

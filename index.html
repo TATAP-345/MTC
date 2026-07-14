@@ -16,18 +16,29 @@
 </head>
 <body>
 
-  <main style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem 4rem; text-align: center;">
+  <!-- Full Viewport Title Screen -->
+  <header class="hero-screen" style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 2rem; box-sizing: border-box; text-align: center;">
     <!-- Glowing Badge -->
     <div class="tactical-badge scroll-reveal">
       <span class="badge-dot"></span>
       <span>ДЕПАРТАМЕНТ ОБОРОНЫ • МТС4</span>
     </div>
 
-    <!-- Main Title -->
-    <h1 class="hero-title scroll-reveal">
-      32 Бригада ВДВ Республики Соколов
+    <!-- Main Title (Even Larger!) -->
+    <h1 class="hero-title scroll-reveal" style="font-size: clamp(3.5rem, 8vw, 6.2rem); margin-bottom: 2rem; max-width: 1000px; text-transform: uppercase; font-weight: 800; font-family: 'Share Tech Mono', monospace; line-height: 1.1;">
+      32 Бригада ВДВ<br>Республики Соколов
     </h1>
     
+    <!-- Bouncing Scroll Down Arrow -->
+    <button id="scroll-down-arrow" class="scroll-arrow-btn" aria-label="Scroll to workspace">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
+    </button>
+  </header>
+
+  <main id="tactical-workspace-anchor" style="max-width: 900px; margin: 0 auto; padding: 6rem 2rem 4rem; text-align: center;">
     <!-- Tactical Split Workspace (Sidebar layout) -->
     <div class="tactical-workspace scroll-reveal delay-100">
       <!-- Left Column: Operations & Telemetry (Sidebar navigation) -->
