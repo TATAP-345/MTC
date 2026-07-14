@@ -7,25 +7,37 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Элитное подразделение Тайфун',
       slogan: '«Сметаем любую оборону!»',
       specialty: 'Разведывательно-штурмовые операции особого назначения, прорыв укрепленных районов, диверсионная деятельность и ликвидация ключевых объектов противника.',
-      tasks: 'Это главный стальной кулак 32-й бригады ВДВ. Бойцы «Тайфуна» действуют на самых сложных и опасных участках фронта. Они первыми заходят вглубь вражеских позиций, устраивают засады, захватывают стратегические точки и удерживают их до подхода основных сил, создавая для противника настоящий хаос и сокрушительный шквал огня.'
+      tasks: 'Это главный стальной кулак 32-й бригады ВДВ. Бойцы «Тайфуна» действуют на самых сложных и опасных участках фронта. Они первыми заходят вглубь вражеских позиций, устраивают засады, захватывают стратегические точки и удерживают их до подхода основных сил, создавая для противника настоящий хаос и сокрушительный шквал огня.',
+      color: '#38bdf8', // Cyan
+      glow: 'rgba(56, 189, 248, 0.25)',
+      stats: { mobility: 80, firepower: 95, assault: 100 }
     },
     'unit-burevestnik': {
       title: 'Авиационная Группа «Буревестник»',
       slogan: '«Хозяева неба, защитники земли!»',
       specialty: 'Армейская авиация, воздушная транспортировка, десантирование, огневая поддержка с воздуха (CAS) и воздушная разведка.',
-      tasks: 'Главные «крылья» бригады, обеспечивающие десантникам молниеносную мобильность. Пилоты «Буревестника» осуществляют выброску парашютистов, доставляют боеприпасы в самые горячие точки, эвакуируют раненых и прикрывают наземные отряды огнем бортовых пулеметов и неуправляемых ракет (НАР).'
+      tasks: 'Главные «крылья» бригады, обеспечивающие десантникам молниеносную мобильность. Пилоты «Буревестника» осуществляют выброску парашютистов, доставляют боеприпасы в самые горячие точки, эвакуируют раненых и прикрывают наземные отряды огнем бортовых пулеметов и неуправляемых ракет (НАР).',
+      color: '#3b82f6', // Blue
+      glow: 'rgba(59, 130, 246, 0.25)',
+      stats: { mobility: 100, firepower: 75, assault: 50 }
     },
     'unit-berkut': {
       title: 'Артиллерийский отряд «Беркут»',
       slogan: '«Боги войны десантных полей!»',
       specialty: 'Артиллерийская поддержка, подавление закрытых огневых позиций противника, уничтожение укреплений и контрбатарейная борьба.',
-      tasks: 'Бойцы «Беркута» обеспечивают мощный огневой вал. Они работают на дистанции: уничтожают блокпосты, подавляют пулеметные гнезда противника и засыпают снарядами укрепрайоны перед тем, как туда зайдет десантно-штурмовой отряд «Сапсан». В обороне «Беркут» способен отрезать пути подхода вражеских резервов, создавая сплошную зону поражения.'
+      tasks: 'Бойцы «Беркута» обеспечивают мощный огневой вал. Они работают на дистанции: уничтожают блокпосты, подавляют пулеметные гнезда противника и засыпают снарядами укрепрайоны перед тем, как туда зайдет десантно-штурмовой отряд «Сапсан». В обороне «Беркут» способен отрезать пути подхода вражеских резервов, создавая сплошную зону поражения.',
+      color: '#f59e0b', // Gold/Amber
+      glow: 'rgba(245, 158, 11, 0.25)',
+      stats: { mobility: 40, firepower: 100, assault: 70 }
     },
     'unit-sapsan': {
       title: 'Десантно-штурмовой отряд «Сапсан»',
       slogan: '«Быстрее ветра, сильнее бури!»',
       specialty: 'Воздушно-десантные штурмовые операции, захват укрепрайонов, ведение ближнего боя и штурм зданий.',
-      tasks: 'Это главный атакующий кулак бригады. Бойцы «Сапсана» первыми десантируются на территорию врага, прорывают линию обороны, зачищают ключевые объекты и удерживают их до подхода основных сил.'
+      tasks: 'Это главный атакующий кулак бригады. Бойцы «Сапсана» первыми десантируются на территорию врага, прорывают линию обороны, зачищают ключевые объекты и удерживают их до подхода основных сил.',
+      color: '#f43f5e', // Rose/Red
+      glow: 'rgba(244, 63, 94, 0.25)',
+      stats: { mobility: 90, firepower: 85, assault: 95 }
     }
   };
 
@@ -50,11 +62,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('unit-details-specialty').textContent = data.specialty;
         document.getElementById('unit-details-tasks').textContent = data.tasks;
         
+        // Dynamically apply unit theme color signature to the card container
+        detailsCard.style.setProperty('--unit-accent-color', data.color);
+        detailsCard.style.setProperty('--unit-accent-glow', data.glow);
+        
+        // Animate tactical spec progress bars
+        const mFill = document.getElementById('spec-bar-mobility');
+        const fFill = document.getElementById('spec-bar-firepower');
+        const aFill = document.getElementById('spec-bar-assault');
+        
+        const mVal = document.getElementById('spec-val-mobility');
+        const fVal = document.getElementById('spec-val-firepower');
+        const aVal = document.getElementById('spec-val-assault');
+        
+        mFill.style.width = '0%';
+        fFill.style.width = '0%';
+        aFill.style.width = '0%';
+        
+        mVal.textContent = '0%';
+        fVal.textContent = '0%';
+        aVal.textContent = '0%';
+        
         detailsCard.style.display = 'block';
-        // Force layout reflow to run CSS transition
         void detailsCard.offsetHeight;
         detailsCard.style.opacity = '1';
         detailsCard.style.transform = 'translateY(0)';
+        
+        // Stagger visual fill of stats to look extremely high-end
+        setTimeout(() => {
+          mFill.style.width = `${data.stats.mobility}%`;
+          fFill.style.width = `${data.stats.firepower}%`;
+          aFill.style.width = `${data.stats.assault}%`;
+          
+          mVal.textContent = `${data.stats.mobility}%`;
+          fVal.textContent = `${data.stats.firepower}%`;
+          aVal.textContent = `${data.stats.assault}%`;
+        }, 150);
       }
     });
   });

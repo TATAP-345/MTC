@@ -1031,11 +1031,12 @@ footer {
   max-width: 800px;
   margin: 0 auto 4rem;
   padding: 3rem 2.5rem;
-  border-left: 4px solid var(--accent-color) !important;
+  border-left: 4px solid var(--unit-accent-color, var(--accent-color)) !important;
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.45)) !important;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-lg), 0 0 30px rgba(56, 189, 248, 0.05);
+  box-shadow: var(--shadow-lg), 0 0 30px var(--unit-accent-glow, rgba(56, 189, 248, 0.05));
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .unit-details-card::after {
@@ -1122,8 +1123,8 @@ footer {
 
 .info-icon {
   font-size: 1.2rem;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.15);
+  background: var(--unit-accent-glow, rgba(56, 189, 248, 0.08));
+  border: 1px solid var(--unit-accent-color, rgba(56, 189, 248, 0.15));
   width: 38px;
   height: 38px;
   border-radius: 10px;
@@ -1132,6 +1133,7 @@ footer {
   justify-content: center;
   flex-shrink: 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Tactical Stats Section Styling */
@@ -1296,10 +1298,11 @@ footer {
   left: 0;
   width: 16px;
   height: 16px;
-  border-top: 2px solid var(--accent-color);
-  border-left: 2px solid var(--accent-color);
+  border-top: 2px solid var(--unit-accent-color, var(--accent-color));
+  border-left: 2px solid var(--unit-accent-color, var(--accent-color));
   z-index: 2;
   pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .unit-details-card-bracket-br {
@@ -1308,10 +1311,11 @@ footer {
   right: 0;
   width: 16px;
   height: 16px;
-  border-bottom: 2px solid var(--accent-color);
-  border-right: 2px solid var(--accent-color);
+  border-bottom: 2px solid var(--unit-accent-color, var(--accent-color));
+  border-right: 2px solid var(--unit-accent-color, var(--accent-color));
   z-index: 2;
   pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Laser scanline vertical movement effect */
@@ -1321,11 +1325,12 @@ footer {
   left: 0;
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-  opacity: 0.15;
+  background: linear-gradient(90deg, transparent, var(--unit-accent-color), transparent);
+  opacity: 0.25;
   z-index: 1;
   pointer-events: none;
   animation: scan-vertical 5s infinite linear;
+  transition: background 0.5s ease;
 }
 
 @keyframes scan-vertical {
@@ -1344,4 +1349,56 @@ footer {
 /* Add custom glow to stats numbers */
 .stat-num {
   text-shadow: 0 0 15px currentColor;
+}
+
+/* Tactical specs styling inside card */
+.tactical-specs-section {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.spec-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.spec-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  width: 130px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-bar-bg {
+  flex-grow: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.spec-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--unit-accent-color, var(--accent-color));
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--unit-accent-glow, var(--accent-glow));
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s ease, box-shadow 0.5s ease;
+}
+
+.spec-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--unit-accent-color, var(--accent-color));
+  width: 40px;
+  text-align: right;
+  font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  transition: color 0.5s ease;
 }
