@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = unitData[btn.id];
       if (data) {
         // Start sliding out to the right
-        detailsCard.classList.remove('slide-in-right', 'hologram-load');
+        detailsCard.classList.remove('slide-in-right', 'hologram-load', 'unrumple-paper-animation');
         detailsCard.classList.add('slide-out-right');
         
         setTimeout(() => {
@@ -233,9 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
           fVal.textContent = '0%';
           aVal.textContent = '0%';
           
-          // Slide back in from the right
-          detailsCard.classList.remove('slide-out-right');
-          detailsCard.classList.add('slide-in-right');
+          // Slide back in and play unrumple/unfold animation
+          detailsCard.classList.remove('slide-out-right', 'unrumple-paper-animation');
+          void detailsCard.offsetWidth; // Force CSS reflow to replay animation
+          detailsCard.classList.add('unrumple-paper-animation');
           
           // Stagger fill visual
           setTimeout(() => {
