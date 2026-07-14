@@ -26,16 +26,34 @@
 
   <!-- Full Viewport Title Screen -->
   <header class="hero-screen" style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 2rem; box-sizing: border-box; text-align: center;">
-    <!-- Glowing Badge -->
-    <div class="tactical-badge scroll-reveal">
-      <span class="badge-dot"></span>
-      <span>ДЕПАРТАМЕНТ ОБОРОНЫ • МТС4</span>
-    </div>
+    <div class="feature-card welcome-cover-sheet" style="max-width: 800px; width: 90%; padding: 4.5rem 3rem; position: relative; box-shadow: 3px 5px 25px rgba(0,0,0,0.22) !important; border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important; filter: url(#torn-paper-edge) !important;">
+      <div class="paper-weathering-overlay"></div>
+      
+      <!-- Archival Stamp Detail -->
+      <div style="font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; letter-spacing: 2px; color: var(--accent-color); font-weight: 700; border: 2px solid var(--accent-color); padding: 4px 10px; position: absolute; top: 1.8rem; left: 2.2rem; transform: rotate(-4deg); opacity: 0.8; border-radius: 2px;">
+        АРХИВ МОРС
+      </div>
+      
+      <!-- Top Secret Stamp -->
+      <div style="font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; letter-spacing: 2px; color: var(--accent-color); font-weight: 700; border: 2px solid var(--accent-color); padding: 4px 10px; position: absolute; top: 1.8rem; right: 2.2rem; transform: rotate(6deg); opacity: 0.8; border-radius: 2px;">
+        СОВ. СЕКРЕТНО
+      </div>
 
-    <!-- Main Title (Even Larger!) -->
-    <h1 class="hero-title scroll-reveal" style="font-size: clamp(3.5rem, 8vw, 6.2rem); margin-bottom: 2rem; max-width: 1000px; text-transform: uppercase; font-weight: 800; font-family: 'Share Tech Mono', monospace; line-height: 1.1;">
-      32 Бригада ВДВ<br>Республики Соколов
-    </h1>
+      <!-- Glowing Badge -->
+      <div class="tactical-badge scroll-reveal" style="margin-bottom: 2rem;">
+        <span class="badge-dot"></span>
+        <span>ДЕПАРТАМЕНТ ОБОРОНЫ • МТС4</span>
+      </div>
+
+      <!-- Main Title (Even Larger!) -->
+      <h1 class="hero-title scroll-reveal" style="font-size: clamp(2.5rem, 5.5vw, 4.2rem) !important; margin-bottom: 2rem !important; max-width: 1000px; text-transform: uppercase; font-weight: 800; font-family: 'Share Tech Mono', monospace; line-height: 1.15; color: var(--text-color); margin-left: auto; margin-right: auto;">
+        32 Бригада ВДВ<br>Республики Соколов
+      </h1>
+      
+      <div style="font-size: 0.82rem; color: var(--text-muted); font-family: 'Share Tech Mono', monospace; border-top: 1px dashed var(--border-color); padding-top: 1.5rem; max-width: 450px; margin: 0 auto; line-height: 1.6;">
+        МИНИСТЕРСТВО ОБОРОНЫ · ГЕНЕРАЛЬНЫЙ ШТАБ<br>ДЕЛО № ВДВ-1974-MTC // ТОМ IV
+      </div>
+    </div>
     
     <!-- Bouncing Scroll Down Arrow -->
     <button id="scroll-down-arrow" class="scroll-arrow-btn" aria-label="Scroll to workspace">
