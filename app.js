@@ -336,30 +336,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 5. Developers Modal Overlay Control ---
-  const devModal = document.getElementById('dev-modal');
-  const devModalBtn = document.getElementById('dev-modal-btn');
-  const devCloseBtn = document.getElementById('dev-modal-close-btn');
-
-  if (devModal && devModalBtn && devCloseBtn) {
-    devModalBtn.addEventListener('click', () => {
-      devModal.classList.add('show');
-    });
-
-    devCloseBtn.addEventListener('click', () => {
-      devModal.classList.remove('show');
-    });
-
-    // Close modal when clicking outside the content card
-    devModal.addEventListener('click', (e) => {
-      if (e.target === devModal) {
-        devModal.classList.remove('show');
-      }
-    });
-  }
-
   // --- 6. Click Ripple Effect on All Buttons ---
-  const allButtons = document.querySelectorAll('.btn, .server-btn, .dev-btn, .discord-btn, .unit-btn, .modal-close');
+  const allButtons = document.querySelectorAll('.btn, .server-btn, .discord-btn, .unit-btn, .modal-close');
   allButtons.forEach(btn => {
     btn.addEventListener('click', function(e) {
       // Remove any existing ripples to prevent clutter
