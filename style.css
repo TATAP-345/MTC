@@ -2101,8 +2101,10 @@ a.footer-link:hover {
   background: transparent !important;
   box-shadow: none !important;
   padding: 2.2rem 2rem;
-  /* Base flat paper corner shape */
-  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px !important;
+  /* Base flat paper corner shape - no !important so keyframes can animate it */
+  border-radius: 6px 4px 6px 4px / 4px 6px 4px 6px;
+  /* Prevent clipping of the crumpled ball and its shadows */
+  overflow: visible !important;
 }
 
 /* Paper weathering overlay: Holds the actual paper sheet background, borders, creases, coffee stains, age dirt and dust. Distorted to look frayed while text remains straight. */
