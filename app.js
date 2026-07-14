@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
       slogan: '«Сметаем любую оборону!»',
       specialty: 'Разведывательно-штурмовые операции особого назначения, прорыв укрепленных районов, диверсионная деятельность и ликвидация ключевых объектов противника.',
       tasks: 'Это главный стальной кулак 32-й бригады ВДВ. Бойцы «Тайфуна» действуют на самых сложных и опасных участках фронта. Они первыми заходят вглубь вражеских позиций, устраивают засады, захватывают стратегические точки и удерживают их до подхода основных сил, создавая для противника настоящий хаос и сокрушительный шквал огня.',
-      color: '#00ffcc', // Neon Mint/Cyan
-      glow: 'rgba(0, 255, 204, 0.25)',
+      color: '#3ef064', // Tactical Phosphor Green (Night Vision)
+      glow: 'rgba(62, 240, 100, 0.25)',
       stats: { mobility: 80, firepower: 95, assault: 100 }
     },
     'unit-burevestnik': {
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
       slogan: '«Хозяева неба, защитники земли!»',
       specialty: 'Армейская авиация, воздушная транспортировка, десантирование, огневая поддержка с воздуха (CAS) и воздушная разведка.',
       tasks: 'Главные «крылья» бригады, обеспечивающие десантникам молниеносную мобильность. Пилоты «Буревестника» осуществляют выброску парашютистов, доставляют боеприпасы в самые горячие точки, эвакуируют раненых и прикрывают наземные отряды огнем бортовых пулеметов и неуправляемых ракет (НАР).',
-      color: '#00a2ff', // Tactical Blue
-      glow: 'rgba(0, 162, 255, 0.25)',
+      color: '#4fa5e2', // Steel Blue (Military Air Support)
+      glow: 'rgba(79, 165, 226, 0.25)',
       stats: { mobility: 100, firepower: 75, assault: 50 }
     },
     'unit-berkut': {
@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
       slogan: '«Боги войны десантных полей!»',
       specialty: 'Артиллерийская поддержка, подавление закрытых огневых позиций противника, уничтожение укреплений и контрбатарейная борьба.',
       tasks: 'Бойцы «Беркута» обеспечивают мощный огневой вал. Они работают на дистанции: уничтожают блокпосты, подавляют пулеметные гнезда противника и засыпают снарядами укрепрайоны перед тем, как туда зайдет десантно-штурмовой отряд «Сапсан». В обороне «Беркут» способен отрезать пути подхода вражеских резервов, создавая сплошную зону поражения.',
-      color: '#ffaa00', // Toxic Orange
-      glow: 'rgba(255, 170, 0, 0.25)',
+      color: '#e65c00', // Warning Amber (Artillery Warning)
+      glow: 'rgba(230, 92, 0, 0.25)',
       stats: { mobility: 40, firepower: 100, assault: 70 }
     },
     'unit-sapsan': {
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
       slogan: '«Быстрее ветра, сильнее бури!»',
       specialty: 'Воздушно-десантные штурмовые операции, захват укрепрайонов, ведение ближнего боя и штурм зданий.',
       tasks: 'Это главный атакующий кулак бригады. Бойцы «Сапсана» первыми десантируются на territory врага, прорывают линию обороны, зачищают ключевые объекты и удерживают их до подхода основных сил.',
-      color: '#ff0066', // Neon Rose/Magenta
-      glow: 'rgba(255, 0, 102, 0.25)',
+      color: '#e5b83b', // Desert Sand / Tactical Gold (Ground Assault Force)
+      glow: 'rgba(229, 184, 59, 0.25)',
       stats: { mobility: 90, firepower: 85, assault: 95 }
     }
   };
@@ -363,6 +363,57 @@ document.addEventListener('DOMContentLoaded', () => {
   terrainMesh.position.y = -8;
   battlefieldGroup.add(terrainMesh);
 
+  // Add concentric tactical range rings (radar coordinate rings) on the ground
+  for (let r = 20; r <= 80; r += 20) {
+    const ringGeo = new THREE.RingGeometry(r - 0.2, r + 0.2, 64);
+    const ringMesh = new THREE.Mesh(ringGeo, battlefieldMaterial);
+    ringMesh.rotation.x = -Math.PI / 2;
+    ringMesh.position.y = -7.95;
+    battlefieldGroup.add(ringMesh);
+  }
+
+  // Helper to create small target markers (Artillery target indicators)
+  function createTargetMarker() {
+    const group = new THREE.Group();
+    const lineMat = new THREE.LineBasicMaterial({ color: new THREE.Color(currentHex) });
+    
+    // Crosshair lines
+    const pts = [
+      new THREE.Vector3(-1.5, 0, 0), new THREE.Vector3(1.5, 0, 0),
+      new THREE.Vector3(0, 0, -1.5), new THREE.Vector3(0, 0, 1.5)
+    ];
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const cross = new THREE.LineSegments(geo, lineMat);
+    group.add(cross);
+    
+    // Diamond box outline
+    const diamondPts = [
+      new THREE.Vector3(0, 0, -1), new THREE.Vector3(1, 0, 0),
+      new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 1),
+      new THREE.Vector3(0, 0, 1), new THREE.Vector3(-1, 0, 0),
+      new THREE.Vector3(-1, 0, 0), new THREE.Vector3(0, 0, -1)
+    ];
+    const diaGeo = new THREE.BufferGeometry().setFromPoints(diamondPts);
+    const dia = new THREE.LineSegments(diaGeo, lineMat);
+    group.add(dia);
+    
+    return { group, material: lineMat };
+  }
+
+  // Scattered targets
+  const targetMarkers = [];
+  const markerConfigs = [
+    { x: -10, y: -7.5, z: -15 }, // Crater 1 center
+    { x: 20, y: -7.6, z: 10 },   // Crater 2 center
+    { x: 5, y: -7.0, z: -35 }
+  ];
+  markerConfigs.forEach(cfg => {
+    const markerObj = createTargetMarker();
+    markerObj.group.position.set(cfg.x, cfg.y, cfg.z);
+    battlefieldGroup.add(markerObj.group);
+    targetMarkers.push(markerObj);
+  });
+
   // Helper function to create a wireframe Czech Hedgehog (противотанковый еж)
   function createHedgehog(size = 3.0) {
     const hhGroup = new THREE.Group();
@@ -533,6 +584,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Slow battlefield scene drone-like scanning animation (slight rotation/pan)
     battlefieldGroup.rotation.y = Math.sin(elapsedTime * 0.1) * 0.08;
 
+    // Rotate and blink tactical target markers
+    const markerBlink = 0.6 + Math.sin(elapsedTime * 8) * 0.4;
+    targetMarkers.forEach(m => {
+      m.group.rotation.y = elapsedTime * 0.4;
+      // Change opacity to simulate blinking radar ping
+      m.material.opacity = markerBlink;
+    });
+
     // Float embers upwards inside the scene
     const pPositions = particlesGeo.attributes.position.array;
     for (let i = 1; i < pPositions.length; i += 3) {
@@ -559,6 +618,9 @@ document.addEventListener('DOMContentLoaded', () => {
     pMaterial.color.copy(currCol);
     battlefieldMaterial.color.copy(currCol);
     tracerMaterial.color.copy(currCol);
+    targetMarkers.forEach(m => {
+      m.material.color.copy(currCol);
+    });
 
     renderer.render(scene, camera);
   }
