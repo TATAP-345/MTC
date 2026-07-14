@@ -337,13 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.TANK_OBJ_DATA) {
     const objLoader = new THREE.OBJLoader();
     const loadedObj = objLoader.parse(window.TANK_OBJ_DATA);
-    
-    // Apply wireframe material to all children meshes inside loaded object
-    loadedObj.traverse((child) => {
-      if (child.isMesh) {
-        child.material = tankMaterial;
-      }
-    });
 
     // Center and scale the loaded tank model so it fits the scene perfectly
     const box = new THREE.Box3().setFromObject(loadedObj);
@@ -354,17 +347,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Center the geometry of the tank
     loadedObj.position.x = -center.x;
-    loadedObj.position.y = -center.y + (size.y / 2) - 0.2; // place on its baseline
+    loadedObj.position.y = -center.y + (size.y / 2) - 0.2;
     loadedObj.position.z = -center.z;
 
-    // Scale so it fits in our hangar (target length ~11)
+    // Scale so it fits inside the hangar (target longest dimension ~11)
     const maxDim = Math.max(size.x, size.y, size.z);
     const scaleFactor = 11.5 / maxDim;
     loadedObj.scale.set(scaleFactor, scaleFactor, scaleFactor);
 
+    // Apply wireframe material + sharp EdgesGeometry to each sub-mesh for crisp blueprint look
+    loadedObj.traverse((child) => {
+      if (child.isMesh) {
+        // Invisible base mesh (needed for geometry)
+        child.material = new THREE.MeshBasicMaterial({ visible: false });
+
+        // Build sharp edge lines from the mesh geometry
+        const edgesGeo = new THREE.EdgesGeometry(child.geometry);
+        const edgesLine = new THREE.LineSegments(edgesGeo, tankMaterial);
+        edgesLine.position.copy(child.position);
+        edgesLine.rotation.copy(child.rotation);
+        edgesLine.scale.copy(child.scale);
+        child.parent.add(edgesLine);
+      }
+    });
+
     // Add loaded mesh to tankGroup
     tankGroup.add(loadedObj);
   }
+
+  // Holographic scan plane that sweeps vertically through the tank
+  const scanPlaneGeo = new THREE.PlaneGeometry(16, 0.06);
+  const scanPlaneMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(currentHex),
+    transparent: true,
+    opacity: 0.45,
+    side: THREE.DoubleSide
+  });
+  const scanPlane = new THREE.Mesh(scanPlaneGeo, scanPlaneMat);
+  scanPlane.rotation.x = Math.PI / 2; // face up
+  scanPlane.position.set(0, -6.5, -4);
+  scene.add(scanPlane);
 
   // Adjust tank position inside hangar
   tankGroup.position.set(0, -6.5, -4);
@@ -461,8 +483,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const elapsedTime = clock.getElapsedTime();
 
-    // Slow horizontal scanning rotation for T-90 tank turret / hull
-    tankGroup.rotation.y = Math.sin(elapsedTime * 0.22) * 0.28; // swivels left and right
+    // Slow full rotation of the loaded T-90 tank — complete 360 every ~60 seconds
+    tankGroup.rotation.y = elapsedTime * 0.1;
+
+    // Holographic scan plane sweeps vertically from bottom to top of tank (range -6.5 to -3)
+    const scanCycle = (elapsedTime * 0.55) % 1;
+    scanPlane.position.y = -6.5 + scanCycle * 4.5;
+    scanPlaneMat.opacity = 0.18 + Math.sin(scanCycle * Math.PI) * 0.32;
+    scanPlaneMat.color.copy(tankMaterial.color);
 
     // Float embers upwards inside the hangar
     const pPositions = particlesGeo.attributes.position.array;
