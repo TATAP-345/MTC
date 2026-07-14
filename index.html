@@ -106,10 +106,16 @@
       
       <!-- Right Column: Interactive Dossier Card (Default active state) -->
       <div id="unit-details-card" class="feature-card unit-details-card">
-        <!-- Header status bar inside card -->
-        <div class="card-status-bar">
-          <span class="status-indicator">● СИСТЕМА АКТИВНА</span>
-          <span class="card-serial">MTC-SEC-32</span>
+        <!-- Archive Header inside card -->
+        <div class="card-status-bar" style="border-bottom: 1px dashed var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem; text-align: left;">
+          <div>
+            <div style="font-size: 0.68rem; letter-spacing: 0.5px;">АРХИВ МИНИСТЕРСТВА ОБОРОНЫ РС</div>
+            <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-color);">ДЕЛО № ВДВ-1974-MTC // ТОМ IV</div>
+          </div>
+          <div style="margin-left: auto; text-align: right; font-size: 0.68rem;">
+            <div>ЭКЗЕМПЛЯР ЕДИНСТВЕННЫЙ</div>
+            <div style="color: var(--accent-color); font-weight: 700; letter-spacing: 0.5px;">ГРИФ: СОВ. СЕКРЕТНО</div>
+          </div>
         </div>
         
         <h3 id="unit-details-title" class="card-title" style="color: var(--accent-color); font-size: 1.6rem; margin-bottom: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Штаб 32-й Бригады ВДВ</h3>
@@ -147,6 +153,12 @@
             <div class="spec-bar-bg"><div id="spec-bar-assault" class="spec-bar-fill" style="width: 85%;"></div></div>
             <span id="spec-val-assault" class="spec-value">85%</span>
           </div>
+        </div>
+
+        <!-- Archival Sign-off Signature -->
+        <div class="dossier-signature" style="margin-top: 2rem; padding-top: 1.2rem; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; font-size: 0.72rem; font-family: 'Share Tech Mono', monospace; color: var(--text-muted); flex-wrap: wrap; gap: 0.5rem;">
+          <span>СВЕДЕНИЯ ДОСТОВЕРНЫ. ДОКУМЕНТ ВЫДАН ДЛЯ ОЗНАКОМЛЕНИЯ.</span>
+          <span>ПОДПИСЬ: <u>Ген.-майор Соколов В.И.</u></span>
         </div>
       </div>
     </div>
