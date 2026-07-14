@@ -944,44 +944,19 @@ footer {
   transition: var(--transition-fast);
 }
 
-.nav-capsule .dev-btn {
-  color: #fdf2f8 !important;
-}
-
-.nav-capsule .dev-btn:hover {
-  background: rgba(236, 72, 153, 0.15) !important;
-  border-color: rgba(236, 72, 153, 0.4) !important;
-  color: #ff80bf !important;
-}
-
-.nav-capsule .fighters-btn {
-  color: #fffbeb !important;
-}
-
-.nav-capsule .fighters-btn:hover {
-  background: rgba(255, 170, 0, 0.15) !important;
-  border-color: rgba(255, 170, 0, 0.4) !important;
-  color: #ffaa00 !important;
-}
-
-.nav-capsule .server-btn {
-  color: #e6fcf4 !important;
-}
-
-.nav-capsule .server-btn:hover {
-  background: rgba(0, 255, 170, 0.15) !important;
-  border-color: rgba(0, 255, 170, 0.4) !important;
-  color: #00ffaa !important;
-}
-
+.nav-capsule .dev-btn,
+.nav-capsule .server-btn,
 .nav-capsule .discord-btn {
-  color: #e0e7ff !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
+.nav-capsule .dev-btn:hover,
+.nav-capsule .server-btn:hover,
 .nav-capsule .discord-btn:hover {
-  background: rgba(88, 101, 242, 0.2) !important;
-  border-color: rgba(88, 101, 242, 0.5) !important;
-  color: #8c9eff !important;
+  background: #ffffff !important;
+  color: #121513 !important;
+  border-color: #ffffff !important;
 }
 
 @media (max-width: 600px) {
